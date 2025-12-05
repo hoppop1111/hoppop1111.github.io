@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamol Supsaengin - Data Analyst Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    </style>
+</head>
+<body class="bg-white text-gray-800 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100">
+
+    <nav class="fixed w-full bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 z-50 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter dark:text-white">KAMOL.</div>
+            <div class="flex items-center gap-4 md:gap-6">
+                <div class="hidden md:flex gap-6 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <a href="#about" class="hover:text-black dark:hover:text-white transition" id="nav-about">About</a>
+                    <a href="#skills" class="hover:text-black dark:hover:text-white transition" id="nav-skills">Skills</a>
+                    <a href="#projects" class="hover:text-black dark:hover:text-white transition" id="nav-projects">Projects</a>
+                    <a href="#certificates" class="hover:text-black dark:hover:text-white transition" id="nav-certificates">Certificates</a>
+                    <a href="#contact" class="hover:text-black dark:hover:text-white transition" id="nav-contact">Contact</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleLanguage()" class="flex items-center gap-1 px-3 py-1.5 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition text-xs font-semibold">
+                        <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                        <span id="lang-btn-text">EN</span>
+                    </button>
+
+                    <button onclick="toggleTheme()" class="relative w-14 h-7 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors duration-300 flex items-center px-1 shadow-inner focus:outline-none">
+                        <div class="absolute left-1.5 text-yellow-500"><i data-lucide="sun" class="w-4 h-4"></i></div>
+                        <div class="absolute right-1.5 text-gray-400 dark:text-blue-300"><i data-lucide="moon" class="w-4 h-4"></i></div>
+                        <div class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 dark:translate-x-7 z-10"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="about" class="pt-32 pb-20 px-4 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-32 h-32 mx-auto bg-gray-200 dark:bg-gray-800 rounded-full mb-8 overflow-hidden border-4 border-gray-100 dark:border-gray-800 shadow-lg relative">
+                 <img src="profile.jpg" onerror="this.src='https://via.placeholder.com/150?text=No+Image'" alt="Kamol Supsaengin" class="w-full h-full object-cover">
+            </div>
+            
+            <h2 class="text-xl text-gray-500 dark:text-gray-400 font-medium mb-2" id="hero-greeting">Hello, I'm</h2>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">Kamol Supsaengin</h1>
+            <p class="text-xl md:text-2xl text-blue-600 dark:text-blue-400 font-semibold mb-6" id="hero-role">Data Analyst</p>
+            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed text-lg" id="hero-bio">
+                Aspiring Data Analyst with a background in Digital Marketing and Telecommunications. Passionate about using data to solve problems and drive decisions.
+            </p>
+            
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="#contact" class="px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:bg-gray-800 dark:hover:bg-gray-200 transition font-medium" id="btn-contact">
+                    Contact Me
+                </a>
+                <a href="https://www.kaggle.com/kamolsupsaengin" target="_blank" class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition font-medium flex items-center gap-2 dark:text-gray-200">
+                    <i data-lucide="award" class="w-4 h-4"></i> Kaggle Profile
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="skills" class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center flex items-center justify-center gap-2 dark:text-white">
+                <i data-lucide="code" class="text-blue-600 dark:text-blue-400"></i> <span id="section-skills">Technical Skills</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2 dark:text-white">
+                        <i data-lucide="database" class="text-blue-500 dark:text-blue-400"></i> <span id="skill-tools">Tools & Tech</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-3" id="skill-list">
+                        </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2 dark:text-white">
+                        <i data-lucide="briefcase" class="text-blue-500 dark:text-blue-400"></i> <span id="exp-title">Experience</span>
+                    </h3>
+                    <div>
+                        <h4 class="font-bold text-lg dark:text-gray-100" id="exp-role">Telecom Technician & Consumer Service</h4>
+                        <p class="text-blue-600 dark:text-blue-400 font-medium" id="exp-company">Wire and Wireless Co., Ltd.</p>
+                        <p class="text-sm text-gray-400 mb-4">2022 - 2023</p>
+                        <ul class="list-disc list-outside ml-4 space-y-2 text-gray-600 dark:text-gray-400 text-sm" id="exp-desc">
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-20 px-4 dark:bg-gray-950 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center dark:text-white" id="section-projects">Projects</h2>
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                </div>
+        </div>
+    </section>
+
+    <section id="certificates" class="py-20 px-4 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center flex items-center justify-center gap-2 dark:text-white">
+                <i data-lucide="award" class="text-blue-600 dark:text-blue-400"></i> <span id="section-certs">Certificates</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="certs-grid">
+                </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-gray-900 dark:bg-black text-white py-20 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            
+            <div class="mb-16">
+                <h2 class="text-2xl font-bold mb-8 text-white/90" id="edu-title">Education</h2>
+                <div class="inline-block text-left bg-white/5 p-6 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                    <h3 class="text-xl font-semibold text-white" id="edu-uni">Sripatum University</h3>
+                    <p class="text-blue-400" id="edu-degree">Digital Marketing</p>
+                    <p class="text-sm text-gray-400">2021 - 2024</p>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-bold mb-8" id="contact-title">Contact Me</h2>
+            <div class="flex flex-col md:flex-row justify-center gap-8 mb-12">
+                <a href="mailto:K.supsaengin@gmail.com" class="flex items-center justify-center gap-3 text-gray-300 hover:text-white transition">
+                    <i data-lucide="mail"></i> K.supsaengin@gmail.com
+                </a>
+                <span class="flex items-center justify-center gap-3 text-gray-300">
+                    <i data-lucide="phone"></i> 062-615-9722
+                </span>
+                <span class="flex items-center justify-center gap-3 text-gray-300">
+                    <i data-lucide="map-pin"></i> <span id="contact-address">Bangkok, Thailand</span>
+                </span>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-gray-500 text-sm">
+                © 2024 Kamol Supsaengin. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const data = {
+            en: {
+                nav: { about: "About", skills: "Skills", projects: "Projects", certs: "Certificates", contact: "Contact" },
+                hero: { greeting: "Hello, I'm", role: "Data Analyst", bio: "Aspiring Data Analyst with a background in Digital Marketing and Telecommunications. Passionate about using data to solve problems and drive decisions." },
+                skills: { title: "Technical Skills", tools: "Tools & Tech", expTitle: "Experience" },
+                skillList: ["Python / SQL", "Power BI / Looker Studio", "Microsoft Excel / Google Sheets", "Data Cleaning (Power Query)", "Data Analysis"],
+                experience: {
+                    role: "Telecom Technician & Consumer Service",
+                    company: "Wire and Wireless Co., Ltd.",
+                    desc: [
+                        "Install, inspect, repair and maintain telecommunication equipment.",
+                        "Analyze technical problems and find solutions.",
+                        "Communicate effectively with customers to meet their needs."
+                    ]
+                },
+                sectionProjects: "Projects",
+                sectionCerts: "Certificates",
+                contact: { title: "Contact Me", address: "Bangkok, Thailand", btn: "Contact Me" },
+                education: { title: "Education", uni: "Sripatum University", degree: "Digital Marketing" },
+                // Projects Data (EN)
+                projects: [
+                    {
+                        title: "Sales Performance Dashboard",
+                        desc: "Interactive Excel dashboard analyzing sales across regions, products, and sales representatives. Features dynamic pivot tables and profit margin tracking.",
+                        tags: ["Excel", "Dashboard", "Pivot Table"],
+                        link: "dashboard/EX_1.xlsx",
+                        btnText: "View Excel File",
+                        icon: "file-spreadsheet"
+                    },
+                    {
+                        title: "E-commerce Order Analysis",
+                        desc: "Comprehensive analysis of 2023 order data including fulfillment status, sales channels, and product SKU performance to optimize inventory.",
+                        tags: ["Excel", "Data Cleaning", "Business Intelligence"],
+                        link: "dashboard/EX_2.xlsx",
+                        btnText: "View Excel File",
+                        icon: "table"
+                    },
+                    {
+                        title: "COVID-19 in Thailand",
+                        desc: "Data analysis and visualization of COVID-19 trends and statistics in Thailand using Python.",
+                        tags: ["Python", "Data Analysis", "Visualization"],
+                        link: "https://www.kaggle.com/code/kamolsupsaengin/covid-19-in-thailand",
+                        btnText: "View on Kaggle",
+                        icon: "bar-chart-2"
+                    },
+                    {
+                        title: "Top University 2024",
+                        desc: "Analysis of global university rankings for the year 2024, identifying key trends in higher education.",
+                        tags: ["Python", "EDA", "Ranking Analysis"],
+                        link: "https://www.kaggle.com/code/kamolsupsaengin/top-university-2024",
+                        btnText: "View on Kaggle",
+                        icon: "pie-chart"
+                    }
+                ],
+                // Certificates Data (EN)
+                certificates: [
+                    { name: "Mini Data Science Bootcamp", issuer: "DataRockie", file: "certs/mini-data-science-bootcamp.pdf" },
+                    { name: "SQL Crash Course", issuer: "DataRockie", file: "certs/sql-crash-course.pdf" },
+                    { name: "R Crash Course", issuer: "DataRockie", file: "certs/r-crash-course.pdf" },
+                    { name: "Google Sheets Crash Course", issuer: "DataRockie", file: "certs/google-sheets-crash-course.pdf" },
+                    { name: "Prompt Design with Bard AI", issuer: "DataRockie", file: "certs/prompt-design-bard-ai.pdf" },
+                    { name: "Digital Marketing", issuer: "SET e-Learning", file: "certs/Certificate-BMD1004-TH.pdf" },
+                    { name: "Design Thinking", issuer: "SET e-Learning", file: "certs/Certificate-S02-TH.pdf" },
+                    { name: "Value Chain & Stakeholder Analysis", issuer: "SET e-Learning", file: "certs/Certificate-BMD1001-TH.pdf" },
+                    { name: "Microsoft Learn Achievements", issuer: "Microsoft", file: "certs/microsoft-learn.pdf" }
+                ]
+            },
+            th: {
+                nav: { about: "เกี่ยวกับฉัน", skills: "ทักษะ", projects: "ผลงาน", certs: "เกียรติบัตร", contact: "ติดต่อ" },
+                hero: { greeting: "สวัสดีครับ ผมชื่อ", role: "นักวิเคราะห์ข้อมูล (Data Analyst)", bio: "มีความมุ่งมั่นในการเป็น Data Analyst มีพื้นฐานด้านการตลาดดิจิทัลและโทรคมนาคม หลงใหลในการใช้ข้อมูลเพื่อแก้ปัญหาและขับเคลื่อนการตัดสินใจ" },
+                skills: { title: "ทักษะความสามารถ", tools: "เครื่องมือและเทคโนโลยี", expTitle: "ประสบการณ์ทำงาน" },
+                skillList: ["Python / SQL", "Power BI / Looker Studio", "Microsoft Excel / Google Sheets", "Data Cleaning (Power Query)", "การวิเคราะห์ข้อมูล (Data Analysis)"],
+                experience: {
+                    role: "ช่างเทคนิคโทรคมนาคมและบริการลูกค้า",
+                    company: "บริษัท ไวร์ แอนด์ ไวร์เลส จำกัด",
+                    desc: [
+                        "ติดตั้ง ตรวจสอบ ซ่อมแซม และบำรุงรักษาอุปกรณ์โทรคมนาคม",
+                        "วิเคราะห์ปัญหาทางเทคนิค และหาแนวทางแก้ไข",
+                        "สื่อสารกับลูกค้าอย่างมีประสิทธิภาพ เพื่อตอบสนองความต้องการ"
+                    ]
+                },
+                sectionProjects: "ผลงาน",
+                sectionCerts: "เกียรติบัตร",
+                contact: { title: "ช่องทางติดต่อ", address: "กรุงเทพมหานคร, ไทย", btn: "ติดต่อฉัน" },
+                education: { title: "การศึกษา", uni: "มหาวิทยาลัยศรีปทุม", degree: "การตลาดดิจิทัล" },
+                // Projects Data (TH)
+                projects: [
+                    {
+                        title: "Sales Performance Dashboard",
+                        desc: "แดชบอร์ด Excel วิเคราะห์ยอดขายตามภูมิภาค สินค้า และพนักงานขาย พร้อมติดตามกำไร (Profit Margin) ด้วย Pivot Table",
+                        tags: ["Excel", "Dashboard", "Pivot Table"],
+                        link: "dashboard/EX_1.xlsx",
+                        btnText: "ดาวน์โหลดไฟล์ Excel",
+                        icon: "file-spreadsheet"
+                    },
+                    {
+                        title: "E-commerce Order Analysis",
+                        desc: "การวิเคราะห์ข้อมูลคำสั่งซื้อปี 2023 ติดตามสถานะการจัดส่ง ช่องทางการขาย และประสิทธิภาพของสินค้าเพื่อบริหารสต็อก",
+                        tags: ["Excel", "Data Cleaning", "Business Intelligence"],
+                        link: "dashboard/EX_2.xlsx",
+                        btnText: "ดาวน์โหลดไฟล์ Excel",
+                        icon: "table"
+                    },
+                    {
+                        title: "COVID-19 in Thailand",
+                        desc: "การวิเคราะห์ข้อมูลและการแสดงภาพแนวโน้มและสถิติของ COVID-19 ในประเทศไทยด้วย Python",
+                        tags: ["Python", "Data Analysis", "Visualization"],
+                        link: "https://www.kaggle.com/code/kamolsupsaengin/covid-19-in-thailand",
+                        btnText: "ดูบน Kaggle",
+                        icon: "bar-chart-2"
+                    },
+                    {
+                        title: "Top University 2024",
+                        desc: "การวิเคราะห์การจัดอันดับมหาวิทยาลัยโลกปี 2024 เพื่อดูแนวโน้มสำคัญในการศึกษาขั้นสูง",
+                        tags: ["Python", "EDA", "Ranking Analysis"],
+                        link: "https://www.kaggle.com/code/kamolsupsaengin/top-university-2024",
+                        btnText: "ดูบน Kaggle",
+                        icon: "pie-chart"
+                    }
+                ],
+                // Certificates Data (TH)
+                certificates: [
+                    { name: "มินิ Data Science บูทแคมป์", issuer: "DataRockie", file: "certs/mini-data-science-bootcamp.pdf" },
+                    { name: "คอร์ส SQL ฉบับเร่งรัด", issuer: "DataRockie", file: "certs/sql-crash-course.pdf" },
+                    { name: "คอร์สภาษา R ฉบับเร่งรัด", issuer: "DataRockie", file: "certs/r-crash-course.pdf" },
+                    { name: "คอร์ส Google Sheets ฉบับเร่งรัด", issuer: "DataRockie", file: "certs/google-sheets-crash-course.pdf" },
+                    { name: "การออกแบบ Prompt ด้วย Bard AI", issuer: "DataRockie", file: "certs/prompt-design-bard-ai.pdf" },
+                    { name: "Digital Marketing", issuer: "ตลาดหลักทรัพย์แห่งประเทศไทย", file: "certs/Certificate-BMD1004-TH.pdf" },
+                    { name: "Design Thinking", issuer: "ตลาดหลักทรัพย์แห่งประเทศไทย", file: "certs/Certificate-S02-TH.pdf" },
+                    { name: "การวิเคราะห์ห่วงโซ่คุณค่าและผู้มีส่วนได้เสีย", issuer: "ตลาดหลักทรัพย์แห่งประเทศไทย", file: "certs/Certificate-BMD1001-TH.pdf" },
+                    { name: "ความสำเร็จจาก Microsoft Learn", issuer: "Microsoft", file: "certs/microsoft-learn.pdf" }
+                ]
+            }
+        };
+
+        let currentLang = 'en';
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        function renderContent() {
+            const t = data[currentLang];
+
+            // Render Common Text
+            document.getElementById('nav-about').innerText = t.nav.about;
+            document.getElementById('nav-skills').innerText = t.nav.skills;
+            document.getElementById('nav-projects').innerText = t.nav.projects;
+            document.getElementById('nav-certificates').innerText = t.nav.certs;
+            document.getElementById('nav-contact').innerText = t.nav.contact;
+            document.getElementById('lang-btn-text').innerText = currentLang.toUpperCase();
+            
+            document.getElementById('hero-greeting').innerText = t.hero.greeting;
+            document.getElementById('hero-role').innerText = t.hero.role;
+            document.getElementById('hero-bio').innerText = t.hero.bio;
+            document.getElementById('btn-contact').innerText = t.contact.btn;
+
+            document.getElementById('section-skills').innerText = t.skills.title;
+            document.getElementById('skill-tools').innerText = t.skills.tools;
+            
+            // Render Skills
+            const skillListEl = document.getElementById('skill-list');
+            skillListEl.innerHTML = '';
+            t.skillList.forEach(skill => {
+                skillListEl.innerHTML += `<span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium transition-colors">${skill}</span>`;
+            });
+
+            // Render Experience
+            document.getElementById('exp-title').innerText = t.skills.expTitle;
+            document.getElementById('exp-role').innerText = t.experience.role;
+            document.getElementById('exp-company').innerText = t.experience.company;
+            const expListEl = document.getElementById('exp-desc');
+            expListEl.innerHTML = '';
+            t.experience.desc.forEach(item => {
+                expListEl.innerHTML += `<li>${item}</li>`;
+            });
+
+            // Render Projects
+            document.getElementById('section-projects').innerText = t.sectionProjects;
+            const projectGrid = document.getElementById('projects-grid');
+            projectGrid.innerHTML = '';
+            t.projects.forEach(proj => {
+                const tagsHtml = proj.tags.map(tag => 
+                    `<span class="text-xs font-semibold px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded">#${tag}</span>`
+                ).join('');
+
+                const cardHtml = `
+                <div class="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-gray-800 to-black dark:from-gray-900 dark:to-black flex items-center justify-center text-white p-8 relative">
+                        <i data-lucide="${proj.icon}" class="w-12 h-12 opacity-50 group-hover:scale-110 transition duration-500 text-white"></i>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 dark:text-white transition">${proj.title}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed flex-grow">
+                            ${proj.desc}
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            ${tagsHtml}
+                        </div>
+                        <a href="${proj.link}" target="_blank" class="inline-flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition self-start">
+                            <span>${proj.btnText}</span> <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>`;
+                projectGrid.innerHTML += cardHtml;
+            });
+
+            // Render Certificates
+            document.getElementById('section-certs').innerText = t.sectionCerts;
+            const certsGrid = document.getElementById('certs-grid');
+            certsGrid.innerHTML = '';
+            t.certificates.forEach(cert => {
+                const certHtml = `
+                <div class="flex justify-between items-center p-4 rounded-lg border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-md transition">
+                    <div class="flex items-start gap-4">
+                        <div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400 mt-1">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base">${cert.name}</h4>
+                            <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">${cert.issuer}</p>
+                        </div>
+                    </div>
+                    <a href="${cert.file}" target="_blank" class="p-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition" title="View Certificate">
+                        <i data-lucide="eye" class="w-5 h-5"></i>
+                    </a>
+                </div>`;
+                certsGrid.innerHTML += certHtml;
+            });
+
+            // Render Footer
+            document.getElementById('edu-title').innerText = t.education.title;
+            document.getElementById('edu-uni').innerText = t.education.uni;
+            document.getElementById('edu-degree').innerText = t.education.degree;
+            document.getElementById('contact-title').innerText = t.contact.title;
+            document.getElementById('contact-address').innerText = t.contact.address;
+            
+            lucide.createIcons();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+            renderContent();
+        }
+
+        lucide.createIcons();
+        renderContent();
+    </script>
+</body>
+</html>
