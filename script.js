@@ -71,7 +71,7 @@ const data = {
     th: {
         nav: { about: "เกี่ยวกับฉัน", skills: "ทักษะ", projects: "ผลงาน", certs: "เกียรติบัตร", contact: "ติดต่อ" },
         hero: { 
-            greeting: "สวัสดีครับ ผมชื่อ", 
+            greeting: "สวัสดีครับ", 
             name: "กมล สืบแสงอินทร์",
             role: "นักวิเคราะห์ข้อมูล (Data Analyst)", 
             bio: "มีความมุ่งมั่นในการเป็น Data Analyst มีพื้นฐานด้านการตลาดดิจิทัลและโทรคมนาคม หลงใหลในการใช้ข้อมูลเพื่อแก้ปัญหาและขับเคลื่อนการตัดสินใจ" 
@@ -262,4 +262,5 @@ function toggleLanguage() {
 
 // Initial Run
 lucide.createIcons();
+
 renderContent();
