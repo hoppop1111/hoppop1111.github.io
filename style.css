@@ -26,26 +26,34 @@ body {
     background-color: #94a3b8; /* Slate 400 */
 }
 
-/* Smooth transitions */
-a, button, div, span, i {
+/* Smooth transitions for all interactive elements */
+a, button, div, span, i, h1, h2, h3, h4, p {
     transition-property: color, background-color, border-color, transform, opacity, box-shadow;
     transition-duration: 0.3s;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* Animation Keyframes */
+
+/* Utilities */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Animation Keyframes (Backup for Tailwind config) */
 @keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-20px) translateX(10px); }
+    100% { transform: translateY(0px) translateX(0px); }
 }
 
 .animate-blob {
@@ -58,13 +66,6 @@ a, button, div, span, i {
 
 .animation-delay-4000 {
     animation-delay: 4s;
-}
-
-/* Added a subtle floating motion effect to Dark Mode for a smoother look */
-@keyframes float {
-    0% { transform: translateY(0px) translateX(0px); }
-    50% { transform: translateY(-20px) translateX(10px); }
-    100% { transform: translateY(0px) translateX(0px); }
 }
 
 .animate-float {
