@@ -35,8 +35,15 @@
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-soft-bg text-text-main dark:bg-dark-bg dark:text-[#f5f5f7] transition-colors duration-500 font-sans selection:bg-accent selection:text-black">
-
+    <body class="bg-soft-bg text-text-main dark:bg-dark-bg dark:text-[#f5f5f7] transition-colors duration-500 font-sans selection:bg-accent selection:text-black">
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+        <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-purple-400/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-accent/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+        
+        <div class="dark:block hidden absolute top-[20%] right-[20%] w-80 h-80 bg-blue-600/20 rounded-full filter blur-[100px] animate-float"></div>
+        <div class="dark:block hidden absolute bottom-[10%] left-[10%] w-80 h-80 bg-purple-600/20 rounded-full filter blur-[100px] animate-float animation-delay-2000"></div>
+    </div>
     <!-- Navbar -->
     <nav class="fixed w-full z-50 top-0 start-0 bg-soft-bg/80 dark:bg-black/80 backdrop-blur-xl border-b border-transparent dark:border-gray-900/50 transition-colors duration-500">
         <div class="max-w-5xl mx-auto flex items-center justify-between p-6">
