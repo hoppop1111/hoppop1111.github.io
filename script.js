@@ -10,15 +10,13 @@ const data = {
             header: "Skills", 
             list: ["Hardware Troubleshooting", "Network Config", "Windows / Linux", "Remote Support", "Office 365 Admin", "SQL / Python"],
             toolsHeader: "Tools",
-            // ลบ Active Directory ออกเรียบร้อยครับ
-            list: ["Hardware Troubleshooting", "Network Config", "Windows / Linux", "Remote Support", "Office 365 Admin", "SQL / Python"],
-            toolsHeader: "Tools",
             toolsList: ["Microsoft Excel", "Power BI", "Command Line", "Git", "VS Code"]
         },
         experience: {
             title: "Experience",
             role: "Telecom Technician",
             company: "Wire and Wireless Co., Ltd.",
+            time: "2022-2023",
             desc: [
                 "Maintained telecommunication equipment & fiber optics.",
                 "Diagnosed hardware/network issues for customers.",
@@ -120,6 +118,7 @@ const data = {
             title: "ประสบการณ์ทำงาน",
             role: "ช่างเทคนิคโทรคมนาคม",
             company: "บจก. ไวร์ แอนด์ ไวร์เลส",
+            time: "2565-2566",
             desc: [
                 "ดูแลและซ่อมบำรุงอุปกรณ์โทรคมนาคม/Fiber Optic",
                 "วิเคราะห์แก้ไขปัญหา Network และ Hardware หน้างาน",
@@ -254,9 +253,10 @@ function renderContent() {
     document.getElementById('exp-title').innerHTML = `<i data-lucide="briefcase" class="w-4 h-4"></i> ${t.experience.title}`;
     document.getElementById('exp-role').innerText = t.experience.role;
     document.getElementById('exp-company').innerText = t.experience.company;
+    document.getElementById('exp-date').innerText = t.experience.time; // อัปเดตวันที่ตรงนี้ครับ
     document.getElementById('exp-desc').innerHTML = t.experience.desc.map(d => `<li>${d}</li>`).join('');
 
-    // Education (New)
+    // Education
     document.getElementById('edu-title').innerHTML = `<i data-lucide="graduation-cap" class="w-4 h-4"></i> ${t.education.title}`;
     document.getElementById('edu-list').innerHTML = t.education.list.map(e => `
         <div class="relative pl-4 border-l-2 border-slate-200 dark:border-gray-700">
@@ -270,11 +270,11 @@ function renderContent() {
         </div>
     `).join('');
 
-    // Contact Box (Bottom)
+    // Contact Box
     document.getElementById('contact-cta-title').innerText = t.contactSection.title;
     document.getElementById('contact-cta-desc').innerText = t.contactSection.desc;
 
-    // Projects (Card Soft Style)
+    // Projects
     document.getElementById('section-projects').innerText = t.projects.header;
     document.getElementById('projects-grid').innerHTML = t.projects.list.map(p => `
         <a href="${p.link}" target="_blank" class="group block h-full">
