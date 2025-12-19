@@ -2,13 +2,13 @@ const data = {
     en: {
         hero: { 
             name: "Kamol Supsaengin",
-            role: "IT Support Specialist", 
-            bio: "Transitioning to IT Support with a strong background in Telecommunications and Data Analysis. Detail-oriented and ready to solve technical challenges.",
+            role: "Jack of all trades🦆", 
+            bio: "I am a multi-talented individual with an interest in IT and data science. I have experience in telecommunications and am interested in analyzing data to solve problems.",
             btnResume: "Resume"
         },
         skills: { 
             header: "Skills", 
-            list: ["Hardware Troubleshooting", "Network Config", "Windows / Linux", "Remote Support", "Office 365 Admin", "SQL / Python"],
+            list: ["Hardware Troubleshooting", "Network Config", "Windows / Linux", "Remote Support", "Microsoft 365", "SQL / Python"],
             toolsHeader: "Tools",
             toolsList: ["Microsoft Excel", "Power BI", "Command Line", "Git", "VS Code"]
         },
@@ -104,8 +104,8 @@ const data = {
     th: {
         hero: { 
             name: "กมล สืบแสงอินทร์",
-            role: "เจ้าหน้าที่ไอทีซัพพอร์ต (IT Support)", 
-            bio: "ก้าวสู่สายงาน IT Support ด้วยประสบการณ์ด้าน Telecom และ Data Analysis มีความละเอียดรอบคอบ พร้อมเรียนรู้และแก้ไขปัญหาทางเทคนิค",
+            role: "มนุษย์เป็ด🦆", 
+            bio: "ผมเป็นมนุษย์เป็ด ที่มีความชื่นชอบในด้าน IT และ Data Science มีประสบการณ์ในการทำงานด้าน โทรคมนาคม และสนใจในการวิเคราะห์ข้อมูลเพื่อแก้ไขปัญหาต่างๆ",
             btnResume: "เรซูเม่"
         },
         skills: { 
