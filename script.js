@@ -253,7 +253,7 @@ function renderContent() {
     document.getElementById('exp-title').innerHTML = `<i data-lucide="briefcase" class="w-4 h-4"></i> ${t.experience.title}`;
     document.getElementById('exp-role').innerText = t.experience.role;
     document.getElementById('exp-company').innerText = t.experience.company;
-    document.getElementById('exp-date').innerText = t.experience.time; // อัปเดตวันที่ตรงนี้ครับ
+    document.getElementById('exp-date').innerText = t.experience.time;
     document.getElementById('exp-desc').innerHTML = t.experience.desc.map(d => `<li>${d}</li>`).join('');
 
     // Education
@@ -313,3 +313,4 @@ function toggleLanguage() {
 
 // Init
 renderContent();
+
