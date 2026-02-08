@@ -10,7 +10,7 @@ const data = {
             header: "Skills", 
             list: ["Hardware Troubleshooting", "Network Config", "Windows / Linux", "Remote Support", "Microsoft 365", "SQL / Python"],
             toolsHeader: "Tools",
-            toolsList: ["Microsoft Excel", "Power BI", "Command Line", "Git", "VS Code"]
+            toolsList: ["Microsoft Excel", "Power BI", "Command Line", "Git", "VS Code","Google Analytics 4"]
         },
         experience: {
             title: "Experience",
@@ -112,7 +112,7 @@ const data = {
             header: "ทักษะความสามารถ", 
             list: ["ซ่อม/ประกอบคอมพิวเตอร์", "ติดตั้ง Network/WiFi", "Windows / Linux", "Remote Support", "Microsoft 365", "SQL / Python"],
             toolsHeader: "เครื่องมือ",
-            toolsList: ["Microsoft Excel", "Power BI", "Command Line", "Git", "VS Code"]
+            toolsList: ["Microsoft Excel", "Power BI", "Command Line", "Git", "VS Code","Google Analytics 4"]
         },
         experience: {
             title: "ประสบการณ์ทำงาน",
