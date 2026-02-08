@@ -51,13 +51,13 @@ const data = {
                     title: "IT & Sales Dashboard",
                     desc: "Excel dashboard for monitoring performance metrics.",
                     tags: ["Excel", "Dashboard"],
-                    link: "dashboard/EX_1.xlsx"
+                    link: "assets/assets/dashboard/EX_1.xlsx"
                 },
                 {
                     title: "E-commerce Analysis",
                     desc: "Cleaned large datasets to optimize inventory.",
                     tags: ["Data Cleaning", "Logic"],
-                    link: "dashboard/EX_2.xlsx"
+                    link: "assets/dashboard/EX_2.xlsx"
                 },
                 {
                     title: "Machine Learning",
@@ -88,15 +88,15 @@ const data = {
         certificates: {
             header: "Certificates",
             list: [
-                { name: "Google Sheets Crash Course", file: "assets/docs/certs/google-sheets-crash-course.pdf" },
-                { name: "SQL Crash Course", file: "assets/docs/certs/sql-crash-course.pdf" },
-                { name: "Mini Data Science Bootcamp", file: "assets/docs/certs/mini-data-science-bootcamp.pdf" },
-                { name: "Microsoft Learn Achievements", file: "assets/docs/certs/microsoft-learn.pdf" },
-                { name: "R Crash Course", file: "assets/docs/certs/r-crash-course.pdf" },
-                { name: "Prompt Design with Bard AI", file: "assets/docs/certs/prompt-design-bard-ai.pdf" },
-                { name: "Value Chain & Stakeholders", file: "assets/docs/certs/Certificate-BMD1001-TH.pdf" },
-                { name: "Digital Marketing", file: "assets/docs/certs/Certificate-BMD1004-TH.pdf" },
-                { name: "Design Thinking", file: "assets/docs/certs/Certificate-S02-TH.pdf" }
+                { name: "Google Sheets Crash Course", file: "assets/certs/google-sheets-crash-course.pdf" },
+                { name: "SQL Crash Course", file: "assets/certs/sql-crash-course.pdf" },
+                { name: "Mini Data Science Bootcamp", file: "assets/certs/mini-data-science-bootcamp.pdf" },
+                { name: "Microsoft Learn Achievements", file: "assets/certs/microsoft-learn.pdf" },
+                { name: "R Crash Course", file: "assets/certs/r-crash-course.pdf" },
+                { name: "Prompt Design with Bard AI", file: "assets/certs/prompt-design-bard-ai.pdf" },
+                { name: "Value Chain & Stakeholders", file: "assets/certs/Certificate-BMD1001-TH.pdf" },
+                { name: "Digital Marketing", file: "assets/certs/Certificate-BMD1004-TH.pdf" },
+                { name: "Design Thinking", file: "assets/certs/Certificate-S02-TH.pdf" }
             ]
         },
         contact: { title: "Contact", btn: "Contact Me" }
@@ -153,13 +153,13 @@ const data = {
                     title: "Sales Dashboard",
                     desc: "แดชบอร์ด Excel ติดตาม KPI แสดงทักษะจัดการข้อมูล.",
                     tags: ["Excel", "Dashboard"],
-                    link: "dashboard/EX_1.xlsx"
+                    link: "assets/dashboard/EX_1.xlsx"
                 },
                 {
                     title: "Order Analysis",
                     desc: "ระบบวิเคราะห์ข้อมูลคำสั่งซื้อเพื่อจัดการสต็อก.",
                     tags: ["Data", "Logic"],
-                    link: "dashboard/EX_2.xlsx"
+                    link: "assets/dashboard/EX_2.xlsx"
                 },
                 {
                     title: "Machine Learning",
@@ -190,15 +190,15 @@ const data = {
         certificates: {
             header: "เกียรติบัตร",
             list: [
-                { name: "Google Sheets Crash Course", file: "assets/docs/certs/google-sheets-crash-course.pdf" },
-                { name: "SQL Crash Course", file: "assets/docs/certs/sql-crash-course.pdf" },
-                { name: "Mini Data Science Bootcamp", file: "assets/docs/certs/mini-data-science-bootcamp.pdf" },
-                { name: "Microsoft Learn Achievements", file: "assets/docs/certs/microsoft-learn.pdf" },
-                { name: "R Crash Course", file: "assets/docs/certs/r-crash-course.pdf" },
-                { name: "Prompt Design with Bard AI", file: "assets/docs/certs/prompt-design-bard-ai.pdf" },
-                { name: "Value Chain & Stakeholders", file: "assets/docs/certs/Certificate-BMD1001-TH.pdf" },
-                { name: "Digital Marketing", file: "assets/docs/certs/Certificate-BMD1004-TH.pdf" },
-                { name: "Design Thinking", file: "assets/docs/certs/Certificate-S02-TH.pdf" }
+                { name: "Google Sheets Crash Course", file: "assets/certs/google-sheets-crash-course.pdf" },
+                { name: "SQL Crash Course", file: "assets/certs/sql-crash-course.pdf" },
+                { name: "Mini Data Science Bootcamp", file: "assets/certs/mini-data-science-bootcamp.pdf" },
+                { name: "Microsoft Learn Achievements", file: "assets/certs/microsoft-learn.pdf" },
+                { name: "R Crash Course", file: "assets/certs/r-crash-course.pdf" },
+                { name: "Prompt Design with Bard AI", file: "assets/certs/prompt-design-bard-ai.pdf" },
+                { name: "Value Chain & Stakeholders", file: "assets/certs/Certificate-BMD1001-TH.pdf" },
+                { name: "Digital Marketing", file: "assets/certs/Certificate-BMD1004-TH.pdf" },
+                { name: "Design Thinking", file: "assets/certs/Certificate-S02-TH.pdf" }
             ]
         },
         contact: { title: "ช่องทางติดต่อ", btn: "ติดต่อฉัน" }
