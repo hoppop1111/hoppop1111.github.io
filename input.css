@@ -1,1 +1,44 @@
 @import "tailwindcss";
+
+/* Dark Mode Class */
+@variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  /* 1. Move (Colors) */
+  --color-accent: #84cc16;
+  --color-soft-bg: #f0f2f5;
+  --color-card-light: #FFFFFF;
+  --color-text-main: #334155;
+  --color-text-muted: #64748b;
+  --color-dark-bg: #0a0a0a;
+  --color-dark-card: #171717;
+  --color-linkedin: #0077b5;
+  --color-line: #06C755;
+  --color-github: #333333;
+
+  /* 2. Move Fonts */
+  --font-sans: 'Inter', 'Sarabun', sans-serif;
+
+  /* 3. Move Shadows */
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.02);
+  --shadow-glow: 0 0 20px rgba(132, 204, 22, 0.3);
+
+  /* 4. Move Animation */
+  --animate-blob: blob 10s infinite;
+  --animate-float: float 12s ease-in-out infinite;
+}
+
+/* 5. Move Keyframes */
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-20px) translateX(10px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
