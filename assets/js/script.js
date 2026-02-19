@@ -14,13 +14,27 @@ const data = {
         },
         experience: {
             title: "Experience",
-            role: "Telecom Technician",
-            company: "Wire and Wireless Co., Ltd.",
-            time: "2022-2023",
-            desc: [
-                "Maintained telecommunication equipment & fiber optics.",
-                "Diagnosed hardware/network issues for customers.",
-                "Provided on-site support ensuring service quality."
+            list: [
+                {
+                    role: "Telecom Technician",
+                    company: "Wire and Wireless Co., Ltd.",
+                    time: "2022-2023",
+                    desc: [
+                        "Maintained telecommunication equipment & fiber optics.",
+                        "Diagnosed hardware/network issues for customers.",
+                        "Provided on-site support ensuring service quality."
+                    ]
+                },
+                {
+                    role: "OCS - Oder taker",
+                    company: "ADECCO PHAHOLYOTHIN COMPANY LIMITED",
+                    time: "2026-present",
+                    desc: [
+                        "Receive orders from customers (stores/restaurants) and accurately input them into the company system.",
+                        "Pick and pack products according to the processed orders to ensure they are ready for delivery.",
+                        "Verify the accuracy of prepared orders and hand them over to the delivery team for final distribution."
+                    ]
+                }
             ]
         },
         education: {
@@ -116,15 +130,29 @@ const data = {
         },
         experience: {
             title: "ประสบการณ์ทำงาน",
-            role: "ช่างเทคนิคโทรคมนาคม",
-            company: "บจก. ไวร์ แอนด์ ไวร์เลส",
-            time: "2565-2566",
-            desc: [
-                "ดูแลและซ่อมบำรุงอุปกรณ์โทรคมนาคม/Fiber Optic",
-                "วิเคราะห์แก้ไขปัญหา Network และ Hardware หน้างาน",
-                "ให้บริการและแก้ปัญหาทางเทคนิคให้ลูกค้า"
+            list: [
+                {
+                    role: "ช่างเทคนิคโทรคมนาคม",
+                    company: "บจก. ไวร์ แอนด์ ไวร์เลส",
+                    time: "2565-2566",
+                    desc: [
+                        "ดูแลและซ่อมบำรุงอุปกรณ์โทรคมนาคม/Fiber Optic",
+                        "วิเคราะห์แก้ไขปัญหา Network และ Hardware หน้างาน",
+                        "ให้บริการและแก้ปัญหาทางเทคนิคให้ลูกค้า"
+                    ]
+                },
+                {
+                    role: "OCS - Oder taker",
+                    company: "บริษัท อเด็คโก้ พหลโยธิน จำกัด",
+                    time: "2569-ปัจจุบัน",
+                    desc: [
+                        "รับคำสั่งซื้อจากลูกค้า (ร้านค้า/ร้านอาหาร) และคีย์ข้อมูลเข้าสู่ระบบของบริษัทให้ถูกต้อง",
+                        "จัดเตรียมและรวบรวมสินค้าตามรายการออเดอร์ที่คีย์เข้าระบบ เพื่อเตรียมพร้อมสำหรับการจัดส่ง",
+                        "ตรวจสอบความถูกต้องของสินค้าก่อนส่งมอบให้พนักงานขนส่ง เพื่อกระจายสินค้าไปยังลูกค้าต่อไป"            
+                    ]
+                }
             ]
-        },
+},
         education: {
             title: "ประวัติการศึกษา",
             list: [
@@ -250,11 +278,27 @@ function renderContent() {
     ).join('');
 
     // Experience
-    document.getElementById('exp-title').innerHTML = `<i data-lucide="briefcase" class="w-4 h-4"></i> ${t.experience.title}`;
-    document.getElementById('exp-role').innerText = t.experience.role;
-    document.getElementById('exp-company').innerText = t.experience.company;
-    document.getElementById('exp-date').innerText = t.experience.time;
-    document.getElementById('exp-desc').innerHTML = t.experience.desc.map(d => `<li>${d}</li>`).join('');
+    const expContainer = document.getElementById('exp-container');
+    if (expContainer) {
+        expContainer.innerHTML = t.experience.list.map(exp => `
+            <div class="group/exp mb-8 last:mb-0 relative">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white hover:text-accent transition-all duration-300 ease-in-out cursor-default ">
+                            ${exp.role}
+                        </h4>
+                        <p class="text-slate-500 dark:text-gray-500 text-sm">${exp.company}</p>
+                    </div>
+                    <span class="text-xs font-mono text-slate-400 dark:text-gray-600 bg-slate-100 dark:bg-gray-900 px-2 py-1 rounded whitespace-nowrap transition-colors duration-500 group-hover/exp:text-slate-600 dark:group-hover/exp:text-gray-400">
+                        ${exp.time}
+                    </span>
+                </div>
+                <ul class="mt-4 space-y-2 text-sm text-slate-600 dark:text-gray-400 list-disc list-inside leading-relaxed">
+                    ${exp.desc.map(d => `<li>${d}</li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+    }
 
     // Education
     document.getElementById('edu-title').innerHTML = `<i data-lucide="graduation-cap" class="w-4 h-4"></i> ${t.education.title}`;

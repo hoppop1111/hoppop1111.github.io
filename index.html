@@ -140,23 +140,15 @@
             </div>
 
             <!-- Experience (2x1) -->
-            <div class="md:col-span-2 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 flex flex-col justify-between hover:scale-[1.01] transition duration-300 group">
-                <div>
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-2 flex items-center gap-2" id="exp-title">
-                        <i data-lucide="briefcase" class="w-4 h-4"></i> Experience
-                    </h3>
-                    <div class="flex justify-between items-start mt-4">
-                        <div>
-                            <h4 class="text-lg font-bold text-slate-800 dark:text-white group-hover:text-accent transition-colors" id="exp-role">Telecom Technician</h4>
-                            <p class="text-slate-500 dark:text-gray-500 text-sm" id="exp-company">Wire and Wireless Co., Ltd.</p>
-                        </div>
-                        <span class="text-xs font-mono text-slate-400 dark:text-gray-600 bg-slate-100 dark:bg-gray-900 px-2 py-1 rounded" id="exp-date">2022-2023</span>
-                    </div>
+            <div class="md:col-span-2 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 flex flex-col hover:scale-[1.01] transition duration-300">
+                <h3 id="exp-title" class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-6 flex items-center gap-2">
+                    <i data-lucide="briefcase" class="w-4 h-4"></i> EXPERIENCE
+                </h3>
+                
+                <div id="exp-container" class="space-y-6 overflow-y-auto max-h-[400px] pr-2 scrollbar-hide">
+                     <!-- JS Injected -->
                 </div>
-                <ul class="mt-6 space-y-3 text-sm text-slate-600 dark:text-gray-400 list-disc list-inside leading-relaxed" id="exp-desc">
-                    <!-- JS Injected -->
-                </ul>
-            </div>
+           </div>
 
             <!-- Education (2x1) -->
             <div class="md:col-span-2 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 flex flex-col hover:scale-[1.01] transition duration-300 relative overflow-hidden group">
@@ -206,6 +198,7 @@
             </div>
         </div>
 
+        <!-- Projects -->
         <section class="mb-20">
             <h2 class="text-2xl font-bold mb-8 flex items-center gap-4 text-slate-800 dark:text-white">
                 <span id="section-projects">Selected Projects</span>
@@ -215,7 +208,7 @@
                 <!-- JS Injected -->
             </div>
         </section>
-
+        <!-- Certificates -->
         <section id="certificates" class="mb-20">
             <h2 class="text-2xl font-bold mb-8 flex items-center gap-4 text-slate-800 dark:text-white">
                 <span id="section-certs">Certificates</span>
