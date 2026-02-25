@@ -98,6 +98,18 @@ const data = {
                             desc: "Exploratory Data Analysis on global education.",
                             tags: ["EDA", "Research"],
                             link: "https://www.kaggle.com/code/kamolsupsaengin/top-university-2024"
+                        },
+                        {
+                            title: "byd_analysis",
+                            desc: "Exploratory Data Analysis on BYD stock.",
+                            tags: ["EDA", "Visualization"],
+                            link: "https://www.kaggle.com/code/kamolsupsaengin/byd-analysis"
+                        },
+                        {
+                            title: "Top_100_notebooks",
+                            desc: "Data scraping 100 notebooks with the highest usage.",
+                            tags: ["Data Scraping", "Kaggle"],
+                            link: "https://www.kaggle.com/code/kamolsupsaengin/top-100-notebooks"
                         }
                     ]
                 },
@@ -216,6 +228,18 @@ const data = {
                             desc: "วิเคราะห์ข้อมูลการจัดอันดับมหาวิทยาลัยโลก.",
                             tags: ["EDA", "Research"],
                             link: "https://www.kaggle.com/code/kamolsupsaengin/top-university-2024"
+                        },
+                        {
+                            title: "byd_analysis",
+                            desc: "วิเคราะห์หุ้น BYD ด้วย EDA และ Visualization.",
+                            tags: ["EDA", "Visualization"],
+                            link: "https://www.kaggle.com/code/kamolsupsaengin/byd-analysis"
+                        },
+                        {
+                            title: "Top_100_notebooks",
+                            desc: "datascraping 100 notebooks ที่มีการใช้งานสูงสุด.",
+                            tags: ["Data Scraping", "Kaggle"],
+                            link: "https://www.kaggle.com/code/kamolsupsaengin/top-100-notebooks"
                         }
                     ]
                 },
@@ -238,7 +262,7 @@ const data = {
         };
 
         let currentLang = 'th';
-        let showAllProjects = false; // ตัวแปรสำหรับตรวจสอบสถานะการแสดงโปรเจกต์
+        let showAllProjects = false; // transient state to track whether to show all projects or just a subset
 
         // Theme Check
         if (localStorage.theme === 'light') {
@@ -333,7 +357,7 @@ const data = {
             document.getElementById('contact-cta-title').innerText = t.contactSection.title;
             document.getElementById('contact-cta-desc').innerText = t.contactSection.desc;
 
-            // Projects - กำหนดให้ดึงข้อมูลมาแสดงตามสถานะ showAllProjects
+            // Projects - showAllProjects
             document.getElementById('section-projects').innerText = t.projects.header;
             const projectsToRender = showAllProjects ? t.projects.list : t.projects.list.slice(0, 3);
             
@@ -353,14 +377,14 @@ const data = {
                 </a>
             `).join('');
 
-            // จัดการแสดงผลปุ่ม Show More
+            //  Show More
             const btnContainer = document.getElementById('projects-btn-container');
             const iconShowProjects = document.getElementById('icon-show-projects');
             if (t.projects.list.length > 3) {
                 btnContainer.style.display = 'block';
                 document.getElementById('txt-show-projects').innerText = showAllProjects ? t.projects.btnShowLess : t.projects.btnShowMore;
                 
-                // สลับไอคอนขึ้น-ลง
+                // switch icon
                 if(showAllProjects) {
                     iconShowProjects.setAttribute('data-lucide', 'chevron-up');
                 } else {
