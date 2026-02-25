@@ -207,7 +207,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
                 <!-- JS Injected -->
             </div>
+            <!-- Show More Button Container -->
+            <div class="mt-10 text-center" id="projects-btn-container" style="display: none;">
+                <button onclick="toggleProjects()" class="px-6 py-2.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-white rounded-full text-sm font-semibold hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-soft hover:-translate-y-0.5 inline-flex items-center gap-2 group">
+                    <span id="txt-show-projects">Show More</span>
+                    <i data-lucide="chevron-down" id="icon-show-projects" class="w-4 h-4 group-hover:text-accent transition-colors"></i>
+                </button>
+            </div>
         </section>
+        
         <!-- Certificates -->
         <section id="certificates" class="mb-20">
             <h2 class="text-2xl font-bold mb-8 flex items-center gap-4 text-slate-800 dark:text-white">
