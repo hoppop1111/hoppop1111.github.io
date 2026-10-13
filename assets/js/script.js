@@ -28,7 +28,7 @@ const data = {
                         {
                             role: "OCS - Oder taker",
                             company: "ADECCO PHAHOLYOTHIN COMPANY LIMITED",
-                            time: "2026-present",
+                            time: "02/2026-09/2026",
                             desc: [
                                 "Receive orders from customers (stores/restaurants) and accurately input them into the company system.",
                                 "Pick and pack products according to the processed orders to ensure they are ready for delivery.",
@@ -158,7 +158,7 @@ const data = {
                         {
                             role: "OCS - Oder taker",
                             company: "บริษัท อเด็คโก้ พหลโยธิน จำกัด",
-                            time: "2569-ปัจจุบัน",
+                            time: "02/2569-09/2569",
                             desc: [
                                 "รับคำสั่งซื้อจากลูกค้า (ร้านค้า/ร้านอาหาร) และคีย์ข้อมูลเข้าสู่ระบบของบริษัทให้ถูกต้อง",
                                 "จัดเตรียมและรวบรวมสินค้าตามรายการออเดอร์ที่คีย์เข้าระบบ เพื่อเตรียมพร้อมสำหรับการจัดส่ง",
