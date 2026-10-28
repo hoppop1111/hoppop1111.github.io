@@ -1,9 +1,11 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
 import { Section } from "@/components/ui/Section";
+import { Ink, inkItem, inkList, onView } from "@/components/ui/Ink";
 import type { TimelineEntry } from "@/types/portfolio";
 
 export function Experience() {
@@ -13,7 +15,9 @@ export function Experience() {
   return (
     <Section id="experience" title={t(strings.experience)}>
       <Entries entries={experience} />
-      <h3 className="mt-16 mb-4 font-serif text-3xl italic">{t(strings.education)}</h3>
+      <Ink>
+        <h3 className="mt-16 mb-4 font-serif text-3xl italic">{t(strings.education)}</h3>
+      </Ink>
       <Entries entries={education} />
     </Section>
   );
@@ -23,9 +27,13 @@ function Entries({ entries }: { entries: TimelineEntry[] }) {
   const { t } = useLocale();
 
   return (
-    <ol>
+    <motion.ol {...onView} variants={inkList}>
       {entries.map((e) => (
-        <li key={e.id} className="grid gap-x-10 gap-y-1 border-t border-rule py-6 md:grid-cols-[10rem_1fr]">
+        <motion.li
+          variants={inkItem}
+          key={e.id}
+          className="grid gap-x-10 gap-y-1 border-t border-rule py-6 md:grid-cols-[10rem_1fr]"
+        >
           <span className="pt-1.5 font-mono text-sm text-faded">{t(e.period)}</span>
           <div>
             <h4 className="font-serif text-2xl">{t(e.title)}</h4>
@@ -36,8 +44,8 @@ function Entries({ entries }: { entries: TimelineEntry[] }) {
               ))}
             </ul>
           </div>
-        </li>
+        </motion.li>
       ))}
-    </ol>
+    </motion.ol>
   );
 }

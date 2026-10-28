@@ -1,9 +1,11 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
 import { Section } from "@/components/ui/Section";
+import { Ink, inkItem, inkList, onView, Write } from "@/components/ui/Ink";
 import type { Localized, Media } from "@/types/portfolio";
 
 /** Project index: each title opens in place to show the full write-up. */
@@ -14,9 +16,11 @@ export function Work() {
 
   return (
     <Section id="work" title={t(strings.workTitle)}>
-      <p className="mb-8 max-w-xl text-faded">{t(strings.workLead)}</p>
+      <Ink>
+        <p className="mb-8 max-w-xl text-faded">{t(strings.workLead)}</p>
+      </Ink>
 
-      <ul className="border-t border-rule">
+      <motion.ul {...onView} variants={inkList} className="border-t border-rule">
         {studies.map((s, i) => {
           const category = categories.find((c) => c.id === s.category);
           // only real images are shown; entries without a `src` are drafts
@@ -27,7 +31,7 @@ export function Work() {
             [strings.outcome, s.outcome],
           ];
           return (
-            <li key={s.slug} className="border-b border-rule">
+            <motion.li variants={inkItem} key={s.slug} className="border-b border-rule">
               <details className="group">
                 <summary className="flex cursor-pointer items-baseline gap-4 py-5 md:gap-6">
                   <span className="w-6 shrink-0 font-mono text-sm text-faded">{String(i + 1).padStart(2, "0")}</span>
@@ -35,7 +39,11 @@ export function Work() {
                     <span className="font-serif text-2xl decoration-pen decoration-2 group-hover:underline md:text-3xl">
                       {t(s.title)}
                     </span>
-                    {s.featured && <span className="hand ml-3 inline-block -rotate-3 text-pen">{t(strings.favourite)}</span>}
+                    {s.featured && (
+                      <Write className="hand ml-3 -rotate-3 text-pen" delay={0.6}>
+                        {t(strings.favourite)}
+                      </Write>
+                    )}
                     <p className="mt-1 text-faded">{t(s.summary)}</p>
                   </div>
                   {category && <span className="hidden shrink-0 text-sm text-faded sm:block">{t(category.label)}</span>}
@@ -85,10 +93,10 @@ export function Work() {
                   </p>
                 </div>
               </details>
-            </li>
+            </motion.li>
           );
         })}
-      </ul>
+      </motion.ul>
     </Section>
   );
 }

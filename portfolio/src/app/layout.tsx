@@ -3,6 +3,7 @@ import { Caveat, IBM_Plex_Mono, IBM_Plex_Sans_Thai, Newsreader, Sriracha, Triron
 import "./globals.css";
 import { LocaleProvider } from "@/lib/locale";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { MotionProvider, ScrollProgress } from "@/components/ui/Ink";
 
 const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], style: ["normal", "italic"] });
 const trirong = Trirong({
@@ -63,7 +64,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <LocaleProvider>
           <SmoothScroll />
-          {children}
+          <MotionProvider>
+            <ScrollProgress />
+            {children}
+          </MotionProvider>
         </LocaleProvider>
       </body>
     </html>

@@ -1,10 +1,12 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
 import { Section } from "@/components/ui/Section";
 import { Underline } from "@/components/ui/Scribbles";
+import { Ink, inkItem, inkList, onView, Write } from "@/components/ui/Ink";
 import type { ContactKind } from "@/types/portfolio";
 
 const CONTACT_NAMES: Record<ContactKind, string> = {
@@ -23,23 +25,31 @@ export function Contact() {
 
   return (
     <Section id="contact" title={t(strings.contactTitle)}>
-      <p className="max-w-xl font-serif text-xl leading-relaxed md:text-2xl">{t(strings.contactBody)}</p>
+      <Ink>
+        <p className="max-w-xl font-serif text-xl leading-relaxed md:text-2xl">{t(strings.contactBody)}</p>
+      </Ink>
 
       {email && (
-        <a
+        <motion.a
+          {...onView}
+          variants={inkItem}
           href={email.href}
           className="relative mt-8 inline-block font-serif text-[clamp(1.5rem,5vw,2.75rem)] break-all hover:text-pen"
         >
           {email.label}
           <Underline />
-        </a>
+        </motion.a>
       )}
 
-      <ul className="mt-12 grid gap-x-14 sm:grid-cols-2">
+      <motion.ul {...onView} variants={inkList} className="mt-12 grid gap-x-14 sm:grid-cols-2">
         {profile.contacts
           .filter((c) => c.kind !== "email")
           .map((c) => (
-            <li key={c.kind} className="flex items-baseline justify-between gap-4 border-b border-rule py-3">
+            <motion.li
+              variants={inkItem}
+              key={c.kind}
+              className="flex items-baseline justify-between gap-4 border-b border-rule py-3"
+            >
               <span className="text-faded">{CONTACT_NAMES[c.kind]}</span>
               <a
                 href={c.href}
@@ -49,11 +59,15 @@ export function Contact() {
               >
                 {c.label}
               </a>
-            </li>
+            </motion.li>
           ))}
-      </ul>
+      </motion.ul>
 
-      <p className="hand mt-16 inline-block -rotate-2 text-2xl text-pen">{t(strings.signOff)}</p>
+      <p className="mt-16">
+        <Write className="hand -rotate-2 text-2xl text-pen" delay={0.3}>
+          {t(strings.signOff)}
+        </Write>
+      </p>
     </Section>
   );
 }
