@@ -163,6 +163,7 @@ export const portfolioData: PortfolioData = {
   categories: [
     {
       id: "dashboards",
+      accent: "#e8b04a",
       label: { th: "แดชบอร์ด", en: "Dashboards" },
       logline: {
         th: "ตัวเลขที่เล่าเรื่องได้ในหน้าเดียว",
@@ -171,6 +172,7 @@ export const portfolioData: PortfolioData = {
     },
     {
       id: "machine-learning",
+      accent: "#8b7cf6",
       label: { th: "Machine Learning", en: "Machine Learning" },
       logline: {
         th: "สอนเครื่องให้มองเห็นรูปแบบ",
@@ -179,6 +181,7 @@ export const portfolioData: PortfolioData = {
     },
     {
       id: "data-analysis",
+      accent: "#4fd1c5",
       label: { th: "วิเคราะห์ข้อมูล", en: "Data Analysis" },
       logline: {
         th: "ขุดหาคำตอบจากข้อมูลจริง",

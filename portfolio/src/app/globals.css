@@ -1,26 +1,135 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "lenis/dist/lenis.css";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night: #07090e;
+  --color-wall: #0f1c21;
+  --color-wall-2: #16292e;
+  --color-mist: #8fb8bf;
+  --color-lamp: #f6e7c1;
+  --color-hud: #7fdbe6;
+  --color-paper: #f4f1ea;
+  --color-ink: #11161c;
+
+  --font-display: var(--font-cinzel), var(--font-thai), serif;
+  --font-serif: var(--font-cormorant), var(--font-thai), serif;
+  --font-sans: var(--font-inter), var(--font-thai), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-night);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-night);
+  color: #e7ecef;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  /* scene changes swap whole chapters; browser scroll anchoring would shift the page */
+  overflow-anchor: none;
+}
+
+::selection {
+  background: var(--color-lamp);
+  color: var(--color-night);
+}
+
+/* Soft glow behind serif titles (static, so it costs nothing per frame). */
+.text-glow {
+  text-shadow:
+    0 0 18px rgba(246, 231, 193, 0.35),
+    0 0 60px rgba(127, 219, 230, 0.18);
+}
+
+/* Thin glowing HUD border. */
+.hud {
+  position: relative;
+  background: linear-gradient(160deg, rgba(22, 41, 46, 0.72), rgba(10, 16, 20, 0.82));
+  border: 1px solid rgba(127, 219, 230, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 30px 60px -30px rgba(0, 0, 0, 0.9),
+    0 0 24px -12px rgba(127, 219, 230, 0.35);
+}
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(127, 219, 230, 0.75);
+  pointer-events: none;
+}
+.hud-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.hud-corners::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.hud-pill {
+  background: linear-gradient(90deg, rgba(127, 219, 230, 0.28), rgba(127, 219, 230, 0.08));
+  border: 1px solid rgba(127, 219, 230, 0.45);
+  box-shadow: 0 0 16px -4px rgba(127, 219, 230, 0.6);
+}
+
+/* Promote animated layers to their own compositor layer. */
+.gpu {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Film grain: one static noise tile moved in steps (transform only). */
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+.grain {
+  animation: grain 0.9s steps(5) infinite;
+}
+
+/* Slow fog drift (transform only, layers are blurred once at paint). */
+@keyframes fog-a {
+  from { transform: translate3d(-8%, 0, 0); }
+  to { transform: translate3d(8%, -3%, 0); }
+}
+@keyframes fog-b {
+  from { transform: translate3d(6%, 2%, 0); }
+  to { transform: translate3d(-6%, -2%, 0); }
+}
+.fog-a { animation: fog-a 38s ease-in-out infinite alternate; }
+.fog-b { animation: fog-b 52s ease-in-out infinite alternate; }
+
+/* Lamp flicker: opacity only. */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  41% { opacity: 1; }
+  42% { opacity: 0.82; }
+  43% { opacity: 1; }
+  77% { opacity: 1; }
+  78% { opacity: 0.9; }
+  79% { opacity: 1; }
+}
+.flicker { animation: flicker 7s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .grain, .fog-a, .fog-b, .flicker { animation: none; }
 }

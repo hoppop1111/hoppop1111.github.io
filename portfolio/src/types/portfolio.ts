@@ -81,6 +81,8 @@ export interface ProjectCategory {
   label: Localized;
   /** Short line shown during the scene-transition title card. */
   logline: Localized;
+  /** Accent colour for this category's slides, stickers and highlights. */
+  accent: string;
 }
 
 /** Moodboard tile. `span` controls its footprint in the masonry-like grid. */
