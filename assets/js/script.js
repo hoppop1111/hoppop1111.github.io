@@ -264,11 +264,11 @@ const data = {
         // UI strings that are not part of the portfolio content above
         const ui = {
             en: {
-                nav: { skills: "skills", experience: "experience", projects: "projects", certs: "certificates", contact: "Contact" },
+                nav: { skills: "Skills", experience: "Experience", projects: "Projects", certs: "Certificates", contact: "Contact" },
                 status: "Open to opportunities",
                 skillSub: "Technical",
                 stats: { projects: "Projects", certs: "Certificates", skills: "Skills & Tools" },
-                contactLabel: "contact"
+                contactLabel: "Contact"
             },
             th: {
                 nav: { skills: "ทักษะ", experience: "ประสบการณ์", projects: "ผลงาน", certs: "เกียรติบัตร", contact: "ติดต่อ" },
@@ -281,6 +281,9 @@ const data = {
 
         let currentLang = 'th';
         let showAllProjects = false; // transient state to track whether to show all projects or just a subset
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
         function setText(id, value) {
             const el = document.getElementById(id);
@@ -308,29 +311,72 @@ const data = {
             renderContent();
         }
 
+        // Split the hero name into letters that rise in one by one.
+        // Thai combining marks (vowels/tone marks above or below) stay attached to their base letter.
+        function splitName(text) {
+            const el = document.getElementById('hero-name');
+            el.setAttribute('aria-label', text);
+            if (reduceMotion) {
+                el.textContent = text;
+                return;
+            }
+            const clusters = Array.from(text).reduce((acc, ch) => {
+                if (/[ัิ-ฺ็-๎]/.test(ch) && acc.length) acc[acc.length - 1] += ch;
+                else acc.push(ch);
+                return acc;
+            }, []);
+            // background-clip:text doesn't reach the animated spans, so each letter gets its own
+            // color along the gradient; once the intro ends the plain gradient text takes over again.
+            const last = clusters.length - 1;
+            const colorAt = i => {
+                const p = last ? i / last : 0;
+                return p < 0.5
+                    ? `color-mix(in oklab, var(--c2) ${Math.round(p * 200)}%, var(--c1))`
+                    : `color-mix(in oklab, var(--c3) ${Math.round((p - 0.5) * 200)}%, var(--c2))`;
+            };
+            el.classList.remove('text-grad');
+            // letters are grouped per word so a word never breaks across lines mid-animation
+            let html = '<span style="white-space:nowrap">';
+            clusters.forEach((c, i) => {
+                html += c === ' '
+                    ? '</span> <span style="white-space:nowrap">'
+                    : `<span class="char" aria-hidden="true" style="animation-delay:${0.25 + i * 0.045}s;color:${colorAt(i)}">${c}</span>`;
+            });
+            el.innerHTML = html + '</span>';
+            el.querySelector('.char:last-child').addEventListener('animationend', () => {
+                el.innerHTML = text.split(' ').map(w => `<span style="white-space:nowrap">${w}</span>`).join(' ');
+                el.classList.add('text-grad');
+            }, { once: true });
+        }
+
         // Typewriter effect for the hero role
         let typeTimer = null;
-        function typeRole(text) {
+        function typeRole(text, delay = 0) {
             const el = document.getElementById('hero-role');
             clearTimeout(typeTimer);
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            if (reduceMotion) {
                 el.textContent = text;
                 return;
             }
             const chars = Array.from(text);
             let i = 0;
             el.textContent = '';
-            (function step() {
+            const step = () => {
                 el.textContent = chars.slice(0, ++i).join('');
-                if (i < chars.length) typeTimer = setTimeout(step, 70);
-            })();
+                if (i < chars.length) typeTimer = setTimeout(step, 65);
+            };
+            typeTimer = setTimeout(step, delay);
         }
 
         // Count-up animation for the stat cards
         function countUp(id, target) {
             const el = document.getElementById(id);
+            if (reduceMotion) {
+                el.textContent = target;
+                return;
+            }
             const start = performance.now();
-            const duration = 1200;
+            const duration = 1600;
             (function frame(now) {
                 const p = Math.min((now - start) / duration, 1);
                 el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
@@ -339,9 +385,12 @@ const data = {
         }
 
         const chip = s =>
-            `<span class="chip font-code inline-flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 text-xs"><span class="chip-dot"></span>${s}</span>`;
+            `<span class="chip inline-flex cursor-default items-center gap-2 rounded-full px-4 py-2 text-sm font-medium"><span class="chip-dot"></span>${s}</span>`;
 
-        function renderContent() {
+        const marqueePill = s =>
+            `<span class="glass font-display mr-4 inline-flex items-center gap-3 rounded-full px-6 py-3 text-lg font-semibold whitespace-nowrap md:text-xl"><span class="chip-dot"></span>${s}</span>`;
+
+        function renderContent(isFirst = false) {
             const t = data[currentLang];
             const u = ui[currentLang];
             document.documentElement.lang = currentLang;
@@ -356,8 +405,8 @@ const data = {
 
             // Hero
             setText('hero-status', u.status);
-            setText('hero-name', t.hero.name);
-            typeRole(t.hero.role);
+            splitName(t.hero.name);
+            typeRole(t.hero.role, isFirst ? 1000 : 0);
             setText('hero-bio', t.hero.bio);
             setText('btn-contact', t.contact.btn);
             setText('txt-resume', t.hero.btnResume);
@@ -367,11 +416,11 @@ const data = {
             setText('stat-certs-label', u.stats.certs);
             setText('stat-skills-label', u.stats.skills);
 
-            // Marquee (list is doubled so the loop is seamless)
-            const marqueeItems = [...t.skills.list, ...t.skills.toolsList];
-            document.getElementById('marquee-track').innerHTML = [...marqueeItems, ...marqueeItems].map(s =>
-                `<span class="flex items-center gap-8 pr-8 whitespace-nowrap"><span>${s}</span><span class="accent text-base">✦</span></span>`
-            ).join('');
+            // Marquee: two rows going opposite ways (each list doubled so the loop is seamless)
+            const row1 = t.skills.list.map(marqueePill).join('');
+            const row2 = t.skills.toolsList.map(marqueePill).join('');
+            document.getElementById('marquee-track-1').innerHTML = row1 + row1;
+            document.getElementById('marquee-track-2').innerHTML = row2 + row2;
 
             // Skills
             setText('skill-header', t.skills.header);
@@ -384,18 +433,16 @@ const data = {
 
             // Experience
             setText('exp-title', t.experience.title);
-            document.getElementById('exp-container').innerHTML = t.experience.list.map(exp => `
-                <div class="card card-lift flex flex-col rounded-3xl p-7">
-                    <div class="mb-5 flex items-start justify-between gap-4">
-                        <div class="arrow-box flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="transform:none;">
-                            <i data-lucide="briefcase" class="h-5 w-5"></i>
-                        </div>
-                        <span class="tag font-code rounded-full px-3 py-1 text-[11px] whitespace-nowrap">${exp.time}</span>
+            document.getElementById('exp-container').innerHTML = t.experience.list.map((exp, i) => `
+                <div class="glass tilt reveal flex flex-col rounded-[2rem] p-7 md:p-9" style="--d:${i * 0.12}s">
+                    <div class="mb-6 flex items-start justify-between gap-4">
+                        <span class="icon-tile flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"><i data-lucide="briefcase" class="h-5 w-5"></i></span>
+                        <span class="tag rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap">${exp.time}</span>
                     </div>
-                    <h4 class="font-display text-xl font-bold">${exp.role}</h4>
-                    <p class="accent font-code mb-4 text-xs">@ ${exp.company}</p>
-                    <ul class="muted space-y-2 text-sm leading-relaxed">
-                        ${exp.desc.map(d => `<li class="flex gap-2"><span class="accent font-code">▹</span><span>${d}</span></li>`).join('')}
+                    <h4 class="font-display text-2xl font-bold">${exp.role}</h4>
+                    <p class="text-grad mb-5 text-sm font-semibold">${exp.company}</p>
+                    <ul class="muted space-y-2.5 text-sm leading-relaxed">
+                        ${exp.desc.map(d => `<li class="flex gap-3"><span class="chip-dot mt-2 shrink-0"></span><span>${d}</span></li>`).join('')}
                     </ul>
                 </div>
             `).join('');
@@ -403,11 +450,11 @@ const data = {
             // Education
             setText('edu-title', t.education.title);
             document.getElementById('edu-list').innerHTML = t.education.list.map(e => `
-                <div class="relative">
-                    <span class="timeline-dot" style="left: -31px;"></span>
-                    <span class="tag font-code mb-2 inline-block rounded-full px-2.5 py-0.5 text-[11px]">${e.year}</span>
-                    <h4 class="font-display text-base font-bold">${e.school}</h4>
-                    <p class="accent mb-1 text-sm font-medium">${e.degree}</p>
+                <div class="relative pl-9">
+                    <span class="timeline-dot"></span>
+                    <span class="tag mb-2 inline-block rounded-full px-3 py-0.5 text-xs font-semibold">${e.year}</span>
+                    <h4 class="font-display text-lg font-bold">${e.school}</h4>
+                    <p class="text-grad mb-1 text-sm font-semibold">${e.degree}</p>
                     <p class="muted text-sm leading-relaxed">${e.desc}</p>
                 </div>
             `).join('');
@@ -421,17 +468,17 @@ const data = {
             setText('section-projects', t.projects.header);
             const projectsToRender = showAllProjects ? t.projects.list : t.projects.list.slice(0, 3);
             document.getElementById('projects-grid').innerHTML = projectsToRender.map((p, i) => `
-                <a href="${p.link}" target="_blank" rel="noopener" class="card card-lift group flex h-full flex-col rounded-3xl p-6">
-                    <div class="mb-8 flex items-start justify-between">
-                        <span class="project-num font-code text-sm">${String(i + 1).padStart(2, '0')}</span>
-                        <span class="arrow-box flex h-9 w-9 items-center justify-center rounded-full">
-                            <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                <a href="${p.link}" target="_blank" rel="noopener" class="glass tilt reveal project-card flex h-full flex-col rounded-[2rem] p-7" style="--d:${(i % 3) * 0.1}s">
+                    <div class="mb-10 flex items-start justify-between">
+                        <span class="num font-display text-5xl font-bold">${String(i + 1).padStart(2, '0')}</span>
+                        <span class="arrow flex h-11 w-11 items-center justify-center rounded-full">
+                            <i data-lucide="arrow-up-right" class="h-5 w-5"></i>
                         </span>
                     </div>
                     <h4 class="font-display mb-2 text-xl font-bold">${p.title}</h4>
                     <p class="muted mb-6 flex-grow text-sm leading-relaxed">${p.desc}</p>
                     <div class="flex flex-wrap gap-2">
-                        ${p.tags.map(tag => `<span class="tag font-code rounded-md px-2 py-0.5 text-[10px] tracking-wider uppercase">${tag}</span>`).join('')}
+                        ${p.tags.map(tag => `<span class="tag rounded-full px-3 py-1 text-xs font-semibold">${tag}</span>`).join('')}
                     </div>
                 </a>
             `).join('');
@@ -449,16 +496,15 @@ const data = {
 
             // Certificates
             setText('section-certs', t.certificates.header);
-            document.getElementById('certs-list').innerHTML = t.certificates.list.map(c => `
-                <a href="${c.file}" target="_blank" rel="noopener" class="card group flex items-center gap-3 rounded-2xl p-4">
-                    <span class="arrow-box flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style="transform:none;">
-                        <i data-lucide="file-check" class="h-4 w-4"></i>
-                    </span>
-                    <span class="text-sm font-medium transition-transform group-hover:translate-x-1">${c.name}</span>
+            document.getElementById('certs-list').innerHTML = t.certificates.list.map((c, i) => `
+                <a href="${c.file}" target="_blank" rel="noopener" class="glass tilt reveal group flex items-center gap-4 rounded-2xl p-4" style="--d:${(i % 3) * 0.08}s">
+                    <span class="icon-tile flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"><i data-lucide="award" class="h-5 w-5"></i></span>
+                    <span class="text-sm font-semibold transition-transform duration-300 group-hover:translate-x-1">${c.name}</span>
                 </a>
             `).join('');
 
             refreshIcons();
+            observeReveals();
         }
 
         function toggleLanguage() {
@@ -466,20 +512,7 @@ const data = {
             renderContent();
         }
 
-        // Cursor spotlight on the page and on cards
-        document.addEventListener('pointermove', e => {
-            const spot = document.getElementById('spotlight');
-            spot.style.setProperty('--x', e.clientX + 'px');
-            spot.style.setProperty('--y', e.clientY + 'px');
-            const card = e.target.closest && e.target.closest('.card');
-            if (card) {
-                const r = card.getBoundingClientRect();
-                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-            }
-        });
-
-        // Reveal sections on scroll
+        // Reveal elements on scroll (re-run after each render for newly injected cards)
         const revealObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -487,12 +520,86 @@ const data = {
                     revealObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        function observeReveals() {
+            document.querySelectorAll('.reveal:not(.in)').forEach(el => revealObserver.observe(el));
+        }
+
+        // Count up the stats the first time they scroll into view
+        const statsObserver = new IntersectionObserver(entries => {
+            if (!entries[0].isIntersecting) return;
+            countUp('stat-projects', data.en.projects.list.length);
+            countUp('stat-certs', data.en.certificates.list.length);
+            countUp('stat-skills', data.en.skills.list.length + data.en.skills.toolsList.length);
+            statsObserver.disconnect();
+        }, { threshold: 0.4 });
+        statsObserver.observe(document.getElementById('stats'));
+
+        // Scroll: progress bar + parallax (blobs and section headings)
+        const root = document.documentElement;
+        let ticking = false;
+        function onScroll() {
+            const max = root.scrollHeight - innerHeight;
+            root.style.setProperty('--progress', max > 0 ? scrollY / max : 0);
+            if (!reduceMotion) {
+                root.style.setProperty('--sy', scrollY);
+                document.querySelectorAll('.parallax').forEach(el => {
+                    const r = el.getBoundingClientRect();
+                    const offset = (r.top + r.height / 2 - innerHeight / 2) * parseFloat(el.dataset.speed || 0.1);
+                    // clamp so headings never drift into the cards below them
+                    el.style.setProperty('--py', Math.max(-18, Math.min(18, offset)).toFixed(1));
+                });
+            }
+            ticking = false;
+        }
+        addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(onScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+        addEventListener('resize', onScroll);
+
+        // Mouse-driven effects (desktop only): blob parallax, 3D card tilt, magnetic buttons
+        if (finePointer && !reduceMotion) {
+            document.addEventListener('pointermove', e => {
+                root.style.setProperty('--mx', (e.clientX / innerWidth - 0.5).toFixed(3));
+                root.style.setProperty('--my', (e.clientY / innerHeight - 0.5).toFixed(3));
+
+                const card = e.target.closest('.tilt');
+                if (card) {
+                    const r = card.getBoundingClientRect();
+                    const x = (e.clientX - r.left) / r.width;
+                    const y = (e.clientY - r.top) / r.height;
+                    card.style.setProperty('--ry', ((x - 0.5) * 10).toFixed(2) + 'deg');
+                    card.style.setProperty('--rx', ((0.5 - y) * 10).toFixed(2) + 'deg');
+                    card.style.setProperty('--gx', (x * 100) + '%');
+                    card.style.setProperty('--gy', (y * 100) + '%');
+                }
+
+                const mag = e.target.closest('.magnetic');
+                if (mag) {
+                    const r = mag.getBoundingClientRect();
+                    mag.style.setProperty('--tx', ((e.clientX - r.left - r.width / 2) * 0.25).toFixed(1) + 'px');
+                    mag.style.setProperty('--ty', ((e.clientY - r.top - r.height / 2) * 0.35).toFixed(1) + 'px');
+                }
+            });
+            document.addEventListener('pointerout', e => {
+                const card = e.target.closest('.tilt');
+                if (card && !card.contains(e.relatedTarget)) {
+                    card.style.setProperty('--rx', '0deg');
+                    card.style.setProperty('--ry', '0deg');
+                }
+                const mag = e.target.closest('.magnetic');
+                if (mag && !mag.contains(e.relatedTarget)) {
+                    mag.style.setProperty('--tx', '0px');
+                    mag.style.setProperty('--ty', '0px');
+                }
+            });
+        }
 
         // Init
         setText('year', new Date().getFullYear());
-        renderContent();
-        countUp('stat-projects', data.en.projects.list.length);
-        countUp('stat-certs', data.en.certificates.list.length);
-        countUp('stat-skills', data.en.skills.list.length + data.en.skills.toolsList.length);
+        renderContent(true);
+        onScroll();

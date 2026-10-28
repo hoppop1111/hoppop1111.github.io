@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth dark">
+<html lang="th" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="IT, Network Engineer, Data Analyst, Portfolio, Kamol Supsaengin, Resume, Thailand, Python, Hardware Support">
     <meta name="description" content="Portfolio of Kamol Supsaengin. IT Specialist skilled in Hardware, Networking, Python, and Data Science based in Thailand. View my projects and resume.">
-    <meta name="theme-color" content="#07080a">
+    <meta name="theme-color" content="#7c3aed">
 
     <!-- SEO -->
     <meta property="og:type" content="website">
@@ -28,11 +28,12 @@
     <!-- apply saved theme before paint to avoid a flash -->
     <script>
         document.documentElement.classList.add('js');
-        if (localStorage.theme === 'light') document.documentElement.classList.remove('dark');
+        if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
     </script>
 
-    <link href="assets/css/output.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- bump ?v= on every release so browsers don't keep stale CSS/JS -->
+    <link href="assets/css/output.css?v=3" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css?v=3">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZMZC99T3V"></script>
@@ -48,175 +49,176 @@
 </head>
 <body class="relative min-h-screen overflow-x-hidden">
 
-    <!-- Background Layers -->
-    <div class="aurora aurora-1"></div>
-    <div class="aurora aurora-2"></div>
-    <div class="aurora aurora-3"></div>
-    <div class="bg-grid"></div>
-    <div class="spotlight" id="spotlight"></div>
-    <div class="noise"></div>
+    <div class="progress" id="progress"></div>
+
+    <!-- Background blobs -->
+    <div class="blobs" id="blobs">
+        <div class="blob-wrap blob-wrap-1"><div class="blob blob-1"></div></div>
+        <div class="blob-wrap blob-wrap-2"><div class="blob blob-2"></div></div>
+        <div class="blob-wrap blob-wrap-3"><div class="blob blob-3"></div></div>
+        <div class="blob-wrap blob-wrap-4"><div class="blob blob-4"></div></div>
+    </div>
+    <div class="grain"></div>
 
     <!-- Navbar -->
     <nav class="fixed inset-x-0 top-4 z-50 px-4">
-        <div class="nav-pill mx-auto flex max-w-5xl items-center justify-between rounded-full py-2 pl-5 pr-2">
-            <a href="#top" class="font-display flex items-center gap-2 text-lg font-bold tracking-tight">
-                <span class="accent font-code text-sm">&gt;_</span>KAMOL<span class="accent">.</span>
-            </a>
-            <div class="font-code hidden items-center gap-6 text-xs md:flex">
-                <a href="#skills" class="nav-link" id="nav-skills">skills</a>
-                <a href="#experience" class="nav-link" id="nav-experience">experience</a>
-                <a href="#projects" class="nav-link" id="nav-projects">projects</a>
-                <a href="#certificates" class="nav-link" id="nav-certs">certificates</a>
+        <div class="glass-nav mx-auto flex max-w-6xl items-center justify-between rounded-full py-2 pr-2 pl-5">
+            <a href="#top" class="font-display text-grad text-xl font-bold tracking-tight">KAMOL.</a>
+            <div class="hidden items-center gap-7 text-sm font-medium md:flex">
+                <a href="#skills" class="nav-link" id="nav-skills">Skills</a>
+                <a href="#experience" class="nav-link" id="nav-experience">Experience</a>
+                <a href="#projects" class="nav-link" id="nav-projects">Projects</a>
+                <a href="#certificates" class="nav-link" id="nav-certs">Certificates</a>
             </div>
             <div class="flex items-center gap-1">
-                <button onclick="toggleLanguage()" class="icon-btn font-code h-9 px-3 text-xs font-bold" id="lang-btn-text" aria-label="Switch language">TH</button>
-                <button onclick="toggleTheme()" class="icon-btn h-9 w-9" aria-label="Toggle theme">
-                    <i data-lucide="sun-moon" class="h-4 w-4"></i>
+                <button onclick="toggleLanguage()" class="icon-btn h-10 px-3 text-xs font-bold" id="lang-btn-text" aria-label="Switch language">TH</button>
+                <button onclick="toggleTheme()" class="icon-btn h-10 w-10" aria-label="Toggle theme">
+                    <i data-lucide="sun-moon" class="h-5 w-5"></i>
                 </button>
-                <a href="#contact" class="btn-primary ml-1 hidden rounded-full px-4 py-2 text-xs font-bold sm:inline-flex" id="nav-contact">Contact</a>
+                <a href="#contact" class="btn-grad magnetic ml-1 hidden rounded-full px-5 py-2.5 text-sm font-bold sm:inline-flex" id="nav-contact">Contact</a>
             </div>
         </div>
     </nav>
 
-    <main id="top" class="mx-auto max-w-5xl px-5 pt-36 md:pt-44">
+    <main id="top" class="mx-auto max-w-6xl px-5">
 
         <!-- Hero -->
-        <section class="mb-16 grid items-center gap-14 md:grid-cols-[1fr_auto]">
-            <div class="reveal order-2 md:order-1">
-                <div class="status-chip font-code mb-7 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs">
+        <section class="grid min-h-[92vh] items-center gap-12 pt-32 pb-16 md:grid-cols-[1.25fr_1fr] md:pt-28">
+            <div class="order-2 md:order-1">
+                <div class="pill-badge intro mb-7 inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-sm font-medium" style="animation-delay:.1s">
                     <span class="dot-live"></span>
                     <span id="hero-status">Open to opportunities</span>
                 </div>
 
-                <p class="font-code muted mb-3 text-sm">
-                    <span class="accent">$</span> whoami
-                </p>
-                <h1 class="font-display text-gradient mb-5 text-5xl leading-[1.05] font-bold tracking-tight sm:text-6xl md:text-7xl" id="hero-name">
+                <h1 class="hero-title font-display text-grad mb-6 font-bold" id="hero-name" aria-label="Kamol Supsaengin">
                     กมล สืบแสงอินทร์
                 </h1>
-                <p class="font-code mb-6 text-lg md:text-xl">
-                    <span class="faint">// </span><span id="hero-role">IT Support Specialist</span><span class="caret">&nbsp;</span>
+
+                <p class="font-display intro mb-5 text-xl font-semibold md:text-2xl" style="animation-delay:.9s">
+                    <span id="hero-role">IT Support Specialist</span><span class="caret"></span>
                 </p>
-                <p class="muted mb-9 max-w-xl text-base leading-relaxed md:text-lg" id="hero-bio">
+                <p class="muted intro mb-10 max-w-xl text-base leading-relaxed md:text-lg" id="hero-bio" style="animation-delay:1.05s">
                     ผมเป็นมนุษย์เป็ด ที่มีความชื่นชอบในด้าน IT และ Data Science มีประสบการณ์ในการทำงานด้าน โทรคมนาคม และสนใจในการวิเคราะห์ข้อมูลเพื่อแก้ไขปัญหาต่างๆ
                 </p>
 
-                <div class="flex flex-wrap items-center gap-3">
-                    <a href="#contact" class="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold">
+                <div class="intro flex flex-wrap items-center gap-3" style="animation-delay:1.2s">
+                    <a href="#contact" class="btn-grad magnetic inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold">
                         <span id="btn-contact">Contact Me</span>
                         <i data-lucide="arrow-right" class="h-4 w-4"></i>
                     </a>
-                    <a href="assets/docs/Resume_Kamol_Supsaengin.pdf" onclick="gtag('event', 'click_download_resume');" download="Resume_Kamol_Supsaengin.pdf" class="btn-ghost inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold" id="btn-resume">
+                    <a href="assets/docs/Resume_Kamol_Supsaengin.pdf" onclick="gtag('event', 'click_download_resume');" download="Resume_Kamol_Supsaengin.pdf" class="glass btn-glass magnetic inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold" id="btn-resume">
                         <i data-lucide="download" class="h-4 w-4"></i>
                         <span id="txt-resume">Resume</span>
                     </a>
+                </div>
 
-                    <div class="hairline flex items-center gap-1 sm:ml-1 sm:border-l sm:pl-3">
-                        <a href="https://www.kaggle.com/kamolsupsaengin" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="Kaggle">
-                            <i data-lucide="code-2" class="h-5 w-5"></i>
-                        </a>
-                        <a href="https://github.com/hoppop1111" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="GitHub">
-                            <i data-lucide="github" class="h-5 w-5"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="LinkedIn">
-                            <i data-lucide="linkedin" class="h-5 w-5"></i>
-                        </a>
-                        <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="Line ID: hopzoo00687">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M21.289 10.493c0-4.654-4.836-8.493-10.37-8.493-5.534 0-10.37 3.839-10.37 8.493 0 4.192 3.722 7.747 8.718 8.358.339.073.801.226.918.518.105.263.069.674.032.939-.108.761-.397 2.05-.531 2.732-.083.421-.375 1.644 1.439.897 1.815-.747 4.953-2.923 6.757-4.992 2.376-2.613 3.407-5.269 3.407-8.452z"/></svg>
-                        </a>
-                    </div>
+                <div class="intro mt-8 flex items-center gap-2" style="animation-delay:1.35s">
+                    <a href="https://www.kaggle.com/kamolsupsaengin" target="_blank" rel="noopener" class="glass icon-btn h-11 w-11" title="Kaggle">
+                        <i data-lucide="code-2" class="h-5 w-5"></i>
+                    </a>
+                    <a href="https://github.com/hoppop1111" target="_blank" rel="noopener" class="glass icon-btn h-11 w-11" title="GitHub">
+                        <i data-lucide="github" class="h-5 w-5"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" rel="noopener" class="glass icon-btn h-11 w-11" title="LinkedIn">
+                        <i data-lucide="linkedin" class="h-5 w-5"></i>
+                    </a>
+                    <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" rel="noopener" class="glass icon-btn h-11 w-11" title="Line ID: hopzoo00687">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M21.289 10.493c0-4.654-4.836-8.493-10.37-8.493-5.534 0-10.37 3.839-10.37 8.493 0 4.192 3.722 7.747 8.718 8.358.339.073.801.226.918.518.105.263.069.674.032.939-.108.761-.397 2.05-.531 2.732-.083.421-.375 1.644 1.439.897 1.815-.747 4.953-2.923 6.757-4.992 2.376-2.613 3.407-5.269 3.407-8.452z"/></svg>
+                    </a>
                 </div>
             </div>
 
             <!-- Avatar -->
-            <div class="reveal relative order-1 mx-auto md:order-2">
-                <div class="avatar-ring h-44 w-44 md:h-64 md:w-64">
-                    <img src="assets/images/kamol-supsaengin-it-support.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Kamol+S&background=random&size=200'" alt="Kamol Supsaengin IT Support Profile Picture" class="h-full w-full rounded-full object-cover" style="border: 4px solid var(--bg);">
-                </div>
-                <div class="float-chip font-code -left-10 top-6 hidden md:flex items-center gap-2 rounded-xl px-3 py-2 text-xs">
-                    <i data-lucide="terminal" class="accent h-4 w-4"></i> IT · Network
-                </div>
-                <div class="float-chip font-code -right-8 bottom-6 hidden md:flex items-center gap-2 rounded-xl px-3 py-2 text-xs" style="animation-delay: -2.5s;">
-                    <i data-lucide="bar-chart-3" class="h-4 w-4" style="color: var(--accent-2);"></i> Data Science
+            <div class="intro relative order-1 mx-auto md:order-2" style="animation-delay:.3s">
+                <div class="relative h-52 w-52 sm:h-64 sm:w-64 md:h-80 md:w-80">
+                    <div class="orbit hidden sm:block"><span class="orbit-dot"></span></div>
+                    <div class="avatar-blob h-full w-full">
+                        <img src="assets/images/kamol-supsaengin-it-support.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Kamol+S&background=random&size=200'" alt="Kamol Supsaengin IT Support Profile Picture" class="h-full w-full object-cover">
+                    </div>
+                    <div class="float-tag glass -left-8 top-8 hidden items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold sm:flex">
+                        <span class="icon-tile flex h-7 w-7 items-center justify-center rounded-lg"><i data-lucide="router" class="h-4 w-4"></i></span> IT · Network
+                    </div>
+                    <div class="float-tag glass -right-6 bottom-10 hidden items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold sm:flex" style="animation-delay:-2.5s">
+                        <span class="icon-tile flex h-7 w-7 items-center justify-center rounded-lg"><i data-lucide="bar-chart-3" class="h-4 w-4"></i></span> Data Science
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Stats -->
-        <section class="reveal mb-14 grid grid-cols-3 gap-3 md:gap-5">
-            <div class="card rounded-2xl p-5 text-center md:p-6">
-                <div class="font-display text-3xl font-bold md:text-4xl"><span id="stat-projects">0</span><span class="accent">+</span></div>
-                <div class="font-code faint mt-1 text-[11px] tracking-wider uppercase" id="stat-projects-label">Projects</div>
+        <section class="mb-20 grid grid-cols-3 gap-3 md:gap-6" id="stats">
+            <div class="glass tilt reveal rounded-3xl p-5 text-center md:p-8">
+                <div class="font-display text-grad text-4xl font-bold md:text-6xl"><span id="stat-projects">0</span>+</div>
+                <div class="muted mt-2 text-xs font-semibold md:text-sm" id="stat-projects-label">Projects</div>
             </div>
-            <div class="card rounded-2xl p-5 text-center md:p-6">
-                <div class="font-display text-3xl font-bold md:text-4xl"><span id="stat-certs">0</span></div>
-                <div class="font-code faint mt-1 text-[11px] tracking-wider uppercase" id="stat-certs-label">Certificates</div>
+            <div class="glass tilt reveal rounded-3xl p-5 text-center md:p-8" style="--d:.1s">
+                <div class="font-display text-grad text-4xl font-bold md:text-6xl"><span id="stat-certs">0</span></div>
+                <div class="muted mt-2 text-xs font-semibold md:text-sm" id="stat-certs-label">Certificates</div>
             </div>
-            <div class="card rounded-2xl p-5 text-center md:p-6">
-                <div class="font-display text-3xl font-bold md:text-4xl"><span id="stat-skills">0</span><span class="accent">+</span></div>
-                <div class="font-code faint mt-1 text-[11px] tracking-wider uppercase" id="stat-skills-label">Skills &amp; Tools</div>
+            <div class="glass tilt reveal rounded-3xl p-5 text-center md:p-8" style="--d:.2s">
+                <div class="font-display text-grad text-4xl font-bold md:text-6xl"><span id="stat-skills">0</span>+</div>
+                <div class="muted mt-2 text-xs font-semibold md:text-sm" id="stat-skills-label">Skills &amp; Tools</div>
             </div>
         </section>
     </main>
 
     <!-- Marquee -->
-    <div class="marquee hairline reveal mb-20 overflow-hidden border-y py-5">
-        <div class="marquee-track font-display text-xl font-semibold md:text-2xl" id="marquee-track">
-            <!-- JS Injected -->
-        </div>
+    <div class="marquee mb-24 space-y-4 overflow-hidden py-2">
+        <div class="marquee-track" id="marquee-track-1"><!-- JS Injected --></div>
+        <div class="marquee-track reverse" id="marquee-track-2"><!-- JS Injected --></div>
     </div>
 
-    <main class="mx-auto max-w-5xl px-5 pb-16">
+    <main class="mx-auto max-w-6xl px-5 pb-20">
 
         <!-- Skills + Education -->
-        <section id="skills" class="mb-24 scroll-mt-28">
-            <div class="reveal mb-8 flex items-center gap-4">
-                <span class="section-label font-code text-sm">01.</span>
-                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="skill-header">Skills</h2>
-                <span class="section-rule h-px flex-1"></span>
+        <section id="skills" class="mb-28 scroll-mt-28">
+            <div class="parallax mb-10" data-speed="0.08">
+                <p class="eyebrow reveal mb-3">01</p>
+                <h2 class="big-title font-display reveal font-bold" id="skill-header">Skills</h2>
             </div>
-            <div class="grid gap-5 md:grid-cols-2">
-                <div class="card reveal rounded-3xl p-7">
-                    <h3 class="font-code faint mb-5 flex items-center gap-2 text-xs tracking-widest uppercase">
-                        <i data-lucide="cpu" class="h-4 w-4"></i> <span id="skill-subheader">Technical</span>
-                    </h3>
-                    <div class="flex flex-wrap gap-2" id="skill-list"><!-- JS Injected --></div>
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="glass tilt reveal rounded-[2rem] p-7 md:p-9">
+                    <div class="mb-6 flex items-center gap-3">
+                        <span class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl"><i data-lucide="cpu" class="h-5 w-5"></i></span>
+                        <h3 class="font-display text-xl font-bold" id="skill-subheader">Technical</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5" id="skill-list"><!-- JS Injected --></div>
 
-                    <h3 class="font-code faint mt-8 mb-5 flex items-center gap-2 text-xs tracking-widest uppercase">
-                        <i data-lucide="wrench" class="h-4 w-4"></i> <span id="tools-header">Tools</span>
-                    </h3>
-                    <div class="flex flex-wrap gap-2" id="tools-list"><!-- JS Injected --></div>
+                    <div class="mt-9 mb-6 flex items-center gap-3">
+                        <span class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl"><i data-lucide="wrench" class="h-5 w-5"></i></span>
+                        <h3 class="font-display text-xl font-bold" id="tools-header">Tools</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5" id="tools-list"><!-- JS Injected --></div>
                 </div>
 
-                <div class="card reveal rounded-3xl p-7">
-                    <h3 class="font-code faint mb-6 flex items-center gap-2 text-xs tracking-widest uppercase">
-                        <i data-lucide="graduation-cap" class="h-4 w-4"></i> <span id="edu-title">Education</span>
-                    </h3>
-                    <div class="timeline ml-1.5 space-y-7 pl-6" id="edu-list"><!-- JS Injected --></div>
+                <div class="glass tilt reveal rounded-[2rem] p-7 md:p-9" style="--d:.15s">
+                    <div class="mb-7 flex items-center gap-3">
+                        <span class="icon-tile flex h-11 w-11 items-center justify-center rounded-2xl"><i data-lucide="graduation-cap" class="h-5 w-5"></i></span>
+                        <h3 class="font-display text-xl font-bold" id="edu-title">Education</h3>
+                    </div>
+                    <div class="timeline space-y-8" id="edu-list"><!-- JS Injected --></div>
                 </div>
             </div>
         </section>
 
         <!-- Experience -->
-        <section id="experience" class="mb-24 scroll-mt-28">
-            <div class="reveal mb-8 flex items-center gap-4">
-                <span class="section-label font-code text-sm">02.</span>
-                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="exp-title">Experience</h2>
-                <span class="section-rule h-px flex-1"></span>
+        <section id="experience" class="mb-28 scroll-mt-28">
+            <div class="parallax mb-10" data-speed="0.08">
+                <p class="eyebrow reveal mb-3">02</p>
+                <h2 class="big-title font-display reveal font-bold" id="exp-title">Experience</h2>
             </div>
-            <div class="grid gap-5 md:grid-cols-2" id="exp-container"><!-- JS Injected --></div>
+            <div class="grid gap-6 md:grid-cols-2" id="exp-container"><!-- JS Injected --></div>
         </section>
 
         <!-- Projects -->
-        <section id="projects" class="mb-24 scroll-mt-28">
-            <div class="reveal mb-8 flex items-center gap-4">
-                <span class="section-label font-code text-sm">03.</span>
-                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="section-projects">Selected Projects</h2>
-                <span class="section-rule h-px flex-1"></span>
+        <section id="projects" class="mb-28 scroll-mt-28">
+            <div class="parallax mb-10" data-speed="0.08">
+                <p class="eyebrow reveal mb-3">03</p>
+                <h2 class="big-title font-display reveal font-bold" id="section-projects">Selected Projects</h2>
             </div>
-            <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" id="projects-grid"><!-- JS Injected --></div>
-            <div class="mt-10 text-center" id="projects-btn-container" style="display: none;">
-                <button onclick="toggleProjects()" class="btn-ghost font-code inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold tracking-wider uppercase">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" id="projects-grid"><!-- JS Injected --></div>
+            <div class="mt-12 text-center" id="projects-btn-container" style="display: none;">
+                <button onclick="toggleProjects()" class="glass btn-glass magnetic inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold">
                     <span id="txt-show-projects">Show More</span>
                     <span id="icon-show-projects" class="inline-flex"></span>
                 </button>
@@ -224,40 +226,41 @@
         </section>
 
         <!-- Certificates -->
-        <section id="certificates" class="mb-24 scroll-mt-28">
-            <div class="reveal mb-8 flex items-center gap-4">
-                <span class="section-label font-code text-sm">04.</span>
-                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="section-certs">Certificates</h2>
-                <span class="section-rule h-px flex-1"></span>
+        <section id="certificates" class="mb-28 scroll-mt-28">
+            <div class="parallax mb-10" data-speed="0.08">
+                <p class="eyebrow reveal mb-3">04</p>
+                <h2 class="big-title font-display reveal font-bold" id="section-certs">Certificates</h2>
             </div>
-            <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3" id="certs-list"><!-- JS Injected --></div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" id="certs-list"><!-- JS Injected --></div>
         </section>
 
         <!-- Contact -->
         <section id="contact" class="scroll-mt-28">
-            <div class="card cta-card reveal overflow-hidden rounded-[2rem] px-7 py-14 text-center md:px-14 md:py-20">
-                <p class="section-label font-code mb-4 text-sm">05. <span id="contact-label">contact</span></p>
-                <h2 class="font-display mb-4 text-4xl font-bold tracking-tight md:text-6xl" id="contact-cta-title">Let's work together</h2>
-                <p class="muted mx-auto mb-10 max-w-lg" id="contact-cta-desc">Feel free to reach out for collaborations or just a friendly hello.</p>
+            <div class="cta reveal rounded-[2.5rem] px-7 py-16 text-center md:px-16 md:py-24">
+                <div class="relative z-10">
+                    <p class="mb-4 text-xs font-bold tracking-[.25em] uppercase opacity-80">05 · <span id="contact-label">Contact</span></p>
+                    <h2 class="big-title font-display mb-5 font-bold" id="contact-cta-title">Let's work together</h2>
+                    <p class="mx-auto mb-10 max-w-lg text-base opacity-90 md:text-lg" id="contact-cta-desc">Feel free to reach out for collaborations or just a friendly hello.</p>
 
-                <a href="mailto:K.supsaengin@gmail.com" class="btn-primary font-display mb-8 inline-flex items-center gap-3 rounded-full px-7 py-4 text-base font-bold md:text-lg">
-                    <i data-lucide="mail" class="h-5 w-5"></i> K.supsaengin@gmail.com
-                </a>
+                    <a href="mailto:K.supsaengin@gmail.com" class="btn-white magnetic font-display mb-10 inline-flex items-center gap-3 rounded-full px-7 py-4 text-base font-bold md:text-lg">
+                        <i data-lucide="mail" class="h-5 w-5"></i> K.supsaengin@gmail.com
+                    </a>
 
-                <div class="font-code muted flex flex-col items-center justify-center gap-3 text-sm sm:flex-row sm:gap-8">
-                    <span class="flex items-center gap-2"><i data-lucide="phone" class="accent h-4 w-4"></i> 062-615-9722</span>
-                    <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" rel="noopener" class="flex items-center gap-2 hover:underline"><span class="font-bold" style="color:#06C755;">LINE</span> hopzoo00687</a>
-                    <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" rel="noopener" class="flex items-center gap-2 hover:underline"><i data-lucide="linkedin" class="h-4 w-4" style="color:#0a8fd6;"></i> kamol-supsaengin</a>
+                    <div class="flex flex-col items-center justify-center gap-3 text-sm font-medium sm:flex-row sm:gap-8">
+                        <span class="flex items-center gap-2"><i data-lucide="phone" class="h-4 w-4"></i> 062-615-9722</span>
+                        <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" rel="noopener" class="flex items-center gap-2 hover:underline"><span class="font-bold">LINE</span> hopzoo00687</a>
+                        <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" rel="noopener" class="flex items-center gap-2 hover:underline"><i data-lucide="linkedin" class="h-4 w-4"></i> kamol-supsaengin</a>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="hairline font-code faint mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 border-t px-5 py-10 text-xs sm:flex-row">
+    <footer class="faint mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-5 py-10 text-sm sm:flex-row">
         <p>© <span id="year">2024</span> Kamol Supsaengin</p>
-        <p>built with <span class="accent">♥</span> &amp; coffee</p>
+        <p>Made with <span class="text-grad font-bold">♥</span> in Thailand</p>
     </footer>
 
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js?v=3"></script>
 </body>
 </html>
