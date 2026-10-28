@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="IT, Network Engineer, Data Analyst, Portfolio, Kamol Supsaengin, Resume, Thailand, Python, Hardware Support">
     <meta name="description" content="Portfolio of Kamol Supsaengin. IT Specialist skilled in Hardware, Networking, Python, and Data Science based in Thailand. View my projects and resume.">
+    <meta name="theme-color" content="#07080a">
 
     <!-- SEO -->
     <meta property="og:type" content="website">
@@ -18,220 +19,244 @@
     <meta property="twitter:title" content="Kamol Supsaengin - IT & Data Analysis Portfolio">
     <meta property="twitter:description" content="Welcome to my personal portfolio. Check out my skills in IT Support, Data Science, and Web Development.">
     <meta property="twitter:image" content="https://hoppop1111.github.io/profile.jpg">
-    
+
     <title>Kamol Supsaengin | IT & Data Analysis Portfolio</title>
 
     <!-- icon -->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon"> 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+
+    <!-- apply saved theme before paint to avoid a flash -->
+    <script>
+        document.documentElement.classList.add('js');
+        if (localStorage.theme === 'light') document.documentElement.classList.remove('dark');
+    </script>
 
     <link href="assets/css/output.css" rel="stylesheet">
-        <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZMZC99T3V"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
+
       gtag('config', 'G-4ZMZC99T3V');
     </script>
-    
+
     <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 </head>
-<body class="bg-soft-bg text-text-main dark:bg-dark-bg dark:text-[#f5f5f7] transition-colors duration-500 font-sans selection:bg-accent selection:text-white relative">
+<body class="relative min-h-screen overflow-x-hidden">
 
-    <!-- Background Animation Layer -->
-    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-300/40 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob dark:hidden"></div>
-        <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-purple-300/40 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000 dark:hidden"></div>
-        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-lime-300/40 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000 dark:hidden"></div>
-        
-        <div class="hidden dark:block absolute top-[10%] right-[10%] w-[500px] h-[500px] bg-blue-900/20 rounded-full filter blur-[120px] animate-float"></div>
-        <div class="hidden dark:block absolute bottom-[10%] left-[5%] w-[400px] h-[400px] bg-purple-900/20 rounded-full filter blur-[120px] animate-float animation-delay-2000"></div>
-        <div class="hidden dark:block absolute top-[40%] left-[40%] w-[300px] h-[300px] bg-lime-900/10 rounded-full filter blur-[100px] animate-pulse"></div>
-    </div>
+    <!-- Background Layers -->
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="bg-grid"></div>
+    <div class="spotlight" id="spotlight"></div>
+    <div class="noise"></div>
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 top-0 start-0 bg-white/70 dark:bg-black/80 backdrop-blur-xl border-b border-white/20 dark:border-gray-900/50 transition-colors duration-500">
-        <div class="max-w-5xl mx-auto flex items-center justify-between p-6">
-            <a href="#" class="text-xl font-bold tracking-tight hover:opacity-70 transition text-slate-800 dark:text-white">KAMOL.</a>
-            <div class="flex gap-4 items-center">
-                <button onclick="toggleLanguage()" class="text-xs font-semibold tracking-wide text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition px-2 py-1 rounded bg-white/50 dark:bg-gray-800/50 border border-transparent hover:border-slate-200 dark:hover:border-gray-700" id="lang-btn-text">TH</button>
-                <button onclick="toggleTheme()" class="hover:text-slate-900 dark:hover:text-white text-slate-600 dark:text-gray-400 transition p-1 rounded-full hover:bg-slate-100 dark:hover:bg-gray-800">
-                    <i data-lucide="sun-moon" class="w-5 h-5"></i>
+    <nav class="fixed inset-x-0 top-4 z-50 px-4">
+        <div class="nav-pill mx-auto flex max-w-5xl items-center justify-between rounded-full py-2 pl-5 pr-2">
+            <a href="#top" class="font-display flex items-center gap-2 text-lg font-bold tracking-tight">
+                <span class="accent font-code text-sm">&gt;_</span>KAMOL<span class="accent">.</span>
+            </a>
+            <div class="font-code hidden items-center gap-6 text-xs md:flex">
+                <a href="#skills" class="nav-link" id="nav-skills">skills</a>
+                <a href="#experience" class="nav-link" id="nav-experience">experience</a>
+                <a href="#projects" class="nav-link" id="nav-projects">projects</a>
+                <a href="#certificates" class="nav-link" id="nav-certs">certificates</a>
+            </div>
+            <div class="flex items-center gap-1">
+                <button onclick="toggleLanguage()" class="icon-btn font-code h-9 px-3 text-xs font-bold" id="lang-btn-text" aria-label="Switch language">TH</button>
+                <button onclick="toggleTheme()" class="icon-btn h-9 w-9" aria-label="Toggle theme">
+                    <i data-lucide="sun-moon" class="h-4 w-4"></i>
                 </button>
+                <a href="#contact" class="btn-primary ml-1 hidden rounded-full px-4 py-2 text-xs font-bold sm:inline-flex" id="nav-contact">Contact</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-5xl mx-auto pt-32 pb-20 px-6">
-        
-        <!-- Hero Section -->
-        <section class="mb-20">
-            <div class="flex flex-col md:flex-row gap-12 items-start md:items-center">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden bg-white dark:bg-gray-800 shadow-soft flex-shrink-0 border-4 border-white dark:border-gray-900 relative group">
-                    <div class="absolute inset-0 bg-accent/20 hidden group-hover:block transition-all"></div>
-                    <img src="assets/images/kamol-supsaengin-it-support.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Kamol+S&background=random&size=200'" alt="Kamol Supsaengin IT Support Profile Picture" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1 space-y-4">
-                    <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-slate-800 dark:text-white relative" id="hero-name">
-                        กมล สืบแสงอินทร์
-                    </h1>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <span class="px-3 py-1 rounded-full bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-gray-400 shadow-sm" id="hero-role">IT Support Specialist</span>
-                        <span class="flex h-2 w-2 relative">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                        </span>
-                    </div>
-                    <p class="text-xl text-slate-600 dark:text-gray-400 font-light leading-relaxed max-w-2xl" id="hero-bio">
-                        ผมเป็นมนุษย์เป็ด ที่มีความชื่นชอบในด้าน IT และ Data Science มีประสบการณ์ในการทำงานด้าน โทรคมนาคม และสนใจในการวิเคราะห์ข้อมูลเพื่อแก้ไขปัญหาต่างๆ
-                    </p>
-                    
-                    <div class="pt-4 flex flex-wrap gap-3 items-center">
-                        <a href="#contact" class="px-6 py-2.5 bg-slate-800 dark:bg-white text-white dark:text-black rounded-full text-sm font-semibold hover:opacity-90 hover:shadow-lg transition shadow-soft transform hover:-translate-y-0.5 flex items-center gap-2" id="btn-contact">
-                            Contact Me
-                        </a>
+    <main id="top" class="mx-auto max-w-5xl px-5 pt-36 md:pt-44">
 
-                        <a href="assets/docs/kamol_supsaengin_Resume.pdf" onclick="gtag('event', 'click_download_resume');" download="Resume_Kamol_Supsaengin.pdf" class="px-5 py-2.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-white rounded-full text-sm font-semibold hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-soft transform hover:-translate-y-0.5 flex items-center gap-2 group" id="btn-resume">
-                            <i data-lucide="download" class="w-4 h-4 group-hover:text-accent transition-colors"></i>
-                            <span id="txt-resume">Resume</span>
+        <!-- Hero -->
+        <section class="mb-16 grid items-center gap-14 md:grid-cols-[1fr_auto]">
+            <div class="reveal order-2 md:order-1">
+                <div class="status-chip font-code mb-7 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs">
+                    <span class="dot-live"></span>
+                    <span id="hero-status">Open to opportunities</span>
+                </div>
+
+                <p class="font-code muted mb-3 text-sm">
+                    <span class="accent">$</span> whoami
+                </p>
+                <h1 class="font-display text-gradient mb-5 text-5xl leading-[1.05] font-bold tracking-tight sm:text-6xl md:text-7xl" id="hero-name">
+                    กมล สืบแสงอินทร์
+                </h1>
+                <p class="font-code mb-6 text-lg md:text-xl">
+                    <span class="faint">// </span><span id="hero-role">IT Support Specialist</span><span class="caret">&nbsp;</span>
+                </p>
+                <p class="muted mb-9 max-w-xl text-base leading-relaxed md:text-lg" id="hero-bio">
+                    ผมเป็นมนุษย์เป็ด ที่มีความชื่นชอบในด้าน IT และ Data Science มีประสบการณ์ในการทำงานด้าน โทรคมนาคม และสนใจในการวิเคราะห์ข้อมูลเพื่อแก้ไขปัญหาต่างๆ
+                </p>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="#contact" class="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold">
+                        <span id="btn-contact">Contact Me</span>
+                        <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                    </a>
+                    <a href="assets/docs/Resume_Kamol_Supsaengin.pdf" onclick="gtag('event', 'click_download_resume');" download="Resume_Kamol_Supsaengin.pdf" class="btn-ghost inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold" id="btn-resume">
+                        <i data-lucide="download" class="h-4 w-4"></i>
+                        <span id="txt-resume">Resume</span>
+                    </a>
+
+                    <div class="hairline flex items-center gap-1 sm:ml-1 sm:border-l sm:pl-3">
+                        <a href="https://www.kaggle.com/kamolsupsaengin" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="Kaggle">
+                            <i data-lucide="code-2" class="h-5 w-5"></i>
                         </a>
-                        
-                        <div class="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-gray-800 ml-2">
-                            <a href="https://www.kaggle.com/kamolsupsaengin" target="_blank" class="p-2.5 rounded-full text-slate-500 dark:text-gray-400 hover:text-blue-500 hover:bg-white dark:hover:bg-gray-800 transition" title="Kaggle">
-                                <i data-lucide="code-2" class="w-5 h-5"></i>
-                            </a>
-                            <a href="https://github.com/hoppop1111" target="_blank" class="p-2.5 rounded-full text-slate-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-white dark:hover:bg-gray-800 transition" title="GitHub">
-                                <i data-lucide="github" class="w-5 h-5"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" class="p-2.5 rounded-full text-slate-500 dark:text-gray-400 hover:text-[#0077b5] hover:bg-white dark:hover:bg-gray-800 transition" title="LinkedIn">
-                                <i data-lucide="linkedin" class="w-5 h-5"></i>
-                            </a>
-                            <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" class="p-2.5 rounded-full text-slate-500 dark:text-gray-400 hover:text-[#06C755] hover:bg-white dark:hover:bg-gray-800 transition" title="Line ID: hopzoo00687">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M21.289 10.493c0-4.654-4.836-8.493-10.37-8.493-5.534 0-10.37 3.839-10.37 8.493 0 4.192 3.722 7.747 8.718 8.358.339.073.801.226.918.518.105.263.069.674.032.939-.108.761-.397 2.05-.531 2.732-.083.421-.375 1.644 1.439.897 1.815-.747 4.953-2.923 6.757-4.992 2.376-2.613 3.407-5.269 3.407-8.452z"/></svg>
-                            </a>
-                        </div>
+                        <a href="https://github.com/hoppop1111" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="GitHub">
+                            <i data-lucide="github" class="h-5 w-5"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="LinkedIn">
+                            <i data-lucide="linkedin" class="h-5 w-5"></i>
+                        </a>
+                        <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" rel="noopener" class="icon-btn h-10 w-10" title="Line ID: hopzoo00687">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5"><path d="M21.289 10.493c0-4.654-4.836-8.493-10.37-8.493-5.534 0-10.37 3.839-10.37 8.493 0 4.192 3.722 7.747 8.718 8.358.339.073.801.226.918.518.105.263.069.674.032.939-.108.761-.397 2.05-.531 2.732-.083.421-.375 1.644 1.439.897 1.815-.747 4.953-2.923 6.757-4.992 2.376-2.613 3.407-5.269 3.407-8.452z"/></svg>
+                        </a>
                     </div>
+                </div>
+            </div>
+
+            <!-- Avatar -->
+            <div class="reveal relative order-1 mx-auto md:order-2">
+                <div class="avatar-ring h-44 w-44 md:h-64 md:w-64">
+                    <img src="assets/images/kamol-supsaengin-it-support.jpg" onerror="this.src='https://ui-avatars.com/api/?name=Kamol+S&background=random&size=200'" alt="Kamol Supsaengin IT Support Profile Picture" class="h-full w-full rounded-full object-cover" style="border: 4px solid var(--bg);">
+                </div>
+                <div class="float-chip font-code -left-10 top-6 hidden md:flex items-center gap-2 rounded-xl px-3 py-2 text-xs">
+                    <i data-lucide="terminal" class="accent h-4 w-4"></i> IT · Network
+                </div>
+                <div class="float-chip font-code -right-8 bottom-6 hidden md:flex items-center gap-2 rounded-xl px-3 py-2 text-xs" style="animation-delay: -2.5s;">
+                    <i data-lucide="bar-chart-3" class="h-4 w-4" style="color: var(--accent-2);"></i> Data Science
                 </div>
             </div>
         </section>
 
-        <!-- Bento Grid Layout -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
-            
-            <!-- Skills (2x2) -->
-            <div class="md:col-span-2 row-span-2 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 hover:scale-[1.01] transition duration-300 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-6 flex items-center gap-2" id="skill-header">
-                    <i data-lucide="cpu" class="w-4 h-4"></i> Technical Skills
-                </h3>
-                <div class="flex flex-wrap gap-2" id="skill-list">
-                    <!-- JS Injected -->
-                </div>
-                
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500 mt-10 mb-6 flex items-center gap-2" id="tools-header">
-                    <i data-lucide="wrench" class="w-4 h-4"></i> Tools
-                </h3>
-                <div class="flex flex-wrap gap-2" id="tools-list">
-                    <!-- JS Injected -->
-                </div>
+        <!-- Stats -->
+        <section class="reveal mb-14 grid grid-cols-3 gap-3 md:gap-5">
+            <div class="card rounded-2xl p-5 text-center md:p-6">
+                <div class="font-display text-3xl font-bold md:text-4xl"><span id="stat-projects">0</span><span class="accent">+</span></div>
+                <div class="font-code faint mt-1 text-[11px] tracking-wider uppercase" id="stat-projects-label">Projects</div>
             </div>
-
-            <!-- Experience (2x1) -->
-            <div class="md:col-span-2 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 flex flex-col hover:scale-[1.01] transition duration-300">
-                <h3 id="exp-title" class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-6 flex items-center gap-2">
-                    <i data-lucide="briefcase" class="w-4 h-4"></i> EXPERIENCE
-                </h3>
-                
-                <div id="exp-container" class="space-y-6 overflow-y-auto max-h-[400px] pr-2 scrollbar-hide">
-                     <!-- JS Injected -->
-                </div>
-           </div>
-
-            <!-- Education (2x1) -->
-            <div class="md:col-span-2 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 flex flex-col hover:scale-[1.01] transition duration-300 relative overflow-hidden group">
-                <div class="absolute bottom-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl -mr-5 -mb-5 pointer-events-none"></div>
-                
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500 mb-4 flex items-center gap-2" id="edu-title">
-                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> Education
-                </h3>
-                
-                <div class="space-y-6 overflow-y-auto max-h-[250px] pr-2 scrollbar-hide" id="edu-list">
-                    <!-- JS Injected -->
-                </div>
+            <div class="card rounded-2xl p-5 text-center md:p-6">
+                <div class="font-display text-3xl font-bold md:text-4xl"><span id="stat-certs">0</span></div>
+                <div class="font-code faint mt-1 text-[11px] tracking-wider uppercase" id="stat-certs-label">Certificates</div>
             </div>
-
-            <!-- Contact Box -->
-            <div id="contact" class="md:col-span-4 bg-card-light dark:bg-dark-card p-8 rounded-3xl shadow-soft dark:shadow-none border border-transparent dark:border-gray-800 flex flex-col md:flex-row justify-between items-center relative overflow-hidden group hover:shadow-lg transition-all duration-300">
-                <div class="absolute inset-0 bg-gradient-to-r from-slate-100 to-transparent dark:from-gray-800 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <div class="relative z-10 flex flex-col md:flex-row items-center gap-8 w-full justify-between px-4">
-                    <div class="text-center md:text-left">
-                         <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2" id="contact-cta-title">Let's work together</h3>
-                         <p class="text-slate-500 dark:text-gray-400 text-sm" id="contact-cta-desc">Feel free to reach out for collaborations or just a friendly hello.</p>
-                    </div>
-
-                    <div class="flex flex-col md:flex-row items-center gap-6">
-                        <div class="text-center md:text-right space-y-1">
-                            <a href="mailto:K.supsaengin@gmail.com" class="block text-lg font-bold text-slate-800 dark:text-white hover:text-accent transition">K.supsaengin@gmail.com</a>
-                            <div class="text-sm text-slate-500 dark:text-gray-400 flex flex-col md:flex-row gap-4 items-center md:justify-end">
-                                <span class="flex items-center gap-1"><i data-lucide="phone" class="w-3 h-3"></i> 062-615-9722</span>
-                                <span class="flex items-center gap-1 font-mono"><span class="font-bold text-line">LINE</span> hopzoo00687</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-3">
-                            <a href="mailto:K.supsaengin@gmail.com" class="w-10 h-10 bg-slate-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-slate-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 hover:text-accent hover:scale-110 transition-all shadow-sm">
-                                <i data-lucide="mail" class="w-5 h-5"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" class="w-10 h-10 bg-slate-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-slate-600 dark:text-gray-300 hover:bg-linkedin hover:text-white hover:scale-110 transition-all shadow-sm">
-                                <i data-lucide="linkedin" class="w-5 h-5"></i>
-                            </a>
-                             <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" class="w-10 h-10 bg-slate-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-slate-600 dark:text-gray-300 hover:bg-line hover:text-white hover:scale-110 transition-all shadow-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M21.289 10.493c0-4.654-4.836-8.493-10.37-8.493-5.534 0-10.37 3.839-10.37 8.493 0 4.192 3.722 7.747 8.718 8.358.339.073.801.226.918.518.105.263.069.674.032.939-.108.761-.397 2.05-.531 2.732-.083.421-.375 1.644 1.439.897 1.815-.747 4.953-2.923 6.757-4.992 2.376-2.613 3.407-5.269 3.407-8.452z"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="card rounded-2xl p-5 text-center md:p-6">
+                <div class="font-display text-3xl font-bold md:text-4xl"><span id="stat-skills">0</span><span class="accent">+</span></div>
+                <div class="font-code faint mt-1 text-[11px] tracking-wider uppercase" id="stat-skills-label">Skills &amp; Tools</div>
             </div>
+        </section>
+    </main>
+
+    <!-- Marquee -->
+    <div class="marquee hairline reveal mb-20 overflow-hidden border-y py-5">
+        <div class="marquee-track font-display text-xl font-semibold md:text-2xl" id="marquee-track">
+            <!-- JS Injected -->
         </div>
+    </div>
+
+    <main class="mx-auto max-w-5xl px-5 pb-16">
+
+        <!-- Skills + Education -->
+        <section id="skills" class="mb-24 scroll-mt-28">
+            <div class="reveal mb-8 flex items-center gap-4">
+                <span class="section-label font-code text-sm">01.</span>
+                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="skill-header">Skills</h2>
+                <span class="section-rule h-px flex-1"></span>
+            </div>
+            <div class="grid gap-5 md:grid-cols-2">
+                <div class="card reveal rounded-3xl p-7">
+                    <h3 class="font-code faint mb-5 flex items-center gap-2 text-xs tracking-widest uppercase">
+                        <i data-lucide="cpu" class="h-4 w-4"></i> <span id="skill-subheader">Technical</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-2" id="skill-list"><!-- JS Injected --></div>
+
+                    <h3 class="font-code faint mt-8 mb-5 flex items-center gap-2 text-xs tracking-widest uppercase">
+                        <i data-lucide="wrench" class="h-4 w-4"></i> <span id="tools-header">Tools</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-2" id="tools-list"><!-- JS Injected --></div>
+                </div>
+
+                <div class="card reveal rounded-3xl p-7">
+                    <h3 class="font-code faint mb-6 flex items-center gap-2 text-xs tracking-widest uppercase">
+                        <i data-lucide="graduation-cap" class="h-4 w-4"></i> <span id="edu-title">Education</span>
+                    </h3>
+                    <div class="timeline ml-1.5 space-y-7 pl-6" id="edu-list"><!-- JS Injected --></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="experience" class="mb-24 scroll-mt-28">
+            <div class="reveal mb-8 flex items-center gap-4">
+                <span class="section-label font-code text-sm">02.</span>
+                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="exp-title">Experience</h2>
+                <span class="section-rule h-px flex-1"></span>
+            </div>
+            <div class="grid gap-5 md:grid-cols-2" id="exp-container"><!-- JS Injected --></div>
+        </section>
 
         <!-- Projects -->
-        <section class="mb-20">
-            <h2 class="text-2xl font-bold mb-8 flex items-center gap-4 text-slate-800 dark:text-white">
-                <span id="section-projects">Selected Projects</span>
-                <span class="h-px flex-1 bg-slate-200 dark:bg-gray-800"></span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
-                <!-- JS Injected -->
+        <section id="projects" class="mb-24 scroll-mt-28">
+            <div class="reveal mb-8 flex items-center gap-4">
+                <span class="section-label font-code text-sm">03.</span>
+                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="section-projects">Selected Projects</h2>
+                <span class="section-rule h-px flex-1"></span>
             </div>
-            <!-- Show More Button Container -->
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" id="projects-grid"><!-- JS Injected --></div>
             <div class="mt-10 text-center" id="projects-btn-container" style="display: none;">
-                <button onclick="toggleProjects()" class="px-6 py-2.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-white rounded-full text-sm font-semibold hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-soft hover:-translate-y-0.5 inline-flex items-center gap-2 group">
+                <button onclick="toggleProjects()" class="btn-ghost font-code inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-bold tracking-wider uppercase">
                     <span id="txt-show-projects">Show More</span>
-                    <i data-lucide="chevron-down" id="icon-show-projects" class="w-4 h-4 group-hover:text-accent transition-colors"></i>
+                    <span id="icon-show-projects" class="inline-flex"></span>
                 </button>
             </div>
         </section>
 
         <!-- Certificates -->
-        <section id="certificates" class="mb-20">
-            <h2 class="text-2xl font-bold mb-8 flex items-center gap-4 text-slate-800 dark:text-white">
-                <span id="section-certs">Certificates</span>
-                <span class="h-px flex-1 bg-slate-200 dark:bg-gray-800"></span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="certs-list">
-                <!-- JS Injected -->
+        <section id="certificates" class="mb-24 scroll-mt-28">
+            <div class="reveal mb-8 flex items-center gap-4">
+                <span class="section-label font-code text-sm">04.</span>
+                <h2 class="font-display text-3xl font-bold tracking-tight md:text-4xl" id="section-certs">Certificates</h2>
+                <span class="section-rule h-px flex-1"></span>
             </div>
+            <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3" id="certs-list"><!-- JS Injected --></div>
         </section>
 
-        <footer class="text-center text-xs text-slate-400 dark:text-gray-600 py-12 border-t border-slate-200 dark:border-gray-900">
-            <p>© 2024 Kamol Supsaengin. Minimalist Portfolio.</p>
-        </footer>
+        <!-- Contact -->
+        <section id="contact" class="scroll-mt-28">
+            <div class="card cta-card reveal overflow-hidden rounded-[2rem] px-7 py-14 text-center md:px-14 md:py-20">
+                <p class="section-label font-code mb-4 text-sm">05. <span id="contact-label">contact</span></p>
+                <h2 class="font-display mb-4 text-4xl font-bold tracking-tight md:text-6xl" id="contact-cta-title">Let's work together</h2>
+                <p class="muted mx-auto mb-10 max-w-lg" id="contact-cta-desc">Feel free to reach out for collaborations or just a friendly hello.</p>
 
+                <a href="mailto:K.supsaengin@gmail.com" class="btn-primary font-display mb-8 inline-flex items-center gap-3 rounded-full px-7 py-4 text-base font-bold md:text-lg">
+                    <i data-lucide="mail" class="h-5 w-5"></i> K.supsaengin@gmail.com
+                </a>
+
+                <div class="font-code muted flex flex-col items-center justify-center gap-3 text-sm sm:flex-row sm:gap-8">
+                    <span class="flex items-center gap-2"><i data-lucide="phone" class="accent h-4 w-4"></i> 062-615-9722</span>
+                    <a href="https://line.me/ti/p/~hopzoo00687" target="_blank" rel="noopener" class="flex items-center gap-2 hover:underline"><span class="font-bold" style="color:#06C755;">LINE</span> hopzoo00687</a>
+                    <a href="https://www.linkedin.com/in/kamol-supsaengin" target="_blank" rel="noopener" class="flex items-center gap-2 hover:underline"><i data-lucide="linkedin" class="h-4 w-4" style="color:#0a8fd6;"></i> kamol-supsaengin</a>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <footer class="hairline font-code faint mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 border-t px-5 py-10 text-xs sm:flex-row">
+        <p>© <span id="year">2024</span> Kamol Supsaengin</p>
+        <p>built with <span class="accent">♥</span> &amp; coffee</p>
+    </footer>
 
     <script src="assets/js/script.js"></script>
 </body>

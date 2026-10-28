@@ -261,14 +261,36 @@ const data = {
             }
         };
 
+        // UI strings that are not part of the portfolio content above
+        const ui = {
+            en: {
+                nav: { skills: "skills", experience: "experience", projects: "projects", certs: "certificates", contact: "Contact" },
+                status: "Open to opportunities",
+                skillSub: "Technical",
+                stats: { projects: "Projects", certs: "Certificates", skills: "Skills & Tools" },
+                contactLabel: "contact"
+            },
+            th: {
+                nav: { skills: "ทักษะ", experience: "ประสบการณ์", projects: "ผลงาน", certs: "เกียรติบัตร", contact: "ติดต่อ" },
+                status: "พร้อมรับโอกาสใหม่ๆ",
+                skillSub: "ด้านเทคนิค",
+                stats: { projects: "ผลงาน", certs: "เกียรติบัตร", skills: "ทักษะ & เครื่องมือ" },
+                contactLabel: "ติดต่อ"
+            }
+        };
+
         let currentLang = 'th';
         let showAllProjects = false; // transient state to track whether to show all projects or just a subset
 
-        // Theme Check
-        if (localStorage.theme === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.documentElement.classList.add('dark');
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        }
+
+        function refreshIcons() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
         }
 
         function toggleTheme() {
@@ -284,130 +306,159 @@ const data = {
         function toggleProjects() {
             showAllProjects = !showAllProjects;
             renderContent();
-            
-            // Re-initialize lucide icons for newly added elements
-            if (window.lucide) {
-                lucide.createIcons();
-            }
         }
+
+        // Typewriter effect for the hero role
+        let typeTimer = null;
+        function typeRole(text) {
+            const el = document.getElementById('hero-role');
+            clearTimeout(typeTimer);
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = text;
+                return;
+            }
+            const chars = Array.from(text);
+            let i = 0;
+            el.textContent = '';
+            (function step() {
+                el.textContent = chars.slice(0, ++i).join('');
+                if (i < chars.length) typeTimer = setTimeout(step, 70);
+            })();
+        }
+
+        // Count-up animation for the stat cards
+        function countUp(id, target) {
+            const el = document.getElementById(id);
+            const start = performance.now();
+            const duration = 1200;
+            (function frame(now) {
+                const p = Math.min((now - start) / duration, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(frame);
+            })(start);
+        }
+
+        const chip = s =>
+            `<span class="chip font-code inline-flex cursor-default items-center gap-2 rounded-lg px-3 py-1.5 text-xs"><span class="chip-dot"></span>${s}</span>`;
 
         function renderContent() {
             const t = data[currentLang];
-            
+            const u = ui[currentLang];
+            document.documentElement.lang = currentLang;
+
             // Navbar
-            document.getElementById('lang-btn-text').innerText = currentLang.toUpperCase();
-            
+            setText('lang-btn-text', currentLang.toUpperCase());
+            setText('nav-skills', u.nav.skills);
+            setText('nav-experience', u.nav.experience);
+            setText('nav-projects', u.nav.projects);
+            setText('nav-certs', u.nav.certs);
+            setText('nav-contact', u.nav.contact);
+
             // Hero
-            document.getElementById('hero-name').innerText = t.hero.name;
-            document.getElementById('hero-role').innerText = t.hero.role;
-            document.getElementById('hero-bio').innerText = t.hero.bio;
-            document.getElementById('btn-contact').innerText = t.contact.btn;
-            document.getElementById('txt-resume').innerText = t.hero.btnResume;
+            setText('hero-status', u.status);
+            setText('hero-name', t.hero.name);
+            typeRole(t.hero.role);
+            setText('hero-bio', t.hero.bio);
+            setText('btn-contact', t.contact.btn);
+            setText('txt-resume', t.hero.btnResume);
+
+            // Stats
+            setText('stat-projects-label', u.stats.projects);
+            setText('stat-certs-label', u.stats.certs);
+            setText('stat-skills-label', u.stats.skills);
+
+            // Marquee (list is doubled so the loop is seamless)
+            const marqueeItems = [...t.skills.list, ...t.skills.toolsList];
+            document.getElementById('marquee-track').innerHTML = [...marqueeItems, ...marqueeItems].map(s =>
+                `<span class="flex items-center gap-8 pr-8 whitespace-nowrap"><span>${s}</span><span class="accent text-base">✦</span></span>`
+            ).join('');
 
             // Skills
-            document.getElementById('skill-header').innerHTML = `<i data-lucide="cpu" class="w-4 h-4"></i> ${t.skills.header}`;
-            document.getElementById('skill-list').innerHTML = t.skills.list.map(s => 
-                `<span class="px-3 py-1.5 bg-slate-50 dark:bg-gray-800 text-xs font-medium rounded-lg text-slate-700 dark:text-gray-300 border border-slate-100 dark:border-gray-700 cursor-default hover:border-accent/50 transition-colors">${s}</span>`
-            ).join('');
+            setText('skill-header', t.skills.header);
+            setText('skill-subheader', u.skillSub);
+            document.getElementById('skill-list').innerHTML = t.skills.list.map(chip).join('');
 
             // Tools
-            document.getElementById('tools-header').innerHTML = `<i data-lucide="wrench" class="w-4 h-4"></i> ${t.skills.toolsHeader}`;
-            document.getElementById('tools-list').innerHTML = t.skills.toolsList.map(s => 
-                `<span class="px-3 py-1.5 bg-slate-50 dark:bg-gray-800 text-xs font-medium rounded-lg text-slate-700 dark:text-gray-300 border border-slate-100 dark:border-gray-700 cursor-default hover:border-accent/50 transition-colors">${s}</span>`
-            ).join('');
+            setText('tools-header', t.skills.toolsHeader);
+            document.getElementById('tools-list').innerHTML = t.skills.toolsList.map(chip).join('');
 
             // Experience
-            const expContainer = document.getElementById('exp-container');
-            if (expContainer) {
-                expContainer.innerHTML = t.experience.list.map(exp => `
-                    <div class="group/exp mb-8 last:mb-0 relative">
-                        <div class="flex justify-between items-start mb-2">
-                            <div>
-                                <h4 class="text-lg font-bold text-slate-800 dark:text-white hover:text-accent transition-all duration-300 ease-in-out cursor-default ">
-                                    ${exp.role}
-                                </h4>
-                                <p class="text-slate-500 dark:text-gray-500 text-sm">${exp.company}</p>
-                            </div>
-                            <span class="text-xs font-mono text-slate-400 dark:text-gray-600 bg-slate-100 dark:bg-gray-900 px-2 py-1 rounded whitespace-nowrap transition-colors duration-500 group-hover/exp:text-slate-600 dark:group-hover/exp:text-gray-400">
-                                ${exp.time}
-                            </span>
+            setText('exp-title', t.experience.title);
+            document.getElementById('exp-container').innerHTML = t.experience.list.map(exp => `
+                <div class="card card-lift flex flex-col rounded-3xl p-7">
+                    <div class="mb-5 flex items-start justify-between gap-4">
+                        <div class="arrow-box flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style="transform:none;">
+                            <i data-lucide="briefcase" class="h-5 w-5"></i>
                         </div>
-                        <ul class="mt-4 space-y-2 text-sm text-slate-600 dark:text-gray-400 list-disc list-inside leading-relaxed">
-                            ${exp.desc.map(d => `<li>${d}</li>`).join('')}
-                        </ul>
+                        <span class="tag font-code rounded-full px-3 py-1 text-[11px] whitespace-nowrap">${exp.time}</span>
                     </div>
-                `).join('');
-            }
-
-            // Education
-            document.getElementById('edu-title').innerHTML = `<i data-lucide="graduation-cap" class="w-4 h-4"></i> ${t.education.title}`;
-            document.getElementById('edu-list').innerHTML = t.education.list.map(e => `
-                <div class="relative pl-4 border-l-2 border-slate-200 dark:border-gray-700">
-                    <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-gray-600 ring-4 ring-white dark:ring-dark-card"></div>
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1">
-                        <h4 class="font-bold text-slate-800 dark:text-white text-sm">${e.school}</h4>
-                        <span class="text-xs font-mono text-slate-400 dark:text-gray-500 bg-slate-50 dark:bg-gray-800 px-2 py-0.5 rounded whitespace-nowrap">${e.year}</span>
-                    </div>
-                    <p class="text-xs font-medium text-accent mb-1">${e.degree}</p>
-                    <p class="text-xs text-slate-500 dark:text-gray-400 leading-relaxed">${e.desc}</p>
+                    <h4 class="font-display text-xl font-bold">${exp.role}</h4>
+                    <p class="accent font-code mb-4 text-xs">@ ${exp.company}</p>
+                    <ul class="muted space-y-2 text-sm leading-relaxed">
+                        ${exp.desc.map(d => `<li class="flex gap-2"><span class="accent font-code">▹</span><span>${d}</span></li>`).join('')}
+                    </ul>
                 </div>
             `).join('');
 
-            // Contact Box
-            document.getElementById('contact-cta-title').innerText = t.contactSection.title;
-            document.getElementById('contact-cta-desc').innerText = t.contactSection.desc;
+            // Education
+            setText('edu-title', t.education.title);
+            document.getElementById('edu-list').innerHTML = t.education.list.map(e => `
+                <div class="relative">
+                    <span class="timeline-dot" style="left: -31px;"></span>
+                    <span class="tag font-code mb-2 inline-block rounded-full px-2.5 py-0.5 text-[11px]">${e.year}</span>
+                    <h4 class="font-display text-base font-bold">${e.school}</h4>
+                    <p class="accent mb-1 text-sm font-medium">${e.degree}</p>
+                    <p class="muted text-sm leading-relaxed">${e.desc}</p>
+                </div>
+            `).join('');
+
+            // Contact
+            setText('contact-label', u.contactLabel);
+            setText('contact-cta-title', t.contactSection.title);
+            setText('contact-cta-desc', t.contactSection.desc);
 
             // Projects - showAllProjects
-            document.getElementById('section-projects').innerText = t.projects.header;
+            setText('section-projects', t.projects.header);
             const projectsToRender = showAllProjects ? t.projects.list : t.projects.list.slice(0, 3);
-            
-            document.getElementById('projects-grid').innerHTML = projectsToRender.map(p => `
-                <a href="${p.link}" target="_blank" class="group block h-full">
-                    <div class="bg-card-light dark:bg-dark-card p-6 rounded-3xl h-full border border-transparent dark:border-gray-800 hover:shadow-soft dark:hover:border-gray-700 transition-all duration-300 flex flex-col relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/50 dark:to-white/5 opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                        <div class="flex items-start justify-between mb-4 relative z-10">
-                            <h4 class="font-bold text-lg text-slate-800 dark:text-gray-200 group-hover:text-accent transition-colors">${p.title}</h4>
-                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-300 group-hover:text-slate-800 dark:group-hover:text-white transition"></i>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-gray-400 mb-6 flex-grow leading-relaxed relative z-10">${p.desc}</p>
-                        <div class="flex flex-wrap gap-2 relative z-10">
-                            ${p.tags.map(tag => `<span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400 dark:text-gray-500 group-hover:text-slate-600 dark:group-hover:text-gray-300 transition-colors">#${tag}</span>`).join('')}
-                        </div>
+            document.getElementById('projects-grid').innerHTML = projectsToRender.map((p, i) => `
+                <a href="${p.link}" target="_blank" rel="noopener" class="card card-lift group flex h-full flex-col rounded-3xl p-6">
+                    <div class="mb-8 flex items-start justify-between">
+                        <span class="project-num font-code text-sm">${String(i + 1).padStart(2, '0')}</span>
+                        <span class="arrow-box flex h-9 w-9 items-center justify-center rounded-full">
+                            <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                        </span>
+                    </div>
+                    <h4 class="font-display mb-2 text-xl font-bold">${p.title}</h4>
+                    <p class="muted mb-6 flex-grow text-sm leading-relaxed">${p.desc}</p>
+                    <div class="flex flex-wrap gap-2">
+                        ${p.tags.map(tag => `<span class="tag font-code rounded-md px-2 py-0.5 text-[10px] tracking-wider uppercase">${tag}</span>`).join('')}
                     </div>
                 </a>
             `).join('');
 
             //  Show More
             const btnContainer = document.getElementById('projects-btn-container');
-            const iconShowProjects = document.getElementById('icon-show-projects');
             if (t.projects.list.length > 3) {
                 btnContainer.style.display = 'block';
-                document.getElementById('txt-show-projects').innerText = showAllProjects ? t.projects.btnShowLess : t.projects.btnShowMore;
-                
-                // switch icon
-                if(showAllProjects) {
-                    iconShowProjects.setAttribute('data-lucide', 'chevron-up');
-                } else {
-                    iconShowProjects.setAttribute('data-lucide', 'chevron-down');
-                }
+                setText('txt-show-projects', showAllProjects ? t.projects.btnShowLess : t.projects.btnShowMore);
+                document.getElementById('icon-show-projects').innerHTML =
+                    `<i data-lucide="${showAllProjects ? 'chevron-up' : 'chevron-down'}" class="h-4 w-4"></i>`;
             } else {
                 btnContainer.style.display = 'none';
             }
 
             // Certificates
-            document.getElementById('section-certs').innerText = t.certificates.header;
+            setText('section-certs', t.certificates.header);
             document.getElementById('certs-list').innerHTML = t.certificates.list.map(c => `
-                <a href="${c.file}" target="_blank" class="flex items-center gap-3 p-4 rounded-2xl bg-card-light dark:bg-dark-card border border-transparent dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800/50 hover:shadow-sm transition group">
-                    <div class="p-2 rounded-full bg-slate-100 dark:bg-gray-800 text-slate-400 group-hover:text-slate-800 dark:group-hover:text-white transition">
-                        <i data-lucide="file-check" class="w-4 h-4"></i>
-                    </div>
-                    <span class="text-sm font-medium text-slate-700 dark:text-gray-200 group-hover:translate-x-1 transition-transform">${c.name}</span>
+                <a href="${c.file}" target="_blank" rel="noopener" class="card group flex items-center gap-3 rounded-2xl p-4">
+                    <span class="arrow-box flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style="transform:none;">
+                        <i data-lucide="file-check" class="h-4 w-4"></i>
+                    </span>
+                    <span class="text-sm font-medium transition-transform group-hover:translate-x-1">${c.name}</span>
                 </a>
             `).join('');
 
-            if (window.lucide) {
-                lucide.createIcons();
-            }
+            refreshIcons();
         }
 
         function toggleLanguage() {
@@ -415,5 +466,33 @@ const data = {
             renderContent();
         }
 
+        // Cursor spotlight on the page and on cards
+        document.addEventListener('pointermove', e => {
+            const spot = document.getElementById('spotlight');
+            spot.style.setProperty('--x', e.clientX + 'px');
+            spot.style.setProperty('--y', e.clientY + 'px');
+            const card = e.target.closest && e.target.closest('.card');
+            if (card) {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            }
+        });
+
+        // Reveal sections on scroll
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
         // Init
+        setText('year', new Date().getFullYear());
         renderContent();
+        countUp('stat-projects', data.en.projects.list.length);
+        countUp('stat-certs', data.en.certificates.list.length);
+        countUp('stat-skills', data.en.skills.list.length + data.en.skills.toolsList.length);
