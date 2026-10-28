@@ -43,6 +43,3 @@ portfolio/
 Projects are a plain list; clicking a title expands its write-up in place.
 Process / moodboard / mockup images appear there only once they have a `src`: put a file in `public/projects/<slug>/` and set
 `src: "/projects/<slug>/file.jpg"`.
-
-Note: `lucide-react` 1.x has no brand icons (GitHub, LinkedIn…); those are
-custom SVGs in `components/ui`.
