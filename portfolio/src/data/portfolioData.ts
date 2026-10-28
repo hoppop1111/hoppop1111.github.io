@@ -347,7 +347,11 @@ export const portfolioData: PortfolioData = {
         },
       ],
       links: [
-        { kind: "notebook", href: "https://www.kaggle.com/code/kamolsupsaengin/mnist", label: { th: "ดู Notebook", en: "View notebook" } },
+        {
+          kind: "notebook",
+          href: "https://www.kaggle.com/code/kamolsupsaengin/mnist",
+          label: { th: "ดู Notebook", en: "View notebook" },
+        },
       ],
     },
 
@@ -385,7 +389,10 @@ export const portfolioData: PortfolioData = {
         en: "Implemented ML algorithms on Kaggle.",
       },
       challenge: { th: "ทำความเข้าใจอัลกอริทึม ML พื้นฐาน", en: "Understanding core ML algorithms." },
-      approach: { th: "ลงมือเขียนโค้ดอัลกอริทึมบน Kaggle Notebook", en: "Implemented the algorithms hands-on in a Kaggle notebook." },
+      approach: {
+        th: "ลงมือเขียนโค้ดอัลกอริทึมบน Kaggle Notebook",
+        en: "Implemented the algorithms hands-on in a Kaggle notebook.",
+      },
       outcome: { th: "Notebook สรุปการทดลอง", en: "A notebook documenting the experiments." },
       tags: ["Python", "Kaggle"],
       cover: { alt: { th: "ภาพ Notebook ML", en: "ML notebook" } },
@@ -393,7 +400,11 @@ export const portfolioData: PortfolioData = {
       process: [],
       mockups: [],
       links: [
-        { kind: "notebook", href: "https://www.kaggle.com/code/kamolsupsaengin/machine-learning", label: { th: "ดู Notebook", en: "View notebook" } },
+        {
+          kind: "notebook",
+          href: "https://www.kaggle.com/code/kamolsupsaengin/machine-learning",
+          label: { th: "ดู Notebook", en: "View notebook" },
+        },
       ],
     },
     {
@@ -414,7 +425,11 @@ export const portfolioData: PortfolioData = {
       process: [],
       mockups: [],
       links: [
-        { kind: "notebook", href: "https://www.kaggle.com/code/kamolsupsaengin/covid-19-in-thailand", label: { th: "ดู Notebook", en: "View notebook" } },
+        {
+          kind: "notebook",
+          href: "https://www.kaggle.com/code/kamolsupsaengin/covid-19-in-thailand",
+          label: { th: "ดู Notebook", en: "View notebook" },
+        },
       ],
     },
     {
@@ -435,7 +450,11 @@ export const portfolioData: PortfolioData = {
       process: [],
       mockups: [],
       links: [
-        { kind: "notebook", href: "https://www.kaggle.com/code/kamolsupsaengin/top-university-2024", label: { th: "ดู Notebook", en: "View notebook" } },
+        {
+          kind: "notebook",
+          href: "https://www.kaggle.com/code/kamolsupsaengin/top-university-2024",
+          label: { th: "ดู Notebook", en: "View notebook" },
+        },
       ],
     },
     {
@@ -456,7 +475,11 @@ export const portfolioData: PortfolioData = {
       process: [],
       mockups: [],
       links: [
-        { kind: "notebook", href: "https://www.kaggle.com/code/kamolsupsaengin/byd-analysis", label: { th: "ดู Notebook", en: "View notebook" } },
+        {
+          kind: "notebook",
+          href: "https://www.kaggle.com/code/kamolsupsaengin/byd-analysis",
+          label: { th: "ดู Notebook", en: "View notebook" },
+        },
       ],
     },
     {
@@ -469,7 +492,10 @@ export const portfolioData: PortfolioData = {
         en: "Data scraping 100 notebooks with the highest usage.",
       },
       challenge: { th: "รวบรวมข้อมูล 100 notebooks ยอดนิยม", en: "Collect data on the 100 most-used notebooks." },
-      approach: { th: "เขียนสคริปต์ scraping และจัดเก็บเป็นชุดข้อมูล", en: "Wrote a scraper and stored the results as a dataset." },
+      approach: {
+        th: "เขียนสคริปต์ scraping และจัดเก็บเป็นชุดข้อมูล",
+        en: "Wrote a scraper and stored the results as a dataset.",
+      },
       outcome: { th: "ชุดข้อมูลพร้อมวิเคราะห์ต่อ", en: "A dataset ready for further analysis." },
       tags: ["Data Scraping", "Kaggle"],
       cover: { alt: { th: "ตารางข้อมูล notebooks", en: "Notebook data table" } },
@@ -477,7 +503,11 @@ export const portfolioData: PortfolioData = {
       process: [],
       mockups: [],
       links: [
-        { kind: "notebook", href: "https://www.kaggle.com/code/kamolsupsaengin/top-100-notebooks", label: { th: "ดู Notebook", en: "View notebook" } },
+        {
+          kind: "notebook",
+          href: "https://www.kaggle.com/code/kamolsupsaengin/top-100-notebooks",
+          label: { th: "ดู Notebook", en: "View notebook" },
+        },
       ],
     },
   ],

@@ -4,146 +4,104 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-fg: var(--fg);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  /* duck yellow — the "มนุษย์เป็ด" accent, always paired with duck-ink text */
-  --color-duck: #ffd23f;
-  --color-duck-ink: #1b1600;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-faded: var(--faded);
+  --color-rule: var(--rule);
+  /* red ballpoint for handwritten notes, yellow highlighter for marked words */
+  --color-pen: var(--pen);
+  --color-marker: var(--marker);
 
-  --font-display: var(--font-bricolage), var(--font-kanit), sans-serif;
-  --font-sans: var(--font-inter), var(--font-thai), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-
-  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-serif: var(--font-newsreader), var(--font-trirong), Georgia, serif;
+  --font-sans: var(--font-thai), system-ui, sans-serif;
+  --font-hand: var(--font-caveat), var(--font-sriracha), cursive;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 :root {
-  --bg: #f3f1ea;
-  --surface: #ffffff;
-  --fg: #141413;
-  --muted: #64625b;
-  --line: rgba(20, 20, 19, 0.1);
+  --paper: #f4efe4;
+  --ink: #23201b;
+  --faded: #6e675b;
+  --rule: rgba(35, 32, 27, 0.16);
+  --pen: #c8412b;
+  --marker: rgba(255, 214, 51, 0.65);
   color-scheme: light;
 }
 
 .dark {
-  --bg: #0f0f0e;
-  --surface: #191917;
-  --fg: #f2efe6;
-  --muted: #9d998e;
-  --line: rgba(242, 239, 230, 0.1);
+  --paper: #1b1916;
+  --ink: #ebe4d6;
+  --faded: #a39b8c;
+  --rule: rgba(235, 228, 214, 0.14);
+  --pen: #ff8f73;
+  --marker: rgba(255, 200, 40, 0.3);
   color-scheme: dark;
 }
 
 html {
-  background: var(--bg);
+  background: var(--paper);
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+}
+
+/* faint paper grain so the background isn't a flat digital fill */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
-  background: var(--color-duck);
-  color: var(--color-duck-ink);
+  background: var(--marker);
 }
 
-/* Big display headings: tight for Latin, roomier for Thai so tone marks aren't clipped. */
-.display-tight {
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
 }
-:lang(th) .display-tight {
+
+/* Highlighter stroke behind a word: slightly tilted and uneven, like a real marker. */
+.marker {
+  background: linear-gradient(
+    100deg,
+    transparent 0.4em,
+    var(--marker) 0.5em,
+    var(--marker) calc(100% - 0.4em),
+    transparent calc(100% - 0.2em)
+  );
+  background-size: 100% 0.62em;
+  background-position: 0 88%;
+  background-repeat: no-repeat;
+  padding: 0 0.15em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Handwritten note. Sized relative to its parent; Thai handwriting (Sriracha)
+   runs much larger than Caveat at the same size, so it gets less of a boost. */
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  font-size: 1.35em;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+}
+:lang(th) .hand {
+  font-size: 1.05em;
 }
 
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 1.75rem;
+details > summary {
+  list-style: none;
 }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.8rem 1.4rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease;
-}
-.btn:active {
-  transform: scale(0.97);
-}
-.btn-primary {
-  background: var(--fg);
-  color: var(--bg);
-}
-.btn-primary:hover {
-  background: var(--color-duck);
-  color: var(--color-duck-ink);
-}
-.btn-ghost {
-  border: 1px solid var(--line);
-}
-.btn-ghost:hover {
-  border-color: var(--fg);
-}
-
-/* Skills ticker: content is rendered twice, so sliding by half loops seamlessly. */
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-.marquee {
-  animation: marquee 45s linear infinite;
-}
-.marquee:hover {
-  animation-play-state: paused;
-}
-
-@keyframes spin-slow {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.spin-slow {
-  animation: spin-slow 22s linear infinite;
-}
-
-@keyframes ping-soft {
-  75%,
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-.ping-soft {
-  animation: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee,
-  .spin-slow,
-  .ping-soft {
-    animation: none;
-  }
+details > summary::-webkit-details-marker {
+  display: none;
 }

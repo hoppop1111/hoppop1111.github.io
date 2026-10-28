@@ -1,14 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Sans_Thai, Inter, JetBrains_Mono, Kanit } from "next/font/google";
+import { Caveat, IBM_Plex_Mono, IBM_Plex_Sans_Thai, Newsreader, Sriracha, Trirong } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/lib/locale";
 import { SmoothScroll } from "@/components/SmoothScroll";
 
-const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-const kanit = Kanit({ variable: "--font-kanit", subsets: ["thai", "latin"], weight: ["400", "500", "600"] });
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const jetbrains = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"] });
-const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["300", "400", "500", "600"] });
+const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], style: ["normal", "italic"] });
+const trirong = Trirong({
+  variable: "--font-trirong",
+  subsets: ["thai", "latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["400", "500", "600"] });
+const mono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
+const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"] });
+const sriracha = Sriracha({ variable: "--font-sriracha", subsets: ["thai", "latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Kamol Supsaengin | IT & Data Analysis Portfolio",
@@ -36,8 +42,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f3f1ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f0f0e" },
+    { media: "(prefers-color-scheme: light)", color: "#f4efe4" },
+    { media: "(prefers-color-scheme: dark)", color: "#1b1916" },
   ],
 };
 
@@ -49,7 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="th"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${kanit.variable} ${inter.variable} ${jetbrains.variable} ${thai.variable} antialiased`}
+      className={`${newsreader.variable} ${trirong.variable} ${thai.variable} ${mono.variable} ${caveat.variable} ${sriracha.variable} antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
