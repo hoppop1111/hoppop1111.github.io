@@ -5,13 +5,11 @@ import Lenis from "lenis";
 
 let instance: Lenis | null = null;
 
-/** Jump (no animation) so an element sits at the top — used behind scene transitions. */
-export function jumpTo(el: HTMLElement, offset = 0) {
-  // measure against the real scroll position rather than letting Lenis resolve
-  // the element (its animated value can lag the native one mid-scroll)
-  const top = el.getBoundingClientRect().top + window.scrollY + offset;
-  if (instance) instance.scrollTo(top, { immediate: true, force: true });
-  else window.scrollTo({ top, behavior: "instant" });
+/** Freeze page scrolling while a modal (the project drawer) is open. */
+export function lockScroll(locked: boolean) {
+  document.documentElement.style.overflow = locked ? "hidden" : "";
+  if (locked) instance?.stop();
+  else instance?.start();
 }
 
 /**
@@ -25,9 +23,8 @@ export function SmoothScroll() {
 
     const lenis = new Lenis({
       autoRaf: true,
-      lerp: 0.085,
-      wheelMultiplier: 0.9,
-      anchors: true,
+      lerp: 0.1,
+      anchors: { offset: -80 },
     });
     instance = lenis;
     return () => {

@@ -1,9 +1,10 @@
-# Cinematic Portfolio (Next.js)
+# Portfolio (Next.js)
 
 Next.js App Router + TypeScript + Tailwind CSS 4 + Framer Motion + Lucide React,
 built as a static export (`out/`) for GitHub Pages.
 
-The live site at the repo root is untouched until this app is wired into deployment.
+Design: light/dark bento layout (theme follows the system, toggle saved in
+localStorage) with a duck-yellow accent, TH/EN language toggle.
 
 ## Commands
 
@@ -29,19 +30,18 @@ portfolio/
     ├── types/
     │   └── portfolio.ts       # content model: Profile, CaseStudy, Moodboard, Process, Mockup…
     ├── components/
-    │   ├── effects/           # Spotlight (mouse-follow beam), film grain, fog
-    │   ├── sections/          # Hero, About, Contact
-    │   ├── case-study/        # CaseStudyViewer, MoodboardGrid, ProcessSlider,
-    │   │                      # MockupViewer, scene transitions between categories
-    │   └── ui/                # GlowButton, HudCard, brand icons
+    │   ├── sections/          # Navbar, Hero, About, Experience, Work (+ ProjectDrawer),
+    │   │                      # Certificates, Contact/Footer
+    │   └── ui/                # Reveal, ThemeToggle, ProjectCover, brand/contact icons
     └── lib/                   # helpers (locale, motion presets)
 ```
 
 ## Adding case-study media
 
-Media entries in `portfolioData.ts` without a `src` render as placeholder frames.
-Put a file in `public/projects/<slug>/` and set `src: "/projects/<slug>/file.jpg"`.
-Sections with no entries (e.g. `moodboard: []`) are hidden for that project.
+Projects without a `cover.src` get a tinted cover with their category icon.
+Moodboard / mockup / process images are shown in the project drawer only once
+they have a `src`: put a file in `public/projects/<slug>/` and set
+`src: "/projects/<slug>/file.jpg"`.
 
 Note: `lucide-react` 1.x has no brand icons (GitHub, LinkedIn…); those are
 custom SVGs in `components/ui`.

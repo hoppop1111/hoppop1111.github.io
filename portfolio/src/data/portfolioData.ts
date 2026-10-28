@@ -74,26 +74,6 @@ export const portfolioData: PortfolioData = {
 
   experience: [
     {
-      id: "wire-and-wireless",
-      title: { th: "ช่างเทคนิคโทรคมนาคม", en: "Telecom Technician" },
-      org: { th: "บจก. ไวร์ แอนด์ ไวร์เลส", en: "Wire and Wireless Co., Ltd." },
-      period: { th: "2565-2566", en: "2022-2023" },
-      points: [
-        {
-          th: "ดูแลและซ่อมบำรุงอุปกรณ์โทรคมนาคม/Fiber Optic",
-          en: "Maintained telecommunication equipment & fiber optics.",
-        },
-        {
-          th: "วิเคราะห์แก้ไขปัญหา Network และ Hardware หน้างาน",
-          en: "Diagnosed hardware/network issues for customers.",
-        },
-        {
-          th: "ให้บริการและแก้ปัญหาทางเทคนิคให้ลูกค้า",
-          en: "Provided on-site support ensuring service quality.",
-        },
-      ],
-    },
-    {
       id: "adecco",
       title: { th: "OCS - Oder taker", en: "OCS - Oder taker" },
       org: {
@@ -113,6 +93,26 @@ export const portfolioData: PortfolioData = {
         {
           th: "ตรวจสอบความถูกต้องของสินค้าก่อนส่งมอบให้พนักงานขนส่ง เพื่อกระจายสินค้าไปยังลูกค้าต่อไป",
           en: "Verify the accuracy of prepared orders and hand them over to the delivery team for final distribution.",
+        },
+      ],
+    },
+    {
+      id: "wire-and-wireless",
+      title: { th: "ช่างเทคนิคโทรคมนาคม", en: "Telecom Technician" },
+      org: { th: "บจก. ไวร์ แอนด์ ไวร์เลส", en: "Wire and Wireless Co., Ltd." },
+      period: { th: "2565-2566", en: "2022-2023" },
+      points: [
+        {
+          th: "ดูแลและซ่อมบำรุงอุปกรณ์โทรคมนาคม/Fiber Optic",
+          en: "Maintained telecommunication equipment & fiber optics.",
+        },
+        {
+          th: "วิเคราะห์แก้ไขปัญหา Network และ Hardware หน้างาน",
+          en: "Diagnosed hardware/network issues for customers.",
+        },
+        {
+          th: "ให้บริการและแก้ปัญหาทางเทคนิคให้ลูกค้า",
+          en: "Provided on-site support ensuring service quality.",
         },
       ],
     },
