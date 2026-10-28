@@ -1,26 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
-import { EASE_CINE } from "@/lib/motion";
+import { Section } from "@/components/ui/Section";
+import { Underline } from "@/components/ui/Scribbles";
+import { Ink, inkItem, inkList, onView, Write } from "@/components/ui/Ink";
 import type { ContactKind } from "@/types/portfolio";
-import { Fog, Wall } from "@/components/effects/Atmosphere";
-import { Spotlight } from "@/components/effects/Spotlight";
-import { DustParticles } from "@/components/effects/DustParticles";
-import { ChapterTitle } from "@/components/ui/ChapterTitle";
-import { GlowButton } from "@/components/ui/GlowButton";
-import { GithubIcon, KaggleIcon, LineIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 
-const ICONS: Record<ContactKind, React.ReactNode> = {
-  email: <Mail className="h-5 w-5" />,
-  phone: <Phone className="h-5 w-5" />,
-  line: <LineIcon />,
-  linkedin: <LinkedinIcon />,
-  github: <GithubIcon />,
-  kaggle: <KaggleIcon />,
+const CONTACT_NAMES: Record<ContactKind, string> = {
+  email: "Email",
+  phone: "Phone",
+  line: "LINE",
+  linkedin: "LinkedIn",
+  github: "GitHub",
+  kaggle: "Kaggle",
 };
 
 export function Contact() {
@@ -29,72 +24,65 @@ export function Contact() {
   const email = profile.contacts.find((c) => c.kind === "email");
 
   return (
-    <section id="contact" className="relative overflow-hidden bg-night">
-      <div className="relative flex min-h-[100svh] flex-col items-center justify-center px-5 py-32 text-center">
-        <Wall />
-        <Spotlight originX={50} intensity={0.85} swing={10} />
-        <Fog />
-        <DustParticles beamX={50} density={0.7} />
+    <Section id="contact" title={t(strings.contactTitle)}>
+      <Ink>
+        <p className="max-w-xl font-serif text-xl leading-relaxed md:text-2xl">{t(strings.contactBody)}</p>
+      </Ink>
 
-        <div className="relative z-10 flex flex-col items-center">
-          <ChapterTitle title="CONTACT" eyebrow={t(strings.contactTitle)} />
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.3, ease: EASE_CINE, delay: 0.8 }}
-            className="mt-6 max-w-md font-serif text-xl text-[#c9d6d8] italic md:text-2xl"
-          >
-            {t(strings.contactBody)}
-          </motion.p>
+      {email && (
+        <motion.a
+          {...onView}
+          variants={inkItem}
+          href={email.href}
+          className="relative mt-8 inline-block font-serif text-[clamp(1.5rem,5vw,2.75rem)] break-all hover:text-pen"
+        >
+          {email.label}
+          <Underline />
+        </motion.a>
+      )}
 
-          {email && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.3, ease: EASE_CINE, delay: 1.1 }}
-              className="mt-10"
+      <motion.ul {...onView} variants={inkList} className="mt-12 grid gap-x-14 sm:grid-cols-2">
+        {profile.contacts
+          .filter((c) => c.kind !== "email")
+          .map((c) => (
+            <motion.li
+              variants={inkItem}
+              key={c.kind}
+              className="flex items-baseline justify-between gap-4 border-b border-rule py-3"
             >
-              <GlowButton href={email.href} className="normal-case !tracking-wider text-sm">
-                <Mail className="h-4 w-4" /> {email.label}
-              </GlowButton>
-            </motion.div>
-          )}
+              <span className="text-faded">{CONTACT_NAMES[c.kind]}</span>
+              <a
+                href={c.href}
+                target={c.kind === "phone" ? undefined : "_blank"}
+                rel="noopener"
+                className="truncate underline decoration-rule hover:text-pen hover:decoration-pen"
+              >
+                {c.label}
+              </a>
+            </motion.li>
+          ))}
+      </motion.ul>
 
-          <motion.ul
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            transition={{ staggerChildren: 0.08, delayChildren: 1.3 }}
-            className="mt-12 flex flex-wrap justify-center gap-3"
-          >
-            {profile.contacts
-              .filter((c) => c.kind !== "email")
-              .map((c) => (
-                <motion.li
-                  key={c.kind}
-                  variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
-                  transition={{ duration: 0.9, ease: EASE_CINE }}
-                >
-                  <a
-                    href={c.href}
-                    target={c.kind === "phone" ? undefined : "_blank"}
-                    rel="noopener"
-                    className="hud flex items-center gap-3 rounded-full px-5 py-3 font-mono text-xs text-[#d6eef1] transition-colors hover:text-lamp"
-                  >
-                    <span className="text-hud">{ICONS[c.kind]}</span>
-                    {c.label}
-                  </a>
-                </motion.li>
-              ))}
-          </motion.ul>
-        </div>
-      </div>
+      <p className="mt-16">
+        <Write className="hand -rotate-2 text-2xl text-pen" delay={0.3}>
+          {t(strings.signOff)}
+        </Write>
+      </p>
+    </Section>
+  );
+}
 
-      <footer className="relative border-t border-hud/10 px-5 py-8 text-center font-mono text-[10px] tracking-[0.35em] text-[#5f7a7e] uppercase">
-        © {new Date().getFullYear()} {profile.name.en}
-      </footer>
-    </section>
+export function Footer() {
+  const { t } = useLocale();
+
+  return (
+    <footer className="mx-auto flex max-w-4xl flex-wrap justify-between gap-4 border-t border-rule px-5 pt-6 pb-12 text-sm text-faded">
+      <p>
+        © {new Date().getFullYear()} {portfolioData.profile.name.en}
+      </p>
+      <a href="#top" className="hover:text-ink">
+        {t(strings.backToTop)}
+      </a>
+    </footer>
   );
 }

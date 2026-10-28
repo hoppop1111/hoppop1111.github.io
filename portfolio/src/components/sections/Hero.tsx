@@ -1,148 +1,103 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
-import { EASE_CINE } from "@/lib/motion";
-import { Spotlight } from "@/components/effects/Spotlight";
-import { DustParticles } from "@/components/effects/DustParticles";
-import { FilmGrain, Fog, Wall } from "@/components/effects/Atmosphere";
-import { GlowButton } from "@/components/ui/GlowButton";
+import { Arrow, Circle } from "@/components/ui/Scribbles";
+import { inkItem, inkList, Write } from "@/components/ui/Ink";
 
-const TITLE = "PORTFOLIO";
-
-/** Opening shot: fade up from black, slow push-in, spotlight from above. */
 export function Hero() {
   const { t } = useLocale();
   const { profile } = portfolioData;
-  const ref = useRef<HTMLElement>(null);
+  const email = profile.contacts.find((c) => c.kind === "email");
 
-  // scroll-out: the scene pushes in and fades as the next chapter arrives
+  // the polaroid drifts down and tilts further as the hero scrolls away
+  const ref = useRef<HTMLElement>(null);
+  const still = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const sceneScale = useTransform(scrollYProgress, [0, 1], [1, 1.18]);
-  const sceneOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-  const titleY = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
+  const photoY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : 140]);
+  const photoRotate = useTransform(scrollYProgress, [0, 1], [2.5, still ? 2.5 : 9]);
 
   return (
-    <section ref={ref} id="top" className="relative h-[100svh] min-h-[640px] overflow-hidden bg-night">
-      <motion.div className="gpu absolute inset-0" style={{ scale: sceneScale, opacity: sceneOpacity }}>
-        {/* slow push-in on load */}
-        <motion.div
-          className="gpu absolute inset-0"
-          initial={{ scale: 1.12 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 6, ease: EASE_CINE }}
-        >
-          <Wall />
-          <Floor />
-          <Spotlight originX={50} intensity={1.05} />
-          <Fog />
-          <DustParticles beamX={50} />
-          <FilmGrain />
-        </motion.div>
-
-        {/* titles */}
-        <motion.div className="gpu relative z-10 flex h-full flex-col items-center justify-center px-5 text-center" style={{ y: titleY }}>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 2.4, ease: EASE_CINE, delay: 1.0 }}
-            className="mb-4 font-mono text-[10px] tracking-[0.5em] text-hud uppercase md:text-xs"
-          >
-            {t(profile.tagline)}
-          </motion.p>
-
-          <h1 aria-label={TITLE} className="font-display text-glow text-[clamp(2.4rem,12.5vw,13rem)] leading-none font-semibold whitespace-nowrap text-[#f1f4f1]">
-            {Array.from(TITLE).map((ch, i) => (
-              <motion.span
-                key={i}
-                aria-hidden
-                className={`inline-block ${i === 0 ? "text-[1.18em]" : ""}`}
-                initial={{ opacity: 0, scale: 1.6, y: "0.15em" }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 2.2, ease: EASE_CINE, delay: 0.55 + Math.abs(i - (TITLE.length - 1) / 2) * 0.12 }}
-              >
-                {ch}
-              </motion.span>
+    <section
+      ref={ref}
+      id="top"
+      className="mx-auto grid max-w-4xl gap-14 px-5 pt-16 pb-14 md:grid-cols-[1fr_auto] md:gap-12 md:pt-24"
+    >
+      <motion.div initial="hidden" animate="show" variants={inkList}>
+        <Write className="hand -rotate-2 text-xl text-pen" delay={0.1}>
+          {t(strings.hello)}
+        </Write>
+        <motion.h1 variants={inkItem} className="mt-2 font-serif text-[clamp(2.8rem,8vw,5.2rem)] leading-[1.1]">
+          {/* keep first name and surname whole: Thai has no spaces, so the browser would split the surname */}
+          {t(profile.name)
+            .split(" ")
+            .map((part) => (
+              <span key={part} className="inline-block whitespace-nowrap">
+                {part}&nbsp;
+              </span>
             ))}
-          </h1>
+        </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, ease: EASE_CINE, delay: 1.6 }}
-            className="mt-5 flex items-center gap-4"
-          >
-            <span className="h-px w-10 bg-lamp/60 md:w-16" />
-            <span className="font-display text-sm tracking-[0.35em] text-lamp md:text-lg">{profile.name.en.toUpperCase()}</span>
-            <span className="h-px w-10 bg-lamp/60 md:w-16" />
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.6, delay: 1.9 }}
-            className="mt-3 font-serif text-xl text-[#c9d6d8] italic md:text-2xl"
-          >
-            {t(profile.name)} — {t(profile.role)}
-          </motion.p>
+        <motion.p variants={inkItem} className="mt-6 max-w-xl font-serif text-xl leading-relaxed md:text-[1.4rem]">
+          {t(profile.bio)}
+        </motion.p>
+        <motion.p variants={inkItem} className="mt-5 text-faded">
+          {t(profile.role)} · <span className="marker text-ink">{t(profile.tagline)}</span>
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, ease: EASE_CINE, delay: 2.3 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4"
-          >
-            <GlowButton href="#work">{t(strings.viewWork)}</GlowButton>
-            <GlowButton variant="ghost" href={profile.resume.href} download={profile.resume.downloadName}>
-              {t(strings.resume)}
-            </GlowButton>
-          </motion.div>
-        </motion.div>
+        <motion.p variants={inkItem} className="mt-10">
+          <span className="relative inline-block px-1">
+            {t(profile.status)}
+            <Circle />
+          </span>
+        </motion.p>
 
-        <motion.a
-          href="#about"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3, duration: 1.2 }}
-          className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] tracking-[0.4em] text-[#8fb8bf] uppercase"
-        >
-          {t(strings.scroll)}
-          <motion.span animate={{ y: [0, 6, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}>
-            <ArrowDown className="h-4 w-4" />
-          </motion.span>
-        </motion.a>
+        <motion.p variants={inkItem} className="mt-10 leading-loose">
+          <a
+            href={profile.resume.href}
+            download={profile.resume.downloadName}
+            className="underline decoration-pen decoration-2 hover:text-pen"
+          >
+            ↓ {t(strings.resume)}
+          </a>
+          {email && (
+            <>
+              <br className="sm:hidden" />
+              <span className="text-faded sm:ml-3">
+                {t(strings.orEmail)}{" "}
+                <a href={email.href} className="text-ink underline hover:text-pen">
+                  {email.label}
+                </a>
+              </span>
+            </>
+          )}
+        </motion.p>
       </motion.div>
 
-      {/* fade up from black */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-20 bg-black"
-        initial={{ opacity: 1 }}
-        animate={{ opacity: 0 }}
-        transition={{ duration: 2.2, ease: "easeOut" }}
-      />
+      {/* taped-in polaroid */}
+      <motion.figure
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        style={{ y: photoY, rotate: photoRotate }}
+        className="relative mx-auto w-56 self-start md:mt-6 md:w-60"
+      >
+        <span
+          aria-hidden
+          className="absolute -top-3 left-1/2 z-10 h-7 w-24 -translate-x-1/2 -rotate-3 bg-[rgba(236,224,180,0.8)] shadow-sm dark:bg-[rgba(200,186,140,0.45)]"
+        />
+        <div className="bg-[#fffdf8] p-2.5 pb-12 shadow-[0_10px_25px_-12px_rgba(0,0,0,0.45)] dark:bg-[#2b2823]">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static export */}
+          <img src={profile.avatar.src} alt={t(profile.avatar.alt)} className="aspect-[4/5] w-full object-cover object-top" />
+        </div>
+        <figcaption className="hand absolute inset-x-0 bottom-2.5 text-center text-xl text-[#3a352c] dark:text-ink">
+          {t(strings.thatsMe)}
+        </figcaption>
+        <Arrow className="absolute top-1/3 -left-24 hidden h-12 w-20 -rotate-12 md:block" />
+      </motion.figure>
     </section>
-  );
-}
-
-/** Wet tiled floor in perspective, fading into darkness. */
-function Floor() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] [perspective:600px]">
-      <div
-        className="absolute inset-x-[-50%] bottom-0 h-[160%] origin-bottom"
-        style={{
-          transform: "rotateX(72deg)",
-          backgroundImage:
-            "linear-gradient(rgba(127,219,230,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(127,219,230,0.16) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-          maskImage: "radial-gradient(60% 70% at 50% 100%, #000 20%, transparent 75%)",
-          WebkitMaskImage: "radial-gradient(60% 70% at 50% 100%, #000 20%, transparent 75%)",
-        }}
-      />
-    </div>
   );
 }

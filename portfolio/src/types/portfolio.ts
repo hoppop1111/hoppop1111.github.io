@@ -23,13 +23,7 @@ export interface Media {
 // Profile / About
 // ---------------------------------------------------------------------------
 
-export type ContactKind =
-  | "email"
-  | "phone"
-  | "line"
-  | "linkedin"
-  | "github"
-  | "kaggle";
+export type ContactKind = "email" | "phone" | "line" | "linkedin" | "github" | "kaggle";
 
 export interface ContactLink {
   kind: ContactKind;
@@ -99,13 +93,7 @@ export interface ProcessStage extends Media {
   note: Localized;
 }
 
-export type MockupSurface =
-  | "screen"
-  | "laptop"
-  | "phone"
-  | "billboard"
-  | "apparel"
-  | "street";
+export type MockupSurface = "screen" | "laptop" | "phone" | "billboard" | "apparel" | "street";
 
 /** Clickable marker drawn on top of a mockup. x / y are percentages (0-100). */
 export interface Hotspot {

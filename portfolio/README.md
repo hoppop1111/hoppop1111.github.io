@@ -1,9 +1,13 @@
-# Cinematic Portfolio (Next.js)
+# Portfolio (Next.js)
 
 Next.js App Router + TypeScript + Tailwind CSS 4 + Framer Motion + Lucide React,
 built as a static export (`out/`) for GitHub Pages.
 
-The live site at the repo root is untouched until this app is wired into deployment.
+Design: a personal-notebook look — paper background, serif type, handwritten
+margin notes, hand-drawn pen marks (`components/ui/Scribbles.tsx`) and a
+taped-in polaroid. Light/dark theme (follows the system, toggle saved in
+localStorage) and a TH/EN language toggle. Margin-note copy lives in
+`src/lib/strings.ts`.
 
 ## Commands
 
@@ -29,19 +33,13 @@ portfolio/
     ├── types/
     │   └── portfolio.ts       # content model: Profile, CaseStudy, Moodboard, Process, Mockup…
     ├── components/
-    │   ├── effects/           # Spotlight (mouse-follow beam), film grain, fog
-    │   ├── sections/          # Hero, About, Contact
-    │   ├── case-study/        # CaseStudyViewer, MoodboardGrid, ProcessSlider,
-    │   │                      # MockupViewer, scene transitions between categories
-    │   └── ui/                # GlowButton, HudCard, brand icons
+    │   ├── sections/          # Navbar, Hero, About, Experience, Work, Certificates, Contact/Footer
+    │   └── ui/                # Section, Scribbles (underline/circle/arrow), ThemeToggle
     └── lib/                   # helpers (locale, motion presets)
 ```
 
 ## Adding case-study media
 
-Media entries in `portfolioData.ts` without a `src` render as placeholder frames.
-Put a file in `public/projects/<slug>/` and set `src: "/projects/<slug>/file.jpg"`.
-Sections with no entries (e.g. `moodboard: []`) are hidden for that project.
-
-Note: `lucide-react` 1.x has no brand icons (GitHub, LinkedIn…); those are
-custom SVGs in `components/ui`.
+Projects are a plain list; clicking a title expands its write-up in place.
+Process / moodboard / mockup images appear there only once they have a `src`: put a file in `public/projects/<slug>/` and set
+`src: "/projects/<slug>/file.jpg"`.
