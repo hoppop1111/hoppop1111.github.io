@@ -15,7 +15,7 @@ export function Experience() {
   return (
     <Section id="experience" index={2} title={t(strings.experience)}>
       <Entries entries={experience} />
-      <h3 key={t(strings.education)} className="display mt-24 mb-8 text-5xl md:text-6xl">
+      <h3 key={t(strings.education)} className="display mt-16 mb-6 text-5xl md:mt-20 md:text-6xl">
         <MaskLines lines={[t(strings.education)]} />
       </h3>
       <Entries entries={education} />

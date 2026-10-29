@@ -35,7 +35,7 @@ export function Contact() {
         </Reveal>
       )}
 
-      <motion.ul {...onView} variants={stagger} className="mt-14 border-t border-line">
+      <motion.ul {...onView} variants={stagger} className="mt-10 border-t border-line">
         {profile.contacts
           .filter((c) => c.kind !== "email")
           .map((c) => (

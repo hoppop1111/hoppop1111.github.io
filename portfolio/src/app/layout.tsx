@@ -41,7 +41,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="th" className={`${antonio.variable} ${kanit.variable} ${inter.variable} ${thai.variable} ${mono.variable} antialiased`}>
+    <html lang="en" className={`${antonio.variable} ${kanit.variable} ${inter.variable} ${thai.variable} ${mono.variable} antialiased`}>
       <body>
         <LocaleProvider>
           <SmoothScroll />

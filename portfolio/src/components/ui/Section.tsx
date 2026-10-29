@@ -20,7 +20,7 @@ export function Section({
 }) {
   const pad = (n: number) => String(n).padStart(2, "0");
   return (
-    <section id={id} className="relative scroll-mt-14 border-b border-line px-6 py-20 sm:px-10 md:py-28">
+    <section id={id} className="relative scroll-mt-14 border-b border-line px-6 py-16 sm:px-10 md:py-20">
       <p className="label flex items-center gap-2">
         <span className="h-3 w-px bg-fg" />
         <Scramble text={`[ ${pad(index)} / ${pad(SECTION_COUNT)} ] · ${id}`} />
@@ -34,7 +34,7 @@ export function Section({
           <p className="mt-6 max-w-xl leading-relaxed text-muted">{lead}</p>
         </Reveal>
       )}
-      <div className="mt-14">{children}</div>
+      <div className="mt-10 md:mt-12">{children}</div>
     </section>
   );
 }

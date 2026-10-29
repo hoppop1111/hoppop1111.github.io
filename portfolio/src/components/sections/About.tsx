@@ -26,9 +26,9 @@ export function About() {
 
   return (
     <Section id="about" index={1} title={t(strings.aboutTitle)}>
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+      <div className="grid gap-10 md:grid-cols-2 md:gap-12">
         <Reveal>
-          <p className="text-xl leading-relaxed md:text-2xl">{t(profile.bio)}</p>
+          <p className="text-xl leading-relaxed lg:text-2xl">{t(profile.bio)}</p>
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -55,8 +55,8 @@ export function About() {
       </div>
 
       {/* skills */}
-      <h3 className="display mt-24 text-5xl md:text-6xl">{t(strings.skills)}</h3>
-      <motion.div {...onView} variants={stagger} className="mt-8 grid gap-4 md:grid-cols-2">
+      <h3 className="display mt-16 text-5xl md:mt-20 md:text-6xl">{t(strings.skills)}</h3>
+      <motion.div {...onView} variants={stagger} className="mt-6 grid gap-4 md:grid-cols-2">
         {skills.map((group, gi) => (
           <motion.div key={group.id} variants={fadeUp} className="crosshair border border-line bg-panel p-5">
             <p className="label flex justify-between">
@@ -75,12 +75,12 @@ export function About() {
       </motion.div>
 
       {/* numbers */}
-      <h3 className="display mt-24 text-5xl md:text-6xl">{t(strings.numbers)}</h3>
-      <motion.div {...onView} variants={stagger} className="mt-8 grid gap-4 sm:grid-cols-3">
-        {stats.map(([n, label]) => (
-          <motion.div key={label} variants={fadeUp} className="crosshair border border-line bg-panel p-5">
-            <p className="display outline-text text-7xl font-light">{String(n).padStart(2, "0")}</p>
-            <p className="mt-6 text-muted">{label}</p>
+      <h3 className="display mt-16 text-5xl md:mt-20 md:text-6xl">{t(strings.numbers)}</h3>
+      <motion.div {...onView} variants={stagger} className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
+        {stats.map(([n, label], i) => (
+          <motion.div key={i} variants={fadeUp} className="crosshair border border-line bg-panel p-3 sm:p-5">
+            <p className="display outline-text text-5xl font-light sm:text-7xl">{String(n).padStart(2, "0")}</p>
+            <p className="mt-3 text-xs leading-snug text-muted sm:mt-6 sm:text-base">{label}</p>
           </motion.div>
         ))}
       </motion.div>
