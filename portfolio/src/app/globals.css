@@ -8,18 +8,18 @@
   --color-line: var(--line);
   --color-panel: var(--panel);
 
-  --font-sans: var(--font-thai), system-ui, sans-serif;
+  --font-sans: var(--font-inter), var(--font-thai), system-ui, sans-serif;
   --font-display: var(--font-antonio), var(--font-kanit), sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 /* Monochrome only: near-black page, off-white ink, hairline borders. */
 :root {
-  --bg: #0a0a0a;
-  --fg: #ededE8;
-  --muted: #8a8a85;
-  --line: rgba(237, 237, 232, 0.14);
-  --panel: #111111;
+  --bg: #050505;
+  --fg: #f5f5f5;
+  --muted: #888888;
+  --line: #242424;
+  --panel: #0a0a0a;
   color-scheme: dark;
 }
 
@@ -32,6 +32,27 @@ body {
   color: var(--fg);
   font-family: var(--font-sans);
   overflow-x: clip;
+  transition: filter 0.35s ease;
+}
+
+/* Easter egg: the KS monogram flips the whole page to negative. */
+body.negative-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* thin scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg);
 }
 
 ::selection {
@@ -103,10 +124,78 @@ body {
     background-position: center;
   }
 
+  /* Box with "+" marks on its top-left and bottom-right corners. */
+  .crosshair {
+    position: relative;
+  }
+  .crosshair::before,
+  .crosshair::after {
+    content: "+";
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    color: #666;
+    pointer-events: none;
+  }
+  .crosshair::before {
+    top: -6px;
+    left: -5px;
+  }
+  .crosshair::after {
+    bottom: -6px;
+    right: -5px;
+  }
+
+  /* Endless sideways scroll; the content is repeated twice so -50% loops seamlessly. */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 22s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+
   /* wide tracking breaks up Thai words, so Thai labels stay nearly untracked */
   :lang(th) .label,
   :lang(th) .btn {
     letter-spacing: 0.04em;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Printing from the resume view prints only the resume sheet, in black on white. */
+@media print {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --muted: #444;
+    --line: #bbb;
+    --panel: #fff;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #resume-sheet,
+  #resume-sheet * {
+    visibility: visible;
+  }
+  #resume-sheet {
+    position: absolute;
+    inset: 0;
+    border: 0;
+  }
+  #resume-sheet::before,
+  #resume-sheet::after {
+    display: none;
   }
 }
 

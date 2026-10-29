@@ -60,7 +60,7 @@ export function Footer() {
   const { t } = useLocale();
 
   return (
-    <footer className="label relative z-10 mx-auto flex max-w-6xl flex-wrap justify-between gap-4 border-t border-line px-5 pt-6 pb-24 md:px-10 md:pb-14">
+    <footer className="label flex flex-wrap justify-between gap-4 px-6 pt-6 pb-24 sm:px-10 md:pb-14">
       <p>
         © {new Date().getFullYear()} {portfolioData.profile.name.en}
       </p>

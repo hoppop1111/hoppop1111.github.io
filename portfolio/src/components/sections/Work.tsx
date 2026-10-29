@@ -19,13 +19,7 @@ export function Work() {
     <Section id="work" index={3} title={t(strings.workTitle)} lead={t(strings.workLead)}>
       <ul className="grid gap-4 md:grid-cols-2">
         {studies.map((s, i) => (
-          <ProjectCard
-            key={s.slug}
-            study={s}
-            index={i}
-            total={studies.length}
-            category={categories.find((c) => c.id === s.category)}
-          />
+          <ProjectCard key={s.slug} study={s} index={i} total={studies.length} category={categories.find((c) => c.id === s.category)} />
         ))}
       </ul>
     </Section>
@@ -48,17 +42,7 @@ function LinkButton({ link, solid = false }: { link: ExternalLink; solid?: boole
   );
 }
 
-function ProjectCard({
-  study: s,
-  index,
-  total,
-  category,
-}: {
-  study: CaseStudy;
-  index: number;
-  total: number;
-  category?: ProjectCategory;
-}) {
+function ProjectCard({ study: s, index, total, category }: { study: CaseStudy; index: number; total: number; category?: ProjectCategory }) {
   const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -73,7 +57,7 @@ function ProjectCard({
   const primary = s.links[0];
 
   return (
-    <motion.li {...onView} variants={fadeUp} className="flex flex-col border border-line bg-panel/80 p-4 md:p-5">
+    <motion.li {...onView} variants={fadeUp} className="flex flex-col crosshair border border-line bg-panel p-4 md:p-5">
       <p className="label flex justify-between gap-4">
         <span>
           {pad(index + 1)} / {pad(total)}
