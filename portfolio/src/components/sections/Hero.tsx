@@ -1,103 +1,84 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
-import { Arrow, Circle } from "@/components/ui/Scribbles";
-import { inkItem, inkList, Write } from "@/components/ui/Ink";
+import { fadeUp, MaskLines, stagger } from "@/components/ui/Reveal";
 
 export function Hero() {
   const { t } = useLocale();
   const { profile } = portfolioData;
-  const email = profile.contacts.find((c) => c.kind === "email");
+  const lines = strings.heroLines.map(t);
 
-  // the polaroid drifts down and tilts further as the hero scrolls away
+  // the copy lifts away as you scroll, the wordmark stretches wider
   const ref = useRef<HTMLElement>(null);
-  const still = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : 140]);
-  const photoRotate = useTransform(scrollYProgress, [0, 1], [2.5, still ? 2.5 : 9]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const markScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
 
   return (
-    <section
-      ref={ref}
-      id="top"
-      className="mx-auto grid max-w-4xl gap-14 px-5 pt-16 pb-14 md:grid-cols-[1fr_auto] md:gap-12 md:pt-24"
-    >
-      <motion.div initial="hidden" animate="show" variants={inkList}>
-        <Write className="hand -rotate-2 text-xl text-pen" delay={0.1}>
-          {t(strings.hello)}
-        </Write>
-        <motion.h1 variants={inkItem} className="mt-2 font-serif text-[clamp(2.8rem,8vw,5.2rem)] leading-[1.1]">
-          {/* keep first name and surname whole: Thai has no spaces, so the browser would split the surname */}
-          {t(profile.name)
-            .split(" ")
-            .map((part) => (
-              <span key={part} className="inline-block whitespace-nowrap">
-                {part}&nbsp;
-              </span>
-            ))}
-        </motion.h1>
+    <section ref={ref} id="top" className="relative z-10 flex min-h-svh flex-col px-5 pt-24 pb-6 md:px-10">
+      {/* dot grid fades out toward the bottom of the hero */}
+      <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_45%,transparent_85%)]" />
 
-        <motion.p variants={inkItem} className="mt-6 max-w-xl font-serif text-xl leading-relaxed md:text-[1.4rem]">
-          {t(profile.bio)}
-        </motion.p>
-        <motion.p variants={inkItem} className="mt-5 text-faded">
-          {t(profile.role)} · <span className="marker text-ink">{t(profile.tagline)}</span>
-        </motion.p>
+      <motion.div style={{ y, opacity }} className="mx-auto mt-auto w-full max-w-6xl">
+        <motion.div initial="hidden" animate="show" variants={stagger} className="max-w-2xl">
+          <motion.p variants={fadeUp} className="label flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-fg opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-fg" />
+            </span>
+            [ 00 ] · {t(profile.status)}
+          </motion.p>
 
-        <motion.p variants={inkItem} className="mt-10">
-          <span className="relative inline-block px-1">
-            {t(profile.status)}
-            <Circle />
-          </span>
-        </motion.p>
+          <h1 key={lines.join()} className="display mt-5 text-[clamp(3.2rem,12vw,7rem)]">
+            <MaskLines lines={lines} animateNow delay={0.2} lineClassName={(i) => (i === 1 ? "outline-text" : "")} />
+          </h1>
 
-        <motion.p variants={inkItem} className="mt-10 leading-loose">
-          <a
-            href={profile.resume.href}
-            download={profile.resume.downloadName}
-            className="underline decoration-pen decoration-2 hover:text-pen"
-          >
-            ↓ {t(strings.resume)}
-          </a>
-          {email && (
-            <>
-              <br className="sm:hidden" />
-              <span className="text-faded sm:ml-3">
-                {t(strings.orEmail)}{" "}
-                <a href={email.href} className="text-ink underline hover:text-pen">
-                  {email.label}
-                </a>
-              </span>
-            </>
-          )}
-        </motion.p>
+          <motion.p variants={fadeUp} className="mt-7 max-w-md leading-relaxed text-fg/85">
+            {t(profile.bio)}
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-3">
+            <a href="#work" className="btn">
+              {t(strings.seeProjects)}
+            </a>
+            <a href="#contact" className="btn btn-solid">
+              {t(strings.getInTouch)} →
+            </a>
+          </motion.div>
+        </motion.div>
       </motion.div>
 
-      {/* taped-in polaroid */}
-      <motion.figure
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        style={{ y: photoY, rotate: photoRotate }}
-        className="relative mx-auto w-56 self-start md:mt-6 md:w-60"
+      {/* giant wordmark stretched to the full width */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto mt-12 w-full max-w-6xl"
       >
-        <span
-          aria-hidden
-          className="absolute -top-3 left-1/2 z-10 h-7 w-24 -translate-x-1/2 -rotate-3 bg-[rgba(236,224,180,0.8)] shadow-sm dark:bg-[rgba(200,186,140,0.45)]"
-        />
-        <div className="bg-[#fffdf8] p-2.5 pb-12 shadow-[0_10px_25px_-12px_rgba(0,0,0,0.45)] dark:bg-[#2b2823]">
-          {/* eslint-disable-next-line @next/next/no-img-element -- static export */}
-          <img src={profile.avatar.src} alt={t(profile.avatar.alt)} className="aspect-[4/5] w-full object-cover object-top" />
+        <motion.svg style={{ scaleY: markScale }} viewBox="0 0 1000 180" className="w-full origin-bottom" aria-label={profile.name.en}>
+          <text
+            x="0"
+            y="172"
+            textLength="1000"
+            lengthAdjust="spacingAndGlyphs"
+            className="fill-fg"
+            style={{ fontFamily: "var(--font-antonio)", fontWeight: 700, fontSize: 200 }}
+          >
+            KAMOL
+          </text>
+        </motion.svg>
+        <div className="label mt-3 flex justify-between gap-4 border-t border-line pt-3">
+          <span>
+            {t(profile.role)} — {new Date().getFullYear()}
+          </span>
+          <span className="hidden sm:inline">{t(strings.scroll)} ↓</span>
         </div>
-        <figcaption className="hand absolute inset-x-0 bottom-2.5 text-center text-xl text-[#3a352c] dark:text-ink">
-          {t(strings.thatsMe)}
-        </figcaption>
-        <Arrow className="absolute top-1/3 -left-24 hidden h-12 w-20 -rotate-12 md:block" />
-      </motion.figure>
+      </motion.div>
     </section>
   );
 }

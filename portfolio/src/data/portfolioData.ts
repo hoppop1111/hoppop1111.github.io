@@ -12,23 +12,16 @@ import type { PortfolioData } from "@/types/portfolio";
 export const portfolioData: PortfolioData = {
   profile: {
     name: { th: "กมล สืบแสงอินทร์", en: "Kamol Supsaengin" },
-    role: { th: "มนุษย์เป็ด🦆", en: "Jack of all trades🦆" },
+    role: { th: "IT Support & Data Analyst", en: "IT Support & Data Analyst" },
     tagline: {
       th: "IT · Network · Data Science",
       en: "IT · Network · Data Science",
     },
     bio: {
-      th: "ผมเป็นมนุษย์เป็ด ที่มีความชื่นชอบในด้าน IT และ Data Science มีประสบการณ์ในการทำงานด้าน โทรคมนาคม และสนใจในการวิเคราะห์ข้อมูลเพื่อแก้ไขปัญหาต่างๆ",
+      th: "ผมมีความชื่นชอบในด้าน IT และ Data Science มีประสบการณ์ในการทำงานด้าน โทรคมนาคม และสนใจในการวิเคราะห์ข้อมูลเพื่อแก้ไขปัญหาต่างๆ",
       en: "I am a multi-talented individual with an interest in IT and data science. I have experience in telecommunications and am interested in analyzing data to solve problems.",
     },
     status: { th: "พร้อมรับโอกาสใหม่ๆ", en: "Open to opportunities" },
-    avatar: {
-      src: "/assets/images/kamol-supsaengin-it-support.jpg",
-      alt: {
-        th: "รูปโปรไฟล์ กมล สืบแสงอินทร์",
-        en: "Kamol Supsaengin profile picture",
-      },
-    },
     resume: {
       href: "/assets/docs/Resume_Kamol_Supsaengin.pdf",
       downloadName: "Resume_Kamol_Supsaengin.pdf",

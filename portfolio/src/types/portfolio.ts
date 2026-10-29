@@ -39,7 +39,6 @@ export interface Profile {
   tagline: Localized;
   bio: Localized;
   status: Localized;
-  avatar: Media;
   resume: { href: string; downloadName: string };
   contacts: ContactLink[];
 }

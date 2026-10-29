@@ -1,12 +1,16 @@
 # Portfolio (Next.js)
 
-Next.js App Router + TypeScript + Tailwind CSS 4 + Framer Motion + Lucide React,
-built as a static export (`out/`) for GitHub Pages.
+Next.js App Router + TypeScript + Tailwind CSS 4 + Framer Motion + Three.js +
+Lucide React, built as a static export (`out/`) for GitHub Pages.
 
-Design: a personal-notebook look — paper background, serif type, handwritten
-margin notes, hand-drawn pen marks (`components/ui/Scribbles.tsx`) and a
-taped-in polaroid. Light/dark theme (follows the system, toggle saved in
-localStorage) and a TH/EN language toggle. Margin-note copy lives in
+Design: monochrome "tech-brutalist" — near-black page, off-white ink, hairline
+borders, tall condensed display type (Antonio / Kanit) with small mono labels,
+a full-screen menu and a giant stretched wordmark. The backdrop
+(`components/three/Scene.tsx`) is a noise-warped 3D blob rendered at low
+resolution and redrawn as Bayer-dithered white squares; it grows, drifts and
+dims as the page scrolls. Scroll animations (masked headline lines, scrambling
+labels, pixel thumbnails that resolve cell by cell, skill ticker) live in
+`components/ui/Reveal.tsx`. TH/EN language toggle; interface copy lives in
 `src/lib/strings.ts`.
 
 ## Commands
@@ -34,7 +38,8 @@ portfolio/
     │   └── portfolio.ts       # content model: Profile, CaseStudy, Moodboard, Process, Mockup…
     ├── components/
     │   ├── sections/          # Navbar, Hero, About, Experience, Work, Certificates, Contact/Footer
-    │   └── ui/                # Section, Scribbles (underline/circle/arrow), ThemeToggle
+    │   ├── three/             # Scene (3D backdrop), Scene3D (client-only loader)
+    │   └── ui/                # Section, Reveal (scroll animations, PixelImage)
     └── lib/                   # helpers (locale, motion presets)
 ```
 

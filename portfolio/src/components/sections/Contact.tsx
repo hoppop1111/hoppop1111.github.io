@@ -5,8 +5,7 @@ import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
 import { Section } from "@/components/ui/Section";
-import { Underline } from "@/components/ui/Scribbles";
-import { Ink, inkItem, inkList, onView, Write } from "@/components/ui/Ink";
+import { fadeUp, onView, Reveal, stagger } from "@/components/ui/Reveal";
 import type { ContactKind } from "@/types/portfolio";
 
 const CONTACT_NAMES: Record<ContactKind, string> = {
@@ -24,50 +23,35 @@ export function Contact() {
   const email = profile.contacts.find((c) => c.kind === "email");
 
   return (
-    <Section id="contact" title={t(strings.contactTitle)}>
-      <Ink>
-        <p className="max-w-xl font-serif text-xl leading-relaxed md:text-2xl">{t(strings.contactBody)}</p>
-      </Ink>
-
+    <Section id="contact" index={5} title={t(strings.contactTitle)} lead={t(strings.contactBody)}>
       {email && (
-        <motion.a
-          {...onView}
-          variants={inkItem}
-          href={email.href}
-          className="relative mt-8 inline-block font-serif text-[clamp(1.5rem,5vw,2.75rem)] break-all hover:text-pen"
-        >
-          {email.label}
-          <Underline />
-        </motion.a>
+        <Reveal>
+          <a
+            href={email.href}
+            className="display inline-block text-[clamp(2rem,8vw,5rem)] break-all normal-case underline decoration-muted decoration-2 underline-offset-[0.18em] transition-colors hover:decoration-fg"
+          >
+            {email.label} ↗
+          </a>
+        </Reveal>
       )}
 
-      <motion.ul {...onView} variants={inkList} className="mt-12 grid gap-x-14 sm:grid-cols-2">
+      <motion.ul {...onView} variants={stagger} className="mt-14 border-t border-line">
         {profile.contacts
           .filter((c) => c.kind !== "email")
           .map((c) => (
-            <motion.li
-              variants={inkItem}
-              key={c.kind}
-              className="flex items-baseline justify-between gap-4 border-b border-rule py-3"
-            >
-              <span className="text-faded">{CONTACT_NAMES[c.kind]}</span>
+            <motion.li variants={fadeUp} key={c.kind}>
               <a
                 href={c.href}
                 target={c.kind === "phone" ? undefined : "_blank"}
                 rel="noopener"
-                className="truncate underline decoration-rule hover:text-pen hover:decoration-pen"
+                className="group flex items-baseline justify-between gap-4 border-b border-line bg-bg/70 px-2 py-4 transition-colors hover:bg-fg hover:text-bg md:px-4"
               >
-                {c.label}
+                <span className="label group-hover:text-bg">{CONTACT_NAMES[c.kind]}</span>
+                <span className="truncate font-mono text-sm tracking-wider">{c.label} ↗</span>
               </a>
             </motion.li>
           ))}
       </motion.ul>
-
-      <p className="mt-16">
-        <Write className="hand -rotate-2 text-2xl text-pen" delay={0.3}>
-          {t(strings.signOff)}
-        </Write>
-      </p>
     </Section>
   );
 }
@@ -76,13 +60,26 @@ export function Footer() {
   const { t } = useLocale();
 
   return (
-    <footer className="mx-auto flex max-w-4xl flex-wrap justify-between gap-4 border-t border-rule px-5 pt-6 pb-12 text-sm text-faded">
+    <footer className="label relative z-10 mx-auto flex max-w-6xl flex-wrap justify-between gap-4 border-t border-line px-5 pt-6 pb-24 md:px-10 md:pb-14">
       <p>
         © {new Date().getFullYear()} {portfolioData.profile.name.en}
       </p>
-      <a href="#top" className="hover:text-ink">
-        {t(strings.backToTop)}
-      </a>
+      <p>{t(strings.country)}</p>
     </footer>
+  );
+}
+
+/** Monogram badge fixed to the bottom-right corner; takes you back to the top. */
+export function CornerBadge() {
+  const { t } = useLocale();
+  return (
+    <a
+      href="#top"
+      aria-label={t(strings.backToTop)}
+      className="display fixed right-4 bottom-4 z-50 flex h-11 w-11 items-center justify-center border border-line bg-bg text-lg transition-colors hover:border-fg md:right-6 md:bottom-6"
+    >
+      KS
+      <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-fg" />
+    </a>
   );
 }

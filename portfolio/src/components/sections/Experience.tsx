@@ -5,7 +5,7 @@ import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
 import { Section } from "@/components/ui/Section";
-import { Ink, inkItem, inkList, onView } from "@/components/ui/Ink";
+import { fadeUp, MaskLines, onView, stagger } from "@/components/ui/Reveal";
 import type { TimelineEntry } from "@/types/portfolio";
 
 export function Experience() {
@@ -13,11 +13,11 @@ export function Experience() {
   const { experience, education } = portfolioData;
 
   return (
-    <Section id="experience" title={t(strings.experience)}>
+    <Section id="experience" index={2} title={t(strings.experience)}>
       <Entries entries={experience} />
-      <Ink>
-        <h3 className="mt-16 mb-4 font-serif text-3xl italic">{t(strings.education)}</h3>
-      </Ink>
+      <h3 key={t(strings.education)} className="display mt-24 mb-8 text-5xl md:text-6xl">
+        <MaskLines lines={[t(strings.education)]} />
+      </h3>
       <Entries entries={education} />
     </Section>
   );
@@ -27,20 +27,21 @@ function Entries({ entries }: { entries: TimelineEntry[] }) {
   const { t } = useLocale();
 
   return (
-    <motion.ol {...onView} variants={inkList}>
-      {entries.map((e) => (
-        <motion.li
-          variants={inkItem}
-          key={e.id}
-          className="grid gap-x-10 gap-y-1 border-t border-rule py-6 md:grid-cols-[10rem_1fr]"
-        >
-          <span className="pt-1.5 font-mono text-sm text-faded">{t(e.period)}</span>
-          <div>
-            <h4 className="font-serif text-2xl">{t(e.title)}</h4>
-            <p className="text-faded">{t(e.org)}</p>
-            <ul className="mt-3 list-disc space-y-1 pl-5 leading-relaxed marker:text-faded">
-              {e.points.map((p, i) => (
-                <li key={i}>{t(p)}</li>
+    <motion.ol {...onView} variants={stagger} className="grid gap-4">
+      {entries.map((e, i) => (
+        <motion.li key={e.id} variants={fadeUp} className="grid border border-line bg-panel/80 md:grid-cols-[14rem_1fr]">
+          <div className="label border-b border-line p-5 md:border-r md:border-b-0">
+            #{i + 1} · {t(e.period)}
+          </div>
+          <div className="p-5 md:p-6">
+            <h4 className="display text-3xl md:text-4xl">{t(e.title)}</h4>
+            <p className="label mt-2">{t(e.org)}</p>
+            <ul className="mt-5 space-y-2 leading-relaxed text-fg/85">
+              {e.points.map((p, j) => (
+                <li key={j} className="flex gap-3">
+                  <span className="text-muted">•</span>
+                  {t(p)}
+                </li>
               ))}
             </ul>
           </div>

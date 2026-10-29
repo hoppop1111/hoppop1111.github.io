@@ -1,21 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Caveat, IBM_Plex_Mono, IBM_Plex_Sans_Thai, Newsreader, Sriracha, Trirong } from "next/font/google";
+import { Antonio, IBM_Plex_Mono, IBM_Plex_Sans_Thai, Kanit } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/lib/locale";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { MotionProvider, ScrollProgress } from "@/components/ui/Ink";
+import { MotionProvider, ScrollProgress } from "@/components/ui/Reveal";
+import { Scene3D } from "@/components/three/Scene3D";
 
-const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], style: ["normal", "italic"] });
-const trirong = Trirong({
-  variable: "--font-trirong",
-  subsets: ["thai", "latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-});
-const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["400", "500", "600"] });
+const antonio = Antonio({ variable: "--font-antonio", subsets: ["latin"], weight: ["300", "400", "500", "600"] });
+const kanit = Kanit({ variable: "--font-kanit", subsets: ["thai", "latin"], weight: ["300", "400", "500"] });
+const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["300", "400", "500", "600"] });
 const mono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
-const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"] });
-const sriracha = Sriracha({ variable: "--font-sriracha", subsets: ["thai", "latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Kamol Supsaengin | IT & Data Analysis Portfolio",
@@ -42,30 +36,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4efe4" },
-    { media: "(prefers-color-scheme: dark)", color: "#1b1916" },
-  ],
+  themeColor: "#0a0a0a",
 };
-
-// Runs before paint so a saved/system dark theme never flashes light first.
-const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="th"
-      suppressHydrationWarning
-      className={`${newsreader.variable} ${trirong.variable} ${thai.variable} ${mono.variable} ${caveat.variable} ${sriracha.variable} antialiased`}
-    >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="th" className={`${antonio.variable} ${kanit.variable} ${thai.variable} ${mono.variable} antialiased`}>
       <body>
         <LocaleProvider>
           <SmoothScroll />
           <MotionProvider>
+            <Scene3D />
             <ScrollProgress />
+            {/* hairline frame around the viewport */}
+            <div aria-hidden className="pointer-events-none fixed inset-1.5 z-[45] border border-line md:inset-2.5" />
             {children}
           </MotionProvider>
         </LocaleProvider>

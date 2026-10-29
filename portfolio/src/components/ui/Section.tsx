@@ -1,22 +1,40 @@
-import { Underline } from "@/components/ui/Scribbles";
-import { Ink, Write } from "@/components/ui/Ink";
+"use client";
 
-/** Page section with a serif title, a pen underline and an optional margin note. */
-export function Section({ id, title, note, children }: { id: string; title: string; note?: string; children: React.ReactNode }) {
+import { MaskLines, Reveal, Scramble } from "@/components/ui/Reveal";
+
+export const SECTION_COUNT = 5;
+
+/** Page section: `[ 0N / 05 ] · LABEL`, a huge condensed title and an optional lead line. */
+export function Section({
+  id,
+  index,
+  title,
+  lead,
+  children,
+}: {
+  id: string;
+  index: number;
+  title: string;
+  lead?: string;
+  children: React.ReactNode;
+}) {
+  const pad = (n: number) => String(n).padStart(2, "0");
   return (
-    <section id={id} className="mx-auto max-w-4xl scroll-mt-6 px-5 py-14 md:py-20">
-      <div className="mb-10 flex flex-wrap items-end gap-x-6 gap-y-2">
-        <Ink>
-          <h2 className="font-serif text-4xl md:text-5xl">
-            <span className="relative inline-block">
-              {title}
-              <Underline />
-            </span>
-          </h2>
-        </Ink>
-        {note && <Write className="hand -rotate-2 text-lg text-pen">← {note}</Write>}
-      </div>
-      {children}
+    <section id={id} className="relative z-10 mx-auto max-w-6xl scroll-mt-16 px-5 py-20 md:px-10 md:py-28">
+      <p className="label flex items-center gap-2">
+        <span className="h-3 w-px bg-fg" />
+        <Scramble text={`[ ${pad(index)} / ${pad(SECTION_COUNT)} ] · ${id}`} />
+      </p>
+      {/* key re-plays the reveal when the language changes */}
+      <h2 key={title} className="display mt-5 text-[clamp(3rem,11vw,7.5rem)]">
+        <MaskLines lines={[title]} />
+      </h2>
+      {lead && (
+        <Reveal delay={0.15}>
+          <p className="mt-6 max-w-xl leading-relaxed text-muted">{lead}</p>
+        </Reveal>
+      )}
+      <div className="mt-14">{children}</div>
     </section>
   );
 }
