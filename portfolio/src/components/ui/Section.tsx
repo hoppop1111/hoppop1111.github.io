@@ -1,8 +1,10 @@
 "use client";
 
-import { Reveal, SplitWords } from "@/components/ui/Reveal";
+import { MaskLines, Reveal, Scramble } from "@/components/ui/Reveal";
 
-/** Page section: numbered eyebrow, a word-by-word title and an optional lead line. */
+export const SECTION_COUNT = 5;
+
+/** Page section: `[ 0N / 05 ] · LABEL`, a huge condensed title and an optional lead line. */
 export function Section({
   id,
   index,
@@ -11,30 +13,28 @@ export function Section({
   children,
 }: {
   id: string;
-  index: string;
+  index: number;
   title: string;
   lead?: string;
   children: React.ReactNode;
 }) {
+  const pad = (n: number) => String(n).padStart(2, "0");
   return (
-    <section id={id} className="relative z-10 mx-auto max-w-6xl scroll-mt-20 px-5 py-20 md:py-28">
-      <Reveal>
-        <p className="mb-4 flex items-center gap-3 font-mono text-xs tracking-[0.25em] text-muted uppercase">
-          <span className="text-gradient font-semibold">{index}</span>
-          <span className="h-px w-10 bg-line" />
-          {id}
-        </p>
-      </Reveal>
+    <section id={id} className="relative z-10 mx-auto max-w-6xl scroll-mt-16 px-5 py-20 md:px-10 md:py-28">
+      <p className="label flex items-center gap-2">
+        <span className="h-3 w-px bg-fg" />
+        <Scramble text={`[ ${pad(index)} / ${pad(SECTION_COUNT)} ] · ${id}`} />
+      </p>
       {/* key re-plays the reveal when the language changes */}
-      <h2 key={title} className="text-[clamp(2.2rem,6vw,4rem)] leading-[1.05] font-semibold tracking-tight">
-        <SplitWords text={title} />
+      <h2 key={title} className="display mt-5 text-[clamp(3rem,11vw,7.5rem)]">
+        <MaskLines lines={[title]} />
       </h2>
       {lead && (
         <Reveal delay={0.15}>
-          <p className="mt-5 max-w-2xl text-lg text-muted">{lead}</p>
+          <p className="mt-6 max-w-xl leading-relaxed text-muted">{lead}</p>
         </Reveal>
       )}
-      <div className="mt-12">{children}</div>
+      <div className="mt-14">{children}</div>
     </section>
   );
 }

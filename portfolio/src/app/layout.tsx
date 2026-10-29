@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans_Thai, Space_Grotesk } from "next/font/google";
+import { Antonio, IBM_Plex_Mono, IBM_Plex_Sans_Thai, Kanit } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/lib/locale";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { MotionProvider, ScrollProgress } from "@/components/ui/Reveal";
 import { Scene3D } from "@/components/three/Scene3D";
 
-const grotesk = Space_Grotesk({ variable: "--font-grotesk", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["400", "500", "600", "700"] });
+const antonio = Antonio({ variable: "--font-antonio", subsets: ["latin"], weight: ["300", "400", "500", "600"] });
+const kanit = Kanit({ variable: "--font-kanit", subsets: ["thai", "latin"], weight: ["300", "400", "500"] });
+const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["300", "400", "500", "600"] });
 const mono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
 
 export const metadata: Metadata = {
@@ -35,28 +36,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f5fb" },
-    { media: "(prefers-color-scheme: dark)", color: "#07080d" },
-  ],
+  themeColor: "#0a0a0a",
 };
-
-// Runs before paint so the theme never flashes. Dark is the default look;
-// light only when the visitor picked it.
-const themeScript = `try{if(localStorage.getItem("theme")!=="light")document.documentElement.classList.add("dark")}catch(e){document.documentElement.classList.add("dark")}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="th" suppressHydrationWarning className={`${grotesk.variable} ${thai.variable} ${mono.variable} antialiased`}>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="th" className={`${antonio.variable} ${kanit.variable} ${thai.variable} ${mono.variable} antialiased`}>
       <body>
         <LocaleProvider>
           <SmoothScroll />
           <MotionProvider>
             <Scene3D />
             <ScrollProgress />
+            {/* hairline frame around the viewport */}
+            <div aria-hidden className="pointer-events-none fixed inset-1.5 z-[45] border border-line md:inset-2.5" />
             {children}
           </MotionProvider>
         </LocaleProvider>

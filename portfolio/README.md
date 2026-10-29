@@ -1,15 +1,16 @@
 # Portfolio (Next.js)
 
-Next.js App Router + TypeScript + Tailwind CSS 4 + Framer Motion + Three.js
-(@react-three/fiber) + Lucide React, built as a static export (`out/`) for GitHub Pages.
+Next.js App Router + TypeScript + Tailwind CSS 4 + Framer Motion + Three.js +
+Lucide React, built as a static export (`out/`) for GitHub Pages.
 
-Design: dark, modern, glass cards over a full-screen 3D backdrop
-(`components/three/Scene.tsx`) — a wireframe icosahedron, an orbiting torus
-knot and a linked point "network" that turn, drift and change colour as the
-page scrolls. Scroll animations (word-by-word headings, staggered reveals,
-self-drawing timeline, tilting project cards, skill marquee) live in
-`components/ui/Reveal.tsx`. Dark by default with a light theme toggle (saved in
-localStorage) and a TH/EN language toggle. Interface copy lives in
+Design: monochrome "tech-brutalist" — near-black page, off-white ink, hairline
+borders, tall condensed display type (Antonio / Kanit) with small mono labels,
+a full-screen menu and a giant stretched wordmark. The backdrop
+(`components/three/Scene.tsx`) is a noise-warped 3D blob rendered at low
+resolution and redrawn as Bayer-dithered white squares; it grows, drifts and
+dims as the page scrolls. Scroll animations (masked headline lines, scrambling
+labels, pixel thumbnails that resolve cell by cell, skill ticker) live in
+`components/ui/Reveal.tsx`. TH/EN language toggle; interface copy lives in
 `src/lib/strings.ts`.
 
 ## Commands
@@ -38,7 +39,7 @@ portfolio/
     ├── components/
     │   ├── sections/          # Navbar, Hero, About, Experience, Work, Certificates, Contact/Footer
     │   ├── three/             # Scene (3D backdrop), Scene3D (client-only loader)
-    │   └── ui/                # Section, Reveal (scroll animations), ThemeToggle
+    │   └── ui/                # Section, Reveal (scroll animations, PixelImage)
     └── lib/                   # helpers (locale, motion presets)
 ```
 

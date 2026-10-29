@@ -1,40 +1,25 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme inline {
   --color-bg: var(--bg);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-card: var(--card);
-  --color-accent: var(--accent);
-  --color-accent-2: var(--accent-2);
+  --color-panel: var(--panel);
 
-  --font-sans: var(--font-grotesk), var(--font-thai), system-ui, sans-serif;
+  --font-sans: var(--font-thai), system-ui, sans-serif;
+  --font-display: var(--font-antonio), var(--font-kanit), sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
+/* Monochrome only: near-black page, off-white ink, hairline borders. */
 :root {
-  --bg: #f4f5fb;
-  --fg: #0e1122;
-  --muted: #5b6178;
-  --line: rgba(14, 17, 34, 0.1);
-  --card: rgba(255, 255, 255, 0.62);
-  --accent: #5b4bff;
-  --accent-2: #0891b2;
-  color-scheme: light;
-}
-
-.dark {
-  --bg: #07080d;
-  --fg: #e9ebf4;
-  --muted: #8b91a8;
-  --line: rgba(255, 255, 255, 0.09);
-  --card: rgba(18, 20, 32, 0.55);
-  --accent: #8b7cff;
-  --accent-2: #22d3ee;
+  --bg: #0a0a0a;
+  --fg: #ededE8;
+  --muted: #8a8a85;
+  --line: rgba(237, 237, 232, 0.14);
+  --panel: #111111;
   color-scheme: dark;
 }
 
@@ -50,23 +35,79 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--fg);
+  color: var(--bg);
 }
 
-/* Indigo -> cyan text fill used for headings and highlights. */
-.text-gradient {
-  background: linear-gradient(100deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+/* Components sit in a layer so Tailwind utilities (e.g. normal-case) can override them. */
+@layer components {
+  /* Tall condensed headline type. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
 
-/* Frosted card that lets the 3D scene show through. */
-.glass {
-  background: var(--card);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  /* Small letter-spaced mono label: [ 01 / 05 ] · ABOUT */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Hollow letters, used for the middle line of the hero headline. */
+  .outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--fg);
+  }
+
+  /* Square bordered button; `.btn-solid` is the filled (inverted) one. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 0.8rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .btn:hover {
+    border-color: var(--fg);
+  }
+  .btn-solid,
+  .btn:active {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .btn-solid:hover {
+    background: transparent;
+    color: var(--fg);
+  }
+
+  /* Square grid of dots behind the hero. */
+  .dot-grid {
+    background-image: radial-gradient(circle, rgba(237, 237, 232, 0.55) 1.2px, transparent 1.6px);
+    background-size: 34px 34px;
+    background-position: center;
+  }
+
+  /* wide tracking breaks up Thai words, so Thai labels stay nearly untracked */
+  :lang(th) .label,
+  :lang(th) .btn {
+    letter-spacing: 0.04em;
+  }
 }
 
 details > summary {

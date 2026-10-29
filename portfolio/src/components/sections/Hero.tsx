@@ -2,83 +2,83 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Download, Mail } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
-import { fadeUp, SplitWords, stagger } from "@/components/ui/Reveal";
+import { fadeUp, MaskLines, stagger } from "@/components/ui/Reveal";
 
 export function Hero() {
   const { t } = useLocale();
   const { profile } = portfolioData;
-  const email = profile.contacts.find((c) => c.kind === "email");
+  const lines = strings.heroLines.map(t);
 
-  // the hero copy lifts away and fades as you scroll past it
+  // the copy lifts away as you scroll, the wordmark stretches wider
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, -160]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const markScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
 
   return (
-    <section ref={ref} id="top" className="relative z-10 flex min-h-svh items-center px-5 pt-36 pb-20 md:pt-24">
-      <motion.div style={{ y, opacity, scale }} className="mx-auto w-full max-w-6xl">
-        <motion.div initial="hidden" animate="show" variants={stagger} className="max-w-3xl">
-          <motion.p
-            variants={fadeUp}
-            className="glass inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm text-muted"
-          >
+    <section ref={ref} id="top" className="relative z-10 flex min-h-svh flex-col px-5 pt-24 pb-6 md:px-10">
+      {/* dot grid fades out toward the bottom of the hero */}
+      <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_45%,transparent_85%)]" />
+
+      <motion.div style={{ y, opacity }} className="mx-auto mt-auto w-full max-w-6xl">
+        <motion.div initial="hidden" animate="show" variants={stagger} className="max-w-2xl">
+          <motion.p variants={fadeUp} className="label flex items-center gap-2">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-fg opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-fg" />
             </span>
-            {t(profile.status)}
+            [ 00 ] · {t(profile.status)}
           </motion.p>
 
-          <motion.p variants={fadeUp} className="mt-8 font-mono text-sm tracking-widest text-muted uppercase">
-            {t(strings.hello)}
-          </motion.p>
-          <h1 key={t(profile.name)} className="mt-3 text-[clamp(2.8rem,9vw,6.5rem)] leading-[1.02] font-bold tracking-tight">
-            <SplitWords text={t(profile.name)} animateNow delay={0.25} className="text-gradient" />
+          <h1 key={lines.join()} className="display mt-5 text-[clamp(3.2rem,12vw,7rem)]">
+            <MaskLines lines={lines} animateNow delay={0.2} lineClassName={(i) => (i === 1 ? "outline-text" : "")} />
           </h1>
 
-          <motion.p variants={fadeUp} className="mt-6 text-xl font-medium md:text-2xl">
-            {t(profile.role)} <span className="text-muted">· {t(profile.tagline)}</span>
-          </motion.p>
-          <motion.p variants={fadeUp} className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          <motion.p variants={fadeUp} className="mt-7 max-w-md leading-relaxed text-fg/85">
             {t(profile.bio)}
           </motion.p>
 
-          <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-3">
-            <a
-              href={profile.resume.href}
-              download={profile.resume.downloadName}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-accent-2 px-5 py-3 font-medium text-white shadow-[0_10px_30px_-10px_var(--accent)] transition-transform hover:-translate-y-0.5"
-            >
-              <Download className="h-4 w-4" /> {t(strings.resume)}
+          <motion.div variants={fadeUp} className="mt-8 flex flex-wrap gap-3">
+            <a href="#work" className="btn">
+              {t(strings.seeProjects)}
             </a>
-            {email && (
-              <a
-                href={email.href}
-                className="glass inline-flex items-center gap-2 rounded-xl px-5 py-3 font-medium transition-transform hover:-translate-y-0.5"
-              >
-                <Mail className="h-4 w-4" /> {t(strings.emailMe)}
-              </a>
-            )}
+            <a href="#contact" className="btn btn-solid">
+              {t(strings.getInTouch)} →
+            </a>
           </motion.div>
         </motion.div>
       </motion.div>
 
-      <motion.a
-        href="#about"
-        style={{ opacity }}
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 font-mono text-xs tracking-widest text-muted uppercase"
+      {/* giant wordmark stretched to the full width */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto mt-12 w-full max-w-6xl"
       >
-        {t(strings.scroll)}
-        <motion.span animate={{ y: [0, 8, 0] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}>
-          <ArrowDown className="h-4 w-4" />
-        </motion.span>
-      </motion.a>
+        <motion.svg style={{ scaleY: markScale }} viewBox="0 0 1000 180" className="w-full origin-bottom" aria-label={profile.name.en}>
+          <text
+            x="0"
+            y="172"
+            textLength="1000"
+            lengthAdjust="spacingAndGlyphs"
+            className="fill-fg"
+            style={{ fontFamily: "var(--font-antonio)", fontWeight: 700, fontSize: 200 }}
+          >
+            KAMOL
+          </text>
+        </motion.svg>
+        <div className="label mt-3 flex justify-between gap-4 border-t border-line pt-3">
+          <span>
+            {t(profile.role)} — {new Date().getFullYear()}
+          </span>
+          <span className="hidden sm:inline">{t(strings.scroll)} ↓</span>
+        </div>
+      </motion.div>
     </section>
   );
 }

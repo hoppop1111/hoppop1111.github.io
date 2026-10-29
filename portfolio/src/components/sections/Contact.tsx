@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Briefcase, ChartBar, Code, Mail, MessageCircle, Phone, type LucideIcon } from "lucide-react";
 import { portfolioData } from "@/data/portfolioData";
 import { useLocale } from "@/lib/locale";
 import { strings } from "@/lib/strings";
@@ -9,13 +8,13 @@ import { Section } from "@/components/ui/Section";
 import { fadeUp, onView, Reveal, stagger } from "@/components/ui/Reveal";
 import type { ContactKind } from "@/types/portfolio";
 
-const CONTACTS: Record<ContactKind, { name: string; icon: LucideIcon }> = {
-  email: { name: "Email", icon: Mail },
-  phone: { name: "Phone", icon: Phone },
-  line: { name: "LINE", icon: MessageCircle },
-  linkedin: { name: "LinkedIn", icon: Briefcase },
-  github: { name: "GitHub", icon: Code },
-  kaggle: { name: "Kaggle", icon: ChartBar },
+const CONTACT_NAMES: Record<ContactKind, string> = {
+  email: "Email",
+  phone: "Phone",
+  line: "LINE",
+  linkedin: "LinkedIn",
+  github: "GitHub",
+  kaggle: "Kaggle",
 };
 
 export function Contact() {
@@ -24,43 +23,34 @@ export function Contact() {
   const email = profile.contacts.find((c) => c.kind === "email");
 
   return (
-    <Section id="contact" index="05" title={t(strings.contactTitle)} lead={t(strings.contactBody)}>
+    <Section id="contact" index={5} title={t(strings.contactTitle)} lead={t(strings.contactBody)}>
       {email && (
         <Reveal>
           <a
             href={email.href}
-            className="group inline-flex items-center gap-3 text-[clamp(1.5rem,5vw,3.25rem)] font-semibold break-all"
+            className="display inline-block text-[clamp(2rem,8vw,5rem)] break-all normal-case underline decoration-muted decoration-2 underline-offset-[0.18em] transition-colors hover:decoration-fg"
           >
-            <span className="text-gradient">{email.label}</span>
-            <ArrowUpRight className="h-8 w-8 shrink-0 text-accent-2 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 md:h-12 md:w-12" />
+            {email.label} ↗
           </a>
         </Reveal>
       )}
 
-      <motion.ul {...onView} variants={stagger} className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.ul {...onView} variants={stagger} className="mt-14 border-t border-line">
         {profile.contacts
           .filter((c) => c.kind !== "email")
-          .map((c) => {
-            const { name, icon: Icon } = CONTACTS[c.kind];
-            return (
-              <motion.li variants={fadeUp} key={c.kind}>
-                <a
-                  href={c.href}
-                  target={c.kind === "phone" ? undefined : "_blank"}
-                  rel="noopener"
-                  className="glass group flex items-center gap-4 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent to-accent-2 text-white">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm text-muted">{name}</span>
-                    <span className="block truncate font-medium">{c.label}</span>
-                  </span>
-                </a>
-              </motion.li>
-            );
-          })}
+          .map((c) => (
+            <motion.li variants={fadeUp} key={c.kind}>
+              <a
+                href={c.href}
+                target={c.kind === "phone" ? undefined : "_blank"}
+                rel="noopener"
+                className="group flex items-baseline justify-between gap-4 border-b border-line bg-bg/70 px-2 py-4 transition-colors hover:bg-fg hover:text-bg md:px-4"
+              >
+                <span className="label group-hover:text-bg">{CONTACT_NAMES[c.kind]}</span>
+                <span className="truncate font-mono text-sm tracking-wider">{c.label} ↗</span>
+              </a>
+            </motion.li>
+          ))}
       </motion.ul>
     </Section>
   );
@@ -70,13 +60,26 @@ export function Footer() {
   const { t } = useLocale();
 
   return (
-    <footer className="relative z-10 mx-auto flex max-w-6xl flex-wrap justify-between gap-4 border-t border-line px-5 pt-6 pb-12 text-sm text-muted">
+    <footer className="label relative z-10 mx-auto flex max-w-6xl flex-wrap justify-between gap-4 border-t border-line px-5 pt-6 pb-24 md:px-10 md:pb-14">
       <p>
         © {new Date().getFullYear()} {portfolioData.profile.name.en}
       </p>
-      <a href="#top" className="hover:text-fg">
-        {t(strings.backToTop)}
-      </a>
+      <p>{t(strings.country)}</p>
     </footer>
+  );
+}
+
+/** Monogram badge fixed to the bottom-right corner; takes you back to the top. */
+export function CornerBadge() {
+  const { t } = useLocale();
+  return (
+    <a
+      href="#top"
+      aria-label={t(strings.backToTop)}
+      className="display fixed right-4 bottom-4 z-50 flex h-11 w-11 items-center justify-center border border-line bg-bg text-lg transition-colors hover:border-fg md:right-6 md:bottom-6"
+    >
+      KS
+      <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-fg" />
+    </a>
   );
 }
