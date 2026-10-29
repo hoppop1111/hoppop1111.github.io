@@ -29,7 +29,7 @@ function Entries({ entries }: { entries: TimelineEntry[] }) {
   return (
     <motion.ol {...onView} variants={stagger} className="grid gap-4">
       {entries.map((e, i) => (
-        <motion.li key={e.id} variants={fadeUp} className="grid border border-line bg-panel/80 md:grid-cols-[14rem_1fr]">
+        <motion.li key={e.id} variants={fadeUp} className="grid crosshair border border-line bg-panel md:grid-cols-[14rem_1fr]">
           <div className="label border-b border-line p-5 md:border-r md:border-b-0">
             #{i + 1} · {t(e.period)}
           </div>

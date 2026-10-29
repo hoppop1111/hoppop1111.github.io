@@ -5,8 +5,9 @@ import * as THREE from "three";
 
 // A noise-warped sphere rendered into a tiny off-screen image, then redrawn
 // full size as a grid of white squares with a 4x4 Bayer ordered dither: the
-// "pixel blob" look. Scroll position grows it through the hero, then drifts it
-// to the side and dims it behind the content; the pointer tilts it slightly.
+// "pixel blob" look. It lives in a frame at the top of the hero: the pointer
+// tilts it, dragging spins it, scrolling turns it, and `pulseBlob()` (Scene3D.tsx) makes it
+// swell and morph for a moment.
 
 const CELL = 7; // CSS px per dither cell
 
@@ -145,6 +146,7 @@ export default function Scene() {
     const dpr = Math.min(window.devicePixelRatio, 2);
     renderer.setPixelRatio(dpr);
     renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.display = "block";
     host.appendChild(renderer.domElement);
 
     // off-screen pass: the blob plus a few specks orbiting it
@@ -192,11 +194,13 @@ export default function Scene() {
     screen.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), ditherMat));
     const screenCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-    let width = 0;
-    let height = 0;
+    // the canvas fills its frame, not the window
+    const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+    let fit = 1;
     function resize() {
-      width = window.innerWidth;
-      height = window.innerHeight;
+      const width = host!.clientWidth;
+      const height = host!.clientHeight;
+      if (!width || !height) return;
       renderer.setSize(width, height);
       const cols = Math.ceil(width / CELL);
       const rows = Math.ceil(height / CELL);
@@ -204,71 +208,90 @@ export default function Scene() {
       ditherMat.uniforms.uCells.value.set(cols, rows);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+      // blob (radius ~1.3 with its bulge) fills ~70% of the frame's shorter side
+      fit = (Math.min(halfH, halfH * camera.aspect) * 0.7) / 1.3;
     }
     resize();
+    const resizer = new ResizeObserver(resize);
+    resizer.observe(host);
 
-    // eased scroll + pointer
-    let pageTarget = 0;
-    let page = 0;
-    let heroTarget = 0;
-    let hero = 0;
+    // only render while the frame is on screen
+    let visible = true;
+    const watcher = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting));
+    watcher.observe(host);
+
+    // pointer: hovering tilts, dragging spins with momentum
     const pointer = { x: 0, y: 0 };
     const tilt = { x: 0, y: 0 };
-    function readScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      pageTarget = max > 0 ? window.scrollY / max : 0;
-      heroTarget = Math.min(window.scrollY / window.innerHeight, 1);
+    const spin = { x: 0, y: 0, vx: 0, vy: 0 };
+    let dragging = false;
+    let last = { x: 0, y: 0 };
+    function onMove(e: PointerEvent) {
+      const r = host!.getBoundingClientRect();
+      pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+      pointer.y = ((e.clientY - r.top) / r.height) * 2 - 1;
+      if (dragging) {
+        spin.vy = (e.clientX - last.x) * 0.01;
+        spin.vx = (e.clientY - last.y) * 0.01;
+        spin.y += spin.vy;
+        spin.x += spin.vx;
+        last = { x: e.clientX, y: e.clientY };
+      }
     }
-    readScroll();
-    function onPointer(e: PointerEvent) {
-      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-      pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+    function onDown(e: PointerEvent) {
+      dragging = true;
+      last = { x: e.clientX, y: e.clientY };
+      host!.setPointerCapture(e.pointerId);
     }
-    window.addEventListener("scroll", readScroll, { passive: true });
-    window.addEventListener("resize", resize);
-    window.addEventListener("resize", readScroll);
-    window.addEventListener("pointermove", onPointer, { passive: true });
+    function onUp() {
+      dragging = false;
+    }
+    function onLeave() {
+      pointer.x = 0;
+      pointer.y = 0;
+    }
+    host.addEventListener("pointermove", onMove);
+    host.addEventListener("pointerdown", onDown);
+    host.addEventListener("pointerup", onUp);
+    host.addEventListener("pointercancel", onUp);
+    host.addEventListener("pointerleave", onLeave);
 
-    // pixel-space position on screen -> world position on the blob's plane
-    const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+    let pulse = 0;
+    function onPulse() {
+      pulse = 1;
+    }
+    window.addEventListener("blob:pulse", onPulse);
+
     const clock = new THREE.Clock();
     let time = 0;
     let frame = 0;
 
     function tick() {
       frame = requestAnimationFrame(tick);
-      if (document.hidden) return;
       const dt = Math.min(clock.getDelta(), 0.05);
+      if (!visible || document.hidden) return;
       if (!still) time += dt;
-      page = THREE.MathUtils.damp(page, pageTarget, 4, dt);
-      hero = THREE.MathUtils.damp(hero, heroTarget, 5, dt);
-      tilt.x = THREE.MathUtils.damp(tilt.x, pointer.y * 0.35, 3, dt);
-      tilt.y = THREE.MathUtils.damp(tilt.y, pointer.x * 0.5, 3, dt);
+      tilt.x = THREE.MathUtils.damp(tilt.x, pointer.y * 0.4, 3, dt);
+      tilt.y = THREE.MathUtils.damp(tilt.y, pointer.x * 0.6, 3, dt);
+      if (!dragging) {
+        // let a flick coast to a stop
+        spin.vx = THREE.MathUtils.damp(spin.vx, 0, 2, dt);
+        spin.vy = THREE.MathUtils.damp(spin.vy, 0, 2, dt);
+        spin.x += spin.vx;
+        spin.y += spin.vy;
+      }
+      pulse = THREE.MathUtils.damp(pulse, 0, 1.6, dt);
+      const scroll = window.scrollY / window.innerHeight;
 
-      const wide = width >= 768;
-      const halfW = halfH * camera.aspect;
-      // hero: small at the top, swelling as you scroll; then it settles to the side
-      const grow = THREE.MathUtils.smoothstep(hero, 0, 1);
-      const settle = THREE.MathUtils.smoothstep(page, 0.08, 0.2);
-      const heroX = wide ? halfW * 0.42 : 0;
-      const heroY = wide ? halfH * 0.12 : halfH * 0.42;
-      const sideX = (wide ? halfW * 0.62 : halfW * 0.55) * Math.cos(page * Math.PI * 3);
-      blob.position.x = THREE.MathUtils.lerp(heroX, sideX, settle);
-      blob.position.y = THREE.MathUtils.lerp(heroY + grow * halfH * 0.1, Math.sin(page * Math.PI * 4) * halfH * 0.3, settle);
-      const heroScale = (wide ? 0.55 : 0.4) + grow * (wide ? 0.6 : 0.45);
-      const scale = THREE.MathUtils.lerp(heroScale, wide ? 0.85 : 0.6, settle);
+      blob.rotation.x = time * 0.15 + scroll * 1.2 + tilt.x + spin.x;
+      blob.rotation.y = time * 0.22 + scroll * 1.8 + tilt.y + spin.y;
+      const scale = fit * (1 + pulse * 0.18);
       blob.scale.setScalar(scale);
-      blob.rotation.x = time * 0.15 + page * Math.PI * 2 + tilt.x;
-      blob.rotation.y = time * 0.22 + page * Math.PI * 3 + tilt.y;
+      specks.scale.setScalar(scale * (1 + pulse * 0.5));
+      specks.rotation.y = -time * 0.3 - scroll * 1.5 - pulse * 2;
 
-      specks.position.copy(blob.position);
-      specks.scale.setScalar(scale);
-      specks.rotation.y = -time * 0.3 - page * Math.PI * 2;
-
-      blobMat.uniforms.uTime.value = time;
-      blobMat.uniforms.uAmp.value = 0.22 + 0.18 * Math.sin(page * Math.PI * 5) ** 2 + grow * 0.08;
-      // full strength in the hero, dimmed so text stays readable further down
-      ditherMat.uniforms.uOpacity.value = THREE.MathUtils.lerp(1, 0.3, settle);
+      blobMat.uniforms.uTime.value = time + pulse * 3;
+      blobMat.uniforms.uAmp.value = 0.26 + 0.08 * Math.sin(time * 0.6) + pulse * 0.45;
 
       renderer.setRenderTarget(target);
       renderer.clear();
@@ -281,10 +304,14 @@ export default function Scene() {
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", readScroll);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("resize", readScroll);
-      window.removeEventListener("pointermove", onPointer);
+      resizer.disconnect();
+      watcher.disconnect();
+      host.removeEventListener("pointermove", onMove);
+      host.removeEventListener("pointerdown", onDown);
+      host.removeEventListener("pointerup", onUp);
+      host.removeEventListener("pointercancel", onUp);
+      host.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("blob:pulse", onPulse);
       blob.geometry.dispose();
       blobMat.dispose();
       speckGeo.dispose();
@@ -296,5 +323,5 @@ export default function Scene() {
     };
   }, []);
 
-  return <div ref={hostRef} className="absolute inset-0" />;
+  return <div ref={hostRef} className="absolute inset-0 touch-pan-y" />;
 }
