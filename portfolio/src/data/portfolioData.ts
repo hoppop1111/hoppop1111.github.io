@@ -505,10 +505,3 @@ export const portfolioData: PortfolioData = {
     },
   ],
 };
-
-/** Case studies in a category, featured first. */
-export function caseStudiesByCategory(categoryId: string) {
-  return portfolioData.caseStudies
-    .filter((c) => c.category === categoryId)
-    .sort((a, b) => Number(b.featured ?? false) - Number(a.featured ?? false));
-}
