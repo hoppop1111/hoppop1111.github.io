@@ -4,99 +4,69 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-ink: var(--ink);
-  --color-faded: var(--faded);
-  --color-rule: var(--rule);
-  /* red ballpoint for handwritten notes, yellow highlighter for marked words */
-  --color-pen: var(--pen);
-  --color-marker: var(--marker);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
 
-  --font-serif: var(--font-newsreader), var(--font-trirong), Georgia, serif;
-  --font-sans: var(--font-thai), system-ui, sans-serif;
-  --font-hand: var(--font-caveat), var(--font-sriracha), cursive;
+  --font-sans: var(--font-grotesk), var(--font-thai), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 :root {
-  --paper: #f4efe4;
-  --ink: #23201b;
-  --faded: #6e675b;
-  --rule: rgba(35, 32, 27, 0.16);
-  --pen: #c8412b;
-  --marker: rgba(255, 214, 51, 0.65);
+  --bg: #f4f5fb;
+  --fg: #0e1122;
+  --muted: #5b6178;
+  --line: rgba(14, 17, 34, 0.1);
+  --card: rgba(255, 255, 255, 0.62);
+  --accent: #5b4bff;
+  --accent-2: #0891b2;
   color-scheme: light;
 }
 
 .dark {
-  --paper: #1b1916;
-  --ink: #ebe4d6;
-  --faded: #a39b8c;
-  --rule: rgba(235, 228, 214, 0.14);
-  --pen: #ff8f73;
-  --marker: rgba(255, 200, 40, 0.3);
+  --bg: #07080d;
+  --fg: #e9ebf4;
+  --muted: #8b91a8;
+  --line: rgba(255, 255, 255, 0.09);
+  --card: rgba(18, 20, 32, 0.55);
+  --accent: #8b7cff;
+  --accent-2: #22d3ee;
   color-scheme: dark;
 }
 
 html {
-  background: var(--paper);
+  background: var(--bg);
 }
 
 body {
-  position: relative;
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-sans);
   overflow-x: clip;
 }
 
-/* faint paper grain so the background isn't a flat digital fill */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 ::selection {
-  background: var(--marker);
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
-a {
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 1px;
+/* Indigo -> cyan text fill used for headings and highlights. */
+.text-gradient {
+  background: linear-gradient(100deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Highlighter stroke behind a word: slightly tilted and uneven, like a real marker. */
-.marker {
-  background: linear-gradient(
-    100deg,
-    transparent 0.4em,
-    var(--marker) 0.5em,
-    var(--marker) calc(100% - 0.4em),
-    transparent calc(100% - 0.2em)
-  );
-  background-size: 100% 0.62em;
-  background-position: 0 88%;
-  background-repeat: no-repeat;
-  padding: 0 0.15em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-/* Handwritten note. Sized relative to its parent; Thai handwriting (Sriracha)
-   runs much larger than Caveat at the same size, so it gets less of a boost. */
-.hand {
-  font-family: var(--font-hand);
-  font-weight: 400;
-  font-size: 1.35em;
-  line-height: 1.2;
-}
-:lang(th) .hand {
-  font-size: 1.05em;
+/* Frosted card that lets the 3D scene show through. */
+.glass {
+  background: var(--card);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 
 details > summary {
