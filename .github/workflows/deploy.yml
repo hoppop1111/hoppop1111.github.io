@@ -33,7 +33,7 @@ jobs:
 
       - run: npm ci
 
-      # prebuild copies ../assets (photo, resume, certificates, xlsx) into public/
+      # prebuild copies ../assets (resume, certificates, xlsx) into public/
       - run: npm run build
 
       - uses: actions/configure-pages@v5

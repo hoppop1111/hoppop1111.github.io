@@ -1,17 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  MotionConfig,
-  useInView,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-  type MotionValue,
-  type Variants,
-} from "framer-motion";
+import { motion, MotionConfig, useInView, useReducedMotion, useScroll, useSpring, type Variants } from "framer-motion";
 
 // Scroll animations shared by every section: blocks rise into place as they
 // enter the viewport, headings slide up line by line from behind a mask,
@@ -190,12 +180,6 @@ export function PixelImage({ seed, className = "" }: { seed: string; className?:
   }, [inView, seed, still]);
 
   return <canvas ref={ref} aria-hidden className={`block w-full [image-rendering:pixelated] ${className}`} />;
-}
-
-/** Maps how far `target` has travelled through the viewport to a range of values. */
-export function useParallax(target: React.RefObject<HTMLElement | null>, from: number, to: number): MotionValue<number> {
-  const { scrollYProgress } = useScroll({ target, offset: ["start end", "end start"] });
-  return useTransform(scrollYProgress, [0, 1], [from, to]);
 }
 
 /** Hairline along the top of the window that grows with scroll position. */

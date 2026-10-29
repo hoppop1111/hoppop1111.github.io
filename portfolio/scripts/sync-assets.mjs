@@ -1,4 +1,4 @@
-// Copies the repo-root `assets/` media (photo, resume, certificates, Excel files)
+// Copies the repo-root `assets/` media (resume, certificates, Excel files)
 // into `public/assets/` so the Next.js site can serve them without keeping a
 // second copy in git. Runs automatically before `dev` and `build`.
 import { cpSync, existsSync, rmSync } from "node:fs";
@@ -15,7 +15,7 @@ if (!existsSync(source)) {
 }
 
 rmSync(target, { recursive: true, force: true });
-for (const dir of ["images", "docs", "certs", "dashboard"]) {
+for (const dir of ["docs", "certs", "dashboard"]) {
   cpSync(join(source, dir), join(target, dir), { recursive: true });
 }
 console.log("sync-assets: copied ../assets -> public/assets");
