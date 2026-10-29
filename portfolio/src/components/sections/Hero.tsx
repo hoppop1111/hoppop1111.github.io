@@ -12,11 +12,12 @@ export function Hero() {
   const { profile } = portfolioData;
   const lines = strings.heroLines.map(t);
 
-  // the copy lifts away as you scroll, the wordmark stretches wider
+  // the copy lifts away as you scroll, the wordmark stretches wider; the copy stays
+  // fully opaque until it is nearly off screen so it never looks washed out
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const opacity = useTransform(scrollYProgress, [0.55, 0.85], [1, 0]);
   const markScale = useTransform(scrollYProgress, [0, 1], [1, 1.25]);
 
   return (

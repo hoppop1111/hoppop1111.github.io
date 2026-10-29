@@ -245,18 +245,24 @@ export default function Scene() {
       tilt.x = THREE.MathUtils.damp(tilt.x, pointer.y * 0.35, 3, dt);
       tilt.y = THREE.MathUtils.damp(tilt.y, pointer.x * 0.5, 3, dt);
 
-      const wide = width >= 768;
+      // Layout follows the screen's shape, not just its width: a tall screen (phone,
+      // portrait tablet) has no room beside the headline, so the blob sits above it.
       const halfW = halfH * camera.aspect;
-      // hero: small at the top, swelling as you scroll; then it settles to the side
+      const side = camera.aspect > 1.1;
+      const R = 1.3; // blob radius at scale 1, including the noise bulge
+      // hero: grows a little as you scroll, always clear of the headline; then it settles to the side
       const grow = THREE.MathUtils.smoothstep(hero, 0, 1);
       const settle = THREE.MathUtils.smoothstep(page, 0.08, 0.2);
-      const heroX = wide ? halfW * 0.42 : 0;
-      const heroY = wide ? halfH * 0.12 : halfH * 0.42;
-      const sideX = (wide ? halfW * 0.62 : halfW * 0.55) * Math.cos(page * Math.PI * 3);
+      const heroX = side ? halfW * 0.45 : 0;
+      // portrait: centred in the space between the nav bar and the headline, and scrolling
+      // up with the page (one viewport of scroll = 2 * halfH) so it stays above the copy
+      const heroY = side ? halfH * 0.05 : halfH * 0.55 + hero * 2 * halfH;
+      const heroRadius = side ? halfH * (0.32 + grow * 0.12) : Math.min(halfH * 0.24, halfW * 0.42);
+      const sideX = halfW * (side ? 0.62 : 0.6) * Math.cos(page * Math.PI * 3);
       blob.position.x = THREE.MathUtils.lerp(heroX, sideX, settle);
-      blob.position.y = THREE.MathUtils.lerp(heroY + grow * halfH * 0.1, Math.sin(page * Math.PI * 4) * halfH * 0.3, settle);
-      const heroScale = (wide ? 0.55 : 0.4) + grow * (wide ? 0.6 : 0.45);
-      const scale = THREE.MathUtils.lerp(heroScale, wide ? 0.85 : 0.6, settle);
+      blob.position.y = THREE.MathUtils.lerp(heroY, Math.sin(page * Math.PI * 4) * halfH * 0.3, settle);
+      const settledRadius = Math.min(halfH * 0.4, halfW * 0.5);
+      const scale = THREE.MathUtils.lerp(heroRadius, settledRadius, settle) / R;
       blob.scale.setScalar(scale);
       blob.rotation.x = time * 0.15 + page * Math.PI * 2 + tilt.x;
       blob.rotation.y = time * 0.22 + page * Math.PI * 3 + tilt.y;
@@ -268,7 +274,9 @@ export default function Scene() {
       blobMat.uniforms.uTime.value = time;
       blobMat.uniforms.uAmp.value = 0.22 + 0.18 * Math.sin(page * Math.PI * 5) ** 2 + grow * 0.08;
       // full strength in the hero, dimmed so text stays readable further down
-      ditherMat.uniforms.uOpacity.value = THREE.MathUtils.lerp(1, 0.3, settle);
+      // (on tall screens it also fades as the hero copy scrolls up towards it)
+      const heroOpacity = side ? 1 : 1 - grow * 0.6;
+      ditherMat.uniforms.uOpacity.value = THREE.MathUtils.lerp(heroOpacity, side ? 0.3 : 0.2, settle);
 
       renderer.setRenderTarget(target);
       renderer.clear();
