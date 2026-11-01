@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Antonio, IBM_Plex_Sans_Thai, Inter, JetBrains_Mono, Kanit } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { LocaleProvider } from "@/lib/locale";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -10,6 +11,9 @@ const kanit = Kanit({ variable: "--font-kanit", subsets: ["thai", "latin"], weig
 const thai = IBM_Plex_Sans_Thai({ variable: "--font-thai", subsets: ["thai", "latin"], weight: ["300", "400", "500", "600"] });
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], weight: ["300", "400", "500", "600"] });
 const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400", "500", "700"] });
+
+// Google Analytics 4 measurement ID (public, safe to commit).
+const GA_ID = "G-4ZMZC99T3V";
 
 export const metadata: Metadata = {
   title: "Kamol Supsaengin | IT & Data Analysis Portfolio",
@@ -50,6 +54,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </MotionProvider>
         </LocaleProvider>
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <Script id="ga4" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
       </body>
     </html>
   );

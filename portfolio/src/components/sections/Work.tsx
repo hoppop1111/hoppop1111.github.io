@@ -111,10 +111,11 @@ export function Work() {
         </div>
       </div>
 
-      {/* the track bleeds to the column edges so the next card peeks in */}
+      {/* the track bleeds to the column edges so the next card peeks in; sideways
+          gestures scroll it natively, up/down ones still scroll the page */}
       <ul
         ref={trackRef}
-        data-lenis-prevent-wheel
+        data-lenis-prevent-horizontal
         tabIndex={0}
         aria-label={t(strings.workTitle)}
         onScroll={onScroll}
@@ -123,7 +124,7 @@ export function Work() {
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
         onClickCapture={onClickCapture}
-        className="-mx-6 flex snap-x snap-mandatory scroll-px-6 items-start gap-4 overflow-x-auto px-6 pt-2 pb-4 [scrollbar-width:none] select-none focus-visible:outline-1 focus-visible:outline-fg sm:-mx-10 sm:scroll-px-10 sm:px-10 md:cursor-grab md:active:cursor-grabbing [&::-webkit-scrollbar]:hidden"
+        className="-mx-6 flex snap-x snap-mandatory scroll-px-6 items-start gap-4 overflow-x-auto overscroll-y-auto! px-6 pt-2 pb-4 [scrollbar-width:none] select-none focus-visible:outline-1 focus-visible:outline-fg sm:-mx-10 sm:scroll-px-10 sm:px-10 md:cursor-grab md:active:cursor-grabbing [&::-webkit-scrollbar]:hidden"
       >
         {studies.map((s, i) => (
           <ProjectCard key={s.slug} study={s} index={i} total={studies.length} category={categories.find((c) => c.id === s.category)} />
