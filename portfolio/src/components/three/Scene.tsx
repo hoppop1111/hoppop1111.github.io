@@ -262,13 +262,15 @@ export default function Scene() {
     }
     window.addEventListener("blob:pulse", onPulse);
 
-    const clock = new THREE.Clock();
+    const timer = new THREE.Timer();
+    timer.connect(document); // Page Visibility API: no huge delta after tab returns
     let time = 0;
     let frame = 0;
 
-    function tick() {
+    function tick(timestamp?: number) {
       frame = requestAnimationFrame(tick);
-      const dt = Math.min(clock.getDelta(), 0.05);
+      timer.update(timestamp);
+      const dt = Math.min(timer.getDelta(), 0.05);
       if (!visible || document.hidden) return;
       if (!still) time += dt;
       tilt.x = THREE.MathUtils.damp(tilt.x, pointer.y * 0.4, 3, dt);
@@ -304,6 +306,7 @@ export default function Scene() {
 
     return () => {
       cancelAnimationFrame(frame);
+      timer.dispose();
       resizer.disconnect();
       watcher.disconnect();
       host.removeEventListener("pointermove", onMove);
